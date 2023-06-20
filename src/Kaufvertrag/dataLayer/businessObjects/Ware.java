@@ -35,46 +35,46 @@ public class Ware implements IWare {
 
     @Override
     public long getId() {
-        return 0;
+        return id;
     }
 
     @Override
     public String getBezeichnung() {
-        return null;
+        return bezeichnung;
     }
 
     @Override
     public void setBezeichnung(String bezeichnung) {
-
+        this.bezeichnung = bezeichnung;
     }
 
     @Override
     public String getBeschreibung() {
-        return null;
+        return bezeichnung;
     }
 
     @Override
     public void setBeschreibung(String beschreibung) {
-
+        this.beschreibung = beschreibung;
     }
 
     @Override
     public double getPreis() {
-        return 0;
+        return preis;
     }
 
     @Override
     public void setPreis(double preis) {
-
+        this.preis = preis;
     }
 
     @Override
     public List<String> getBesonderheiten() {
-        return null;
+        return besonderheiten;
     }
 
     @Override
-    public List<String> getMaenge() {
-        return null;
+    public List<String> getMaengel() {
+        return maengel;
     }
 }
