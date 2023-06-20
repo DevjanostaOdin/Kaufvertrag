@@ -32,4 +32,49 @@ public class Ware implements IWare {
                 ", Mängel: " + maengel +
                 '.';
     }
+
+    @Override
+    public long getId() {
+        return 0;
+    }
+
+    @Override
+    public String getBezeichnung() {
+        return null;
+    }
+
+    @Override
+    public void setBezeichnung(String bezeichnung) {
+
+    }
+
+    @Override
+    public String getBeschreibung() {
+        return null;
+    }
+
+    @Override
+    public void setBeschreibung(String beschreibung) {
+
+    }
+
+    @Override
+    public double getPreis() {
+        return 0;
+    }
+
+    @Override
+    public void setPreis(double preis) {
+
+    }
+
+    @Override
+    public List<String> getBesonderheiten() {
+        return null;
+    }
+
+    @Override
+    public List<String> getMaenge() {
+        return null;
+    }
 }
