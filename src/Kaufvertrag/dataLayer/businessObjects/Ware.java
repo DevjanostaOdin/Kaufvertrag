@@ -5,6 +5,7 @@ import Kaufvertrag.businessObjects.IWare;
 import java.util.List;
 
 public class Ware implements IWare {
+    long id;
     String bezeichnung;
     String beschreibung;
     double preis;
@@ -16,46 +17,19 @@ public class Ware implements IWare {
         this.preis = preis;
     }
 
-    public String getBezeichnung() {
-        return bezeichnung;
-    }
-
-    public void setBezeichnung(String bezeichnung) {
-        this.bezeichnung = bezeichnung;
-    }
-
-    public String getBeschreibung() {
-        return beschreibung;
-    }
-
-    public void setBeschreibung(String beschreibung) {
-        this.beschreibung = beschreibung;
-    }
-
-    public double getPreis() {
-        return preis;
-    }
-
-    public void setPreis(double preis) {
-        this.preis = preis;
-    }
-
-    public List<String> getBesonderheiten() {
-        return besonderheiten;
-    }
-
-    public List<String> getMaengel() {
-        return maengel;
+    public void setId(long id) {
+        this.id = id;
     }
 
     @Override
     public String toString() {
-        return "Ware: " +
-                "Bezeichnung: '" + bezeichnung + '\'' +
+        return "Ware " +
+                "ID: " + id +
+                ", Bezeichnung: '" + bezeichnung + '\'' +
                 ", Beschreibung: '" + beschreibung + '\'' +
                 ", Preis: " + preis +
                 ", Besonderheiten: " + besonderheiten +
                 ", Mängel: " + maengel +
-                '}';
+                '.';
     }
 }
