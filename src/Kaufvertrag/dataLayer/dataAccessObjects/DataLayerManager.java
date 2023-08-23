@@ -1,5 +1,8 @@
 package Kaufvertrag.dataLayer.dataAccessObjects;
 
+import Kaufvertrag.businessObjects.IVertragspartner;
+import Kaufvertrag.businessObjects.IWare;
+import Kaufvertrag.dataLayer.dataAccessObjects.XML.DataLayerXml;
 import com.sun.source.tree.IfTree;
 import jdk.jshell.spi.ExecutionControl;
 
@@ -17,9 +20,10 @@ public class DataLayerManager {
         return instance;
     }
 
-    // TODO:
-//    public IDataLayer getDataLayer() throws DaoException {
-//        return
+//    public IDataLayer getDataLayer() {
+//        if (instanceOf)
+//        IDataLayer dataLayer = new DataLayerXml();
+//        return dataLayer;
 //    }
 
     private String readPersistenceType() {
