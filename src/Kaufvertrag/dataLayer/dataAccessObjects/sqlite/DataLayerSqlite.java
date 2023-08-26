@@ -8,7 +8,10 @@ import Kaufvertrag.dataLayer.dataAccessObjects.IDataLayer;
 public class DataLayerSqlite implements IDataLayer {
     @Override
     public IDao<IVertragspartner, String> getDaoVertragspartner() {
+
+
         return null;
+
     }
 
     @Override
