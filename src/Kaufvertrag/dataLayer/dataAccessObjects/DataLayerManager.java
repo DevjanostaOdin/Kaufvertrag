@@ -12,25 +12,30 @@ public class DataLayerManager {
     private static DataLayerManager instance;
     private String persistenceType;
 
-    private DataLayerManager() {
+    public static DataLayerManager getInstance() {
         if (instance == null) {
             instance = new DataLayerManager();
         }
-    }
-
-    public static DataLayerManager getInstance() {
         return instance;
     }
+ // WIR HATTEN UNTEN getInstance() und OBEN den KONSTRUKTOR
+    private DataLayerManager() {
 
-    public IDataLayer getDataLayer() { // TO COMPLETE !!
-        if (persistenceType.equalsIgnoreCase("sqlite")) {
+    }
+
+    public IDataLayer getDataLayer() {
+        // WIR HATTEN STATT readPersistenceType() - > persistenceType
+        if (readPersistenceType().equalsIgnoreCase("sqlite")) {
             return new DataLayerSqlite();
+        } else if (readPersistenceType().equalsIgnoreCase("xml")){
+            return new DataLayerXml();
         }
         return null;
     }
 
     private String readPersistenceType() {
-
+        // WAS IST DIE IDEE DAHINTER HERR POSSEHL
+        persistenceType = "sqlite";
         return persistenceType;
     }
 }

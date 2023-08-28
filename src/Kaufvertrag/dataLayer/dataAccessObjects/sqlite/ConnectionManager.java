@@ -6,22 +6,12 @@ public class ConnectionManager {
 
     // JDBC URL - zu welchem Datenbanktyp wollen wir uns verbinden = jdbc:sqlite
 
-    private static final String CONNECTIONSTRING = "jdbc:sqlite:C:\\Users\\...";
+    private static final String CONNECTIONSTRING = "jdbc:sqlite:C:/Users/rutek/IdeaProjects/Kaufvertrag/db.sqlite";
     private static Connection existingConnection;
     private static boolean classLoaded = false;
 
     public Connection getNewConnection(){
-        Connection conn = null;
-        if(!classLoaded) {
-            try {
-                Class.forName("org.sqlite.JDBC");
-                conn =  DriverManager.getConnection(CONNECTIONSTRING); // baut verbindung auf
-                classLoaded = true;
-            } catch (SQLException  | ClassNotFoundException e) {
-                e.printStackTrace();
-            }
-        }
-        return conn;
+        return connect();
     }
 
     public Connection getExistingConnection(){
@@ -56,4 +46,21 @@ public class ConnectionManager {
             e.printStackTrace();
         }
     }
+    private Connection connect() {
+        Connection conn = null;
+        try {
+            // db parameters
+            String url = CONNECTIONSTRING;
+            // create a connection to the database
+            conn = DriverManager.getConnection(url);
+
+            System.out.println("Connection to SQLite has been established.");
+            return conn;
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return null;
+    }
 }
+
