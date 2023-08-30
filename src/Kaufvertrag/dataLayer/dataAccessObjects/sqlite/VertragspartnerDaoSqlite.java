@@ -31,10 +31,16 @@ public class VertragspartnerDaoSqlite implements IDao<IVertragspartner, String> 
 
 
 
-        String sqlPerson = String.format(sqlTemplatePerson, objectToInsert.getAusweisNr(), objectToInsert.getVorname(), objectToInsert.getNachname());
+        String sqlPerson = String.format(sqlTemplatePerson,
+                objectToInsert.getAusweisNr(),
+                objectToInsert.getVorname(),
+                objectToInsert.getNachname());
 
-        String sqlAdresse = String.format(sqlTemplateAdresse, objectToInsert.getAdresse().getStrasse(),
-                objectToInsert.getAdresse().getHausNr(), objectToInsert.getAdresse().getPlz(), objectToInsert.getAdresse().getOrt());
+        String sqlAdresse = String.format(sqlTemplateAdresse,
+                objectToInsert.getAdresse().getStrasse(),
+                objectToInsert.getAdresse().getHausNr(),
+                objectToInsert.getAdresse().getPlz(),
+                objectToInsert.getAdresse().getOrt());
 
         System.out.println(sqlPerson);
         System.out.println(sqlAdresse);
