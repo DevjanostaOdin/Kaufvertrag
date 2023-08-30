@@ -13,6 +13,7 @@ public class DataLayerXml implements IDataLayer {
 
     @Override
     public IDao<IWare, Long> getDaoWare() {
+
         return null;
     }
 }
