@@ -5,10 +5,10 @@ import Kaufvertrag.businessObjects.IVertragspartner;
 import Kaufvertrag.businessObjects.IWare;
 
 public class Kaufvertrag implements IKaufvertrag {
-    IVertragspartner verkaeufer;
-    IVertragspartner kaeufer;
-    IWare ware;
-    String zahlungsModalitaeten;
+    private IVertragspartner verkaeufer;
+    private IVertragspartner kaeufer;
+    private IWare ware;
+    private String zahlungsModalitaeten;
 
     public Kaufvertrag(IVertragspartner verkaeufer, IVertragspartner kaeufer, IWare ware) {
         this.verkaeufer = verkaeufer;

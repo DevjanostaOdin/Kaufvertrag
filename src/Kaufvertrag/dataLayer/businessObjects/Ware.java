@@ -5,12 +5,12 @@ import Kaufvertrag.businessObjects.IWare;
 import java.util.List;
 
 public class Ware implements IWare {
-    long id;
-    String bezeichnung;
-    String beschreibung;
-    double preis;
-    List<String> besonderheiten;
-    List<String> maengel;
+    private long id;
+    private String bezeichnung;
+    private String beschreibung;
+    private double preis;
+    private List<String> besonderheiten;
+    private List<String> maengel;
 
     public Ware(String bezeichnung, double preis) {
         this.bezeichnung = bezeichnung;
