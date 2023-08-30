@@ -10,8 +10,8 @@ public class Programm {
     public static void main(String[] args) {
 
 
-    IVertragspartner vertPart = new Vertragspartner("Snoopie", "Doggiee");
-    vertPart.setAusweisNr("0987677700");
+    IVertragspartner vertPart = new Vertragspartner("50", "Centsq");
+    vertPart.setAusweisNr("09876777002");
 
     IDao<IVertragspartner, String> dao = DataLayerManager.getInstance().getDataLayer().getDaoVertragspartner();
     dao.create(vertPart);

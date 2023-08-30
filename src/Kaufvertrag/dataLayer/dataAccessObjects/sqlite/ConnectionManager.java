@@ -6,7 +6,7 @@ public class ConnectionManager {
 
     // JDBC URL - zu welchem Datenbanktyp wollen wir uns verbinden = jdbc:sqlite
 
-    private static final String CONNECTIONSTRING = "jdbc:sqlite:C:/Users/rutek/IdeaProjects/Kaufvertrag/db.sqlite";
+    private static final String CONNECTIONSTRING = "jdbc:sqlite:db.sqlite";
     private static Connection existingConnection;
     private static boolean classLoaded = false;
 
