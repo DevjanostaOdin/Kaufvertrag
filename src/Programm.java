@@ -12,14 +12,16 @@ public class Programm {
     public static void main(String[] args) {
 
 
-   IVertragspartner vertPart = new Vertragspartner("500", "Euro");
-    vertPart.setAusweisNr("09876777002888");
-    IAdresse adresse = new Adresse("Berlinerstr","1","77777","Berlin");
+   IVertragspartner vertPart = new Vertragspartner("100", "Dollar");
+    vertPart.setAusweisNr("0111111");
+    IAdresse adresse = new Adresse("Danzigerstr","10","66666","Hamburg");
     vertPart.setAdresse(adresse);
 
    IDao<IVertragspartner, String> dao = DataLayerManager.getInstance().getDataLayer().getDaoVertragspartner();
 
-   dao.create(vertPart);
+   //dao.create(vertPart);
+   dao.update(vertPart);
    //dao.delete("VERTRAGSPARTNER");
+   //dao.delete("ADRESSE");
     }
 }

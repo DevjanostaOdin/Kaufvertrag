@@ -1,6 +1,7 @@
 package Kaufvertrag.dataLayer.dataAccessObjects.sqlite;
 
 import Kaufvertrag.businessObjects.IVertragspartner;
+import Kaufvertrag.dataLayer.businessObjects.Vertragspartner;
 import Kaufvertrag.dataLayer.dataAccessObjects.IDao;
 
 
@@ -14,7 +15,7 @@ public class VertragspartnerDaoSqlite implements IDao<IVertragspartner, String> 
 
     @Override // FRAGEN WAS WAR DIE IDEE DAHINTER
     public IVertragspartner create() {
-        return null;
+        return new Vertragspartner();
     }
 
     @Override   // HIER HATTEN WIR NICHT IVERTRAGSPARTNER SONDERN OBJECT ...
@@ -75,6 +76,28 @@ public class VertragspartnerDaoSqlite implements IDao<IVertragspartner, String> 
 
     @Override
     public void update(IVertragspartner objectTpUpdate) {
+
+        Connection connection = getConnection();
+        String sqlUpdate = "UPDATE " +
+                " ADRESSE " +
+                " SET STRASSE = \'" + objectTpUpdate.getAdresse().getStrasse() + "\'," +
+                " HAUSNUMMER = \'" + objectTpUpdate.getAdresse().getHausNr() + "\', " +
+                " PLZ = \'" + objectTpUpdate.getAdresse().getPlz() + "\', " +
+                " ORT = \'" + objectTpUpdate.getAdresse().getOrt() + "\'" +
+                " WHERE ID = 8";
+//                " GO " +
+//                "UPDATE " +
+//                " VERTRAGSPARTNER " +
+//                " SET AUSWEIS_NR = \'" + objectTpUpdate.getAusweisNr() + "\'," +
+//                " VORNAME = \'" + objectTpUpdate.getVorname() + "\'," +
+//                " NACHNAME = \'" + objectTpUpdate.getNachname()+ "\'";
+
+        System.out.println(sqlUpdate);
+        try {
+            connection.createStatement().execute(sqlUpdate);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
