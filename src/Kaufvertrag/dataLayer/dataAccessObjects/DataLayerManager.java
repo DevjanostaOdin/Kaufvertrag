@@ -8,6 +8,8 @@ import com.sun.source.tree.IfTree;
 import jdk.jshell.spi.ExecutionControl;
 import Kaufvertrag.dataLayer.dataAccessObjects.IDataLayer;
 
+import java.util.Scanner;
+
 public class DataLayerManager {
     private static DataLayerManager instance;
     private String persistenceType;
@@ -34,8 +36,11 @@ public class DataLayerManager {
     }
 
     private String readPersistenceType() {
-        // WAS IST DIE IDEE DAHINTER HERR POSSEHL
-        persistenceType = "sqlite";
+        // WAS IST DIE IDEE DAHINTER
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Give persistence type: (sqlite or xml)");
+        String type = String.valueOf(sc.nextLine());
+        persistenceType = type;
         return persistenceType;
     }
 }

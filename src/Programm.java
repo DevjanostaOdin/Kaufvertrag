@@ -9,10 +9,12 @@ import Kaufvertrag.dataLayer.dataAccessObjects.sqlite.VertragspartnerDaoSqlite;
 public class Programm {
     public static void main(String[] args) {
 
-    Vertragspartner vertPart = new Vertragspartner("Piotr", "Rucinski");
-    vertPart.setAusweisNr("12345");
+
+    IVertragspartner vertPart = new Vertragspartner("Snoopie", "Doggiee");
+    vertPart.setAusweisNr("0987677700");
 
     IDao<IVertragspartner, String> dao = DataLayerManager.getInstance().getDataLayer().getDaoVertragspartner();
     dao.create(vertPart);
+
     }
 }
