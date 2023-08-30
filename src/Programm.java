@@ -20,7 +20,8 @@ public class Programm {
    IDao<IVertragspartner, String> dao = DataLayerManager.getInstance().getDataLayer().getDaoVertragspartner();
 
    //dao.create(vertPart);
-   dao.update(vertPart);
+   //dao.update(vertPart);
+   dao.read("8");
    //dao.delete("VERTRAGSPARTNER");
    //dao.delete("ADRESSE");
     }
