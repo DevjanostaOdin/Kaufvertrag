@@ -11,7 +11,6 @@ public class DataLayerSqlite implements IDataLayer {
 
 
         return null;
-
     }
 
     @Override

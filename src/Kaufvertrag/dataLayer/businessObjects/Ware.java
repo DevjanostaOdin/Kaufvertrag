@@ -77,4 +77,5 @@ public class Ware implements IWare {
     public List<String> getMaengel() {
         return maengel;
     }
+
 }

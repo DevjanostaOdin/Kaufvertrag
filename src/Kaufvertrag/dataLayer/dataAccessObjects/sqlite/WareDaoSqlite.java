@@ -13,7 +13,7 @@ import java.util.List;
 
 public class WareDaoSqlite implements IDao<IWare, Long> {
 
-    private ConnectionManager connectionManager;
+    private final ConnectionManager connectionManager;
 
     public WareDaoSqlite(ConnectionManager connectionManager) {
         this.connectionManager = connectionManager;
@@ -28,19 +28,20 @@ public class WareDaoSqlite implements IDao<IWare, Long> {
     @Override
     public void create(IWare ware) {
         if (ware instanceof Ware) {
-            String sql = "INSERT INTO ware (bezeichnung, beschreibung, preis) VALUES (?, ?, ?)";
+            String sql = "INSERT INTO ware (bezeichnung, beschreibung, preis, maengel, besonderheiten) VALUES (?, ?, ?, ?, ?)";
             try (Connection connection = connectionManager.getNewConnection();
                  PreparedStatement preparedStatement = connection.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)) {
                 preparedStatement.setString(1, ware.getBezeichnung());
                 preparedStatement.setString(2, ware.getBeschreibung());
                 preparedStatement.setDouble(3, ware.getPreis());
+                preparedStatement.setString(4, String.valueOf(ware.getMaengel()));
+                preparedStatement.setString(5, String.valueOf(ware.getBesonderheiten()));
                 preparedStatement.executeUpdate();
 
                 ResultSet resultSet = preparedStatement.getGeneratedKeys();
                 if (resultSet.next()) {
                     long generatedId = resultSet.getLong(1);
-                    //nachfragen wegen dersetId Methode
-                    /*ware.setId(generatedId);*/
+                    ((Ware) ware).setId(generatedId);
                 }
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -85,13 +86,15 @@ public class WareDaoSqlite implements IDao<IWare, Long> {
     @Override
     public void update(IWare ware) {
         if (ware instanceof Ware) {
-            String sql = "UPDATE ware SET bezeichnung = ?, beschreibung = ?, preis = ? WHERE id = ?";
+            String sql = "UPDATE ware SET bezeichnung = ?, beschreibung = ?, preis = ?, maengel = ?, besonderheiten = ? WHERE id = ?";
             try (Connection connection = connectionManager.getNewConnection();
                  PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
                 preparedStatement.setString(1, ware.getBezeichnung());
                 preparedStatement.setString(2, ware.getBeschreibung());
                 preparedStatement.setDouble(3, ware.getPreis());
-                preparedStatement.setLong(4, ware.getId());
+                preparedStatement.setString(4, String.valueOf(ware.getMaengel()));
+                preparedStatement.setString(5, String.valueOf(ware.getBesonderheiten()));
+                preparedStatement.setLong(6, ware.getId());
                 preparedStatement.executeUpdate();
             } catch (SQLException e) {
                 e.printStackTrace();
