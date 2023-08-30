@@ -8,29 +8,39 @@ import com.sun.source.tree.IfTree;
 import jdk.jshell.spi.ExecutionControl;
 import Kaufvertrag.dataLayer.dataAccessObjects.IDataLayer;
 
+import java.util.Scanner;
+
 public class DataLayerManager {
     private static DataLayerManager instance;
     private String persistenceType;
 
-    private DataLayerManager() {
+    public static DataLayerManager getInstance() {
         if (instance == null) {
             instance = new DataLayerManager();
         }
-    }
-
-    public static DataLayerManager getInstance() {
         return instance;
     }
+ // WIR HATTEN UNTEN getInstance() und OBEN den KONSTRUKTOR
+    private DataLayerManager() {
 
-    public IDataLayer getDataLayer() { // TO COMPLETE !!
-        if (persistenceType.equalsIgnoreCase("sqlite")) {
+    }
+
+    public IDataLayer getDataLayer() {
+        // WIR HATTEN STATT readPersistenceType() - > persistenceType
+        if (readPersistenceType().equalsIgnoreCase("sqlite")) {
             return new DataLayerSqlite();
+        } else if (readPersistenceType().equalsIgnoreCase("xml")){
+            return new DataLayerXml();
         }
         return null;
     }
 
     private String readPersistenceType() {
-
+        // WAS IST DIE IDEE DAHINTER
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Give persistence type: (sqlite or xml)");
+        String type = String.valueOf(sc.nextLine());
+        persistenceType = type;
         return persistenceType;
     }
 }
