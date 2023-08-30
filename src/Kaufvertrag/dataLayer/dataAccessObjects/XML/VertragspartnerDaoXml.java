@@ -1,38 +1,40 @@
 package Kaufvertrag.dataLayer.dataAccessObjects.XML;
 
+import Kaufvertrag.businessObjects.IVertragspartner;
 import Kaufvertrag.dataLayer.dataAccessObjects.IDao;
 
 import java.util.List;
 
-public class VertragspartnerDaoXml implements IDao {
+public class VertragspartnerDaoXml implements IDao<IVertragspartner,String> {
+
 
     @Override
-    public Object create() {
+    public IVertragspartner create() {
         return null;
     }
 
     @Override
-    public void create(Object objectToInsert) {
+    public void create(IVertragspartner objectToInsert) {
 
     }
 
     @Override
-    public Object read(Object id) {
+    public IVertragspartner read(String id) {
         return null;
     }
 
     @Override
-    public List readAll() {
+    public List<IVertragspartner> readAll() {
         return null;
     }
 
     @Override
-    public void update(Object objectTpUpdate) {
+    public void update(IVertragspartner objectTpUpdate) {
 
     }
 
     @Override
-    public void delete(Object id) {
+    public void delete(String id) {
 
     }
 }

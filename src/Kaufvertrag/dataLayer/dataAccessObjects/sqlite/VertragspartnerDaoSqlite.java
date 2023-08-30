@@ -1,5 +1,6 @@
 package Kaufvertrag.dataLayer.dataAccessObjects.sqlite;
 
+import Kaufvertrag.businessObjects.IVertragspartner;
 import Kaufvertrag.dataLayer.dataAccessObjects.IDao;
 
 
@@ -8,18 +9,39 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
-public class VertragspartnerDaoSqlite implements IDao {
+public class VertragspartnerDaoSqlite implements IDao<IVertragspartner, String> {
     @Override
-    public Object create() {
+    public IVertragspartner create() {
         return null;
     }
 
     @Override
-    public void create(Object objectToInsert) {
+    public void create(IVertragspartner objectToInsert) {
 
     }
 
     @Override
+    public IVertragspartner read(String id) {
+        return null;
+    }
+
+    @Override
+    public List<IVertragspartner> readAll() {
+        return null;
+    }
+
+    @Override
+    public void update(IVertragspartner objectTpUpdate) {
+
+    }
+
+    @Override
+    public void delete(String id) {
+
+    }
+
+
+/*    @Override
     public Object read(Object id) {
 
         // ----------------bullshit trial and error-------------------
@@ -43,20 +65,7 @@ public class VertragspartnerDaoSqlite implements IDao {
         //------------------------------------------------------
 
         return null;
-    }
+    }*/
 
-    @Override
-    public List readAll() {
-        return null;
-    }
 
-    @Override
-    public void update(Object objectTpUpdate) {
-
-    }
-
-    @Override
-    public void delete(Object id) {
-
-    }
 }
