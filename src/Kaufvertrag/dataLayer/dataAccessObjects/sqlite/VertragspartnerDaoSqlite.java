@@ -20,24 +20,44 @@ public class VertragspartnerDaoSqlite implements IDao<IVertragspartner, String> 
     @Override   // HIER HATTEN WIR NICHT IVERTRAGSPARTNER SONDERN OBJECT ...
     public void create(IVertragspartner objectToInsert) {
 
-        ConnectionManager conMan = new ConnectionManager();
-        Connection connection = conMan.getNewConnection();
-        String sqlTemplate = "INSERT INTO" +
+        Connection connection = getConnection();
+        String sqlTemplatePerson = "INSERT INTO" +
                 " VERTRAGSPARTNER (AUSWEIS_NR, VORNAME, NACHNAME) " +
                 " VALUES(\"%s\", \"%s\", \"%s\")";
 
-        String sql = String.format(sqlTemplate, objectToInsert.getAusweisNr(), objectToInsert.getVorname(), objectToInsert.getNachname());
-        System.out.println(sql);
+        String sqlTemplateAdresse = "INSERT INTO" +
+                " ADRESSE (STRASSE, HAUSNUMMER, PLZ, ORT) " +
+                " VALUES(\"%s\",\"%s\", \"%s\", \"%s\")";
+
+
+
+        String sqlPerson = String.format(sqlTemplatePerson, objectToInsert.getAusweisNr(), objectToInsert.getVorname(), objectToInsert.getNachname());
+
+        String sqlAdresse = String.format(sqlTemplateAdresse, objectToInsert.getAdresse().getStrasse(),
+                objectToInsert.getAdresse().getHausNr(), objectToInsert.getAdresse().getPlz(), objectToInsert.getAdresse().getOrt());
+
+        System.out.println(sqlPerson);
+        System.out.println(sqlAdresse);
+
+
+
 
         // Exception klasse nutzen!
         try {
-            connection.createStatement().executeUpdate(sql);
+            connection.createStatement().executeUpdate(sqlPerson);
+            connection.createStatement().executeUpdate(sqlAdresse);
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
-    @Override
+     private Connection getConnection() {
+         ConnectionManager conMan = new ConnectionManager();
+         Connection connection = conMan.getNewConnection();
+         return connection;
+     }
+
+                                                    @Override
     public IVertragspartner read(String id) {
         return null;
     }
@@ -53,6 +73,14 @@ public class VertragspartnerDaoSqlite implements IDao<IVertragspartner, String> 
 
     @Override
     public void delete(String id) {
-
+        Connection connection = getConnection();
+        String sqlDelete = "DELETE " +
+                "FROM " + id;
+        System.out.println(sqlDelete);
+        try {
+            connection.createStatement().execute(sqlDelete);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }
