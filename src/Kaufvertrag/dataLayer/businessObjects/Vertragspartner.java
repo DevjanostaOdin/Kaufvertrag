@@ -14,6 +14,9 @@ public class Vertragspartner implements IVertragspartner {
         this.nachname = nachname;
     }
 
+    public Vertragspartner() {
+    }
+
     @Override
     public String getAusweisNr() {
         return ausweisNr;

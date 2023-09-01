@@ -1,12 +1,16 @@
 package Kaufvertrag.dataLayer.dataAccessObjects.sqlite;
 
+import Kaufvertrag.businessObjects.IAdresse;
 import Kaufvertrag.businessObjects.IVertragspartner;
+import Kaufvertrag.dataLayer.businessObjects.Adresse;
+import Kaufvertrag.dataLayer.businessObjects.Vertragspartner;
 import Kaufvertrag.dataLayer.dataAccessObjects.IDao;
 
 
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
                                                 // WIR HATTEN IDAO OHNE <..., ...> DAHER HATTEN WIR OBJECT TRALALA
 public class VertragspartnerDaoSqlite implements IDao<IVertragspartner, String> {
@@ -14,7 +18,7 @@ public class VertragspartnerDaoSqlite implements IDao<IVertragspartner, String> 
 
     @Override // FRAGEN WAS WAR DIE IDEE DAHINTER
     public IVertragspartner create() {
-        return null;
+        return new Vertragspartner();
     }
 
     @Override   // HIER HATTEN WIR NICHT IVERTRAGSPARTNER SONDERN OBJECT ...
@@ -65,16 +69,75 @@ public class VertragspartnerDaoSqlite implements IDao<IVertragspartner, String> 
 
                                                     @Override
     public IVertragspartner read(String id) {
-        return null;
+        Connection connection = getConnection();
+        IVertragspartner vertragspartner = new Vertragspartner();
+        IAdresse adresse = new Adresse();
+
+        String sqlRead = "SELECT * FROM VERTRAGSPARTNER WHERE ID = " + id;
+        String sqlReadAdresse = "SELECT * FROM ADRESSE WHERE ID = " + id;
+        System.out.println(sqlRead);
+        try{
+            ResultSet resultSet = connection.createStatement().executeQuery(sqlRead);
+            if(resultSet.next()){
+                vertragspartner.setAusweisNr(resultSet.getString("AUSWEIS_NR"));
+                vertragspartner.setVorname(resultSet.getString("VORNAME"));
+                vertragspartner.setNachname(resultSet.getString("NACHNAME"));
+//                adresse.setStrasse(resultSet.getString("STRASSE"));
+//                adresse.setHausNr(resultSet.getString("HAUSNUMMER"));
+//                adresse.setPlz(resultSet.getString("PLZ"));
+//                adresse.setOrt(resultSet.getString("ORT"));
+                vertragspartner.setAdresse(adresse);
+                return vertragspartner;
+            }
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
+
+    return null;
     }
 
     @Override
     public List<IVertragspartner> readAll() {
-        return null;
+        List<IVertragspartner> listVertragspartner = new ArrayList<IVertragspartner>();
+
+        IVertragspartner vertragspartner = new Vertragspartner();
+        vertragspartner.getAusweisNr();
+
+        String sqlReadAll = "SELECT * " +
+                " FROM VERTRAGSPARTNER ";
+        System.out.println(sqlReadAll);
+
+        return listVertragspartner;
     }
 
     @Override
     public void update(IVertragspartner objectTpUpdate) {
+
+        Connection connection = getConnection();
+        String sqlUpdateAdresse = "UPDATE " +
+                " ADRESSE " +
+                " SET STRASSE = \'" + objectTpUpdate.getAdresse().getStrasse() + "\'," +
+                " HAUSNUMMER = \'" + objectTpUpdate.getAdresse().getHausNr() + "\', " +
+                " PLZ = \'" + objectTpUpdate.getAdresse().getPlz() + "\', " +
+                " ORT = \'" + objectTpUpdate.getAdresse().getOrt() + "\'" +
+                " WHERE ID = 2" +
+                " ;" ;
+
+        String sqlUpdatePerson = "UPDATE " +
+                " VERTRAGSPARTNER " +
+                " SET AUSWEIS_NR = \'" + objectTpUpdate.getAusweisNr() + "\'," +
+                " VORNAME = \'" + objectTpUpdate.getVorname() + "\'," +
+                " NACHNAME = \'" + objectTpUpdate.getNachname()+ "\'" +
+                " WHERE ID = 8;";
+
+        System.out.println(sqlUpdateAdresse);
+        System.out.println(sqlUpdatePerson);
+        try {
+            connection.createStatement().execute(sqlUpdateAdresse);
+            connection.createStatement().execute(sqlUpdatePerson);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

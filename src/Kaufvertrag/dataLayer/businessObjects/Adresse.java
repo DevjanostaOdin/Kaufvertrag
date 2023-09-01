@@ -15,6 +15,9 @@ public class Adresse implements IAdresse {
         this.ort = ort;
     }
 
+    public Adresse() {
+    }
+
     @Override
     public String getStrasse() {
         return strasse;
@@ -51,7 +54,7 @@ public class Adresse implements IAdresse {
     }
 
     @Override
-    public void setOrt() {
+    public void setOrt(String ort) {
         this.ort = ort;
     }
 
