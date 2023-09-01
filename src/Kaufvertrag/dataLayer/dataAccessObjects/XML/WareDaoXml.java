@@ -3,6 +3,7 @@ package Kaufvertrag.dataLayer.dataAccessObjects.XML;
 import Kaufvertrag.businessObjects.IWare;
 import Kaufvertrag.dataLayer.dataAccessObjects.IDao;
 
+import javax.swing.text.Document;
 import java.util.List;
 
 public class WareDaoXml implements IDao<IWare, Long> {
@@ -25,9 +26,9 @@ public class WareDaoXml implements IDao<IWare, Long> {
     public void create(IWare objectToInsert) {
         WareDaoXml xmlDatei = new WareDaoXml();
 
- /*       Element root = new Element()
 
-        Document doc = xmlDatei.createDoc();*/
+
+        Document doc = xmlDatei.createDoc();
 
 
 
