@@ -17,9 +17,13 @@ public interface IWare {
 
     void setPreis(double preis);
 
-    List<String> getBesonderheiten();f
+    List<String> getBesonderheiten();
+
+    List<String> setBesonderheiten();
 
     List<String> getMaengel();
+
+    List<String> setMaengel();
 
 
 }

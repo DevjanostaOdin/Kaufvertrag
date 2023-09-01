@@ -78,4 +78,13 @@ public class Ware implements IWare {
         return maengel;
     }
 
+    @Override
+    public void setBesonderheiten(List<String> besonderheiten) {
+        this.besonderheiten = besonderheiten;
+    }
+    @Override
+    public void setMaengel(List<String> maengel) {
+        this.maengel = maengel;
+    }
+
 }

@@ -1,7 +1,9 @@
 import Kaufvertrag.businessObjects.IAdresse;
 import Kaufvertrag.businessObjects.IVertragspartner;
+import Kaufvertrag.businessObjects.IWare;
 import Kaufvertrag.dataLayer.businessObjects.Adresse;
 import Kaufvertrag.dataLayer.businessObjects.Vertragspartner;
+import Kaufvertrag.dataLayer.businessObjects.Ware;
 import Kaufvertrag.dataLayer.dataAccessObjects.DataLayerManager;
 import Kaufvertrag.dataLayer.dataAccessObjects.IDao;
 import Kaufvertrag.dataLayer.dataAccessObjects.IDataLayer;
@@ -21,5 +23,11 @@ public class Programm {
 
    dao.create(vertPart);
    //dao.delete("VERTRAGSPARTNER");
+
+        IWare ware = new Ware("hose", 22.0);
+        ware.setBeschreibung("grün, lang");
+
+
+
     }
 }

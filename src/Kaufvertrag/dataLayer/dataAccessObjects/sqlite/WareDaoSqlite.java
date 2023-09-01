@@ -28,7 +28,7 @@ public class WareDaoSqlite implements IDao<IWare, Long> {
     @Override
     public void create(IWare ware) {
         if (ware instanceof Ware) {
-            String sql = "INSERT INTO ware (bezeichnung, beschreibung, preis, maengel, besonderheiten) VALUES (?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO WARE (bezeichnung, beschreibung, preis, maengel, besonderheiten) VALUES (?, ?, ?, ?, ?)";
             try (Connection connection = connectionManager.getNewConnection();
                  PreparedStatement preparedStatement = connection.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)) {
                 preparedStatement.setString(1, ware.getBezeichnung());
@@ -52,7 +52,7 @@ public class WareDaoSqlite implements IDao<IWare, Long> {
 
     @Override
     public IWare read(Long id) {
-        String sql = "SELECT * FROM ware WHERE id = ?";
+        String sql = "SELECT * FROM WARE WHERE id = ?";
         try (Connection connection = connectionManager.getNewConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setLong(1, id);
@@ -70,7 +70,7 @@ public class WareDaoSqlite implements IDao<IWare, Long> {
     @Override
     public List<IWare> readAll() {
         List<IWare> waren = new ArrayList<>();
-        String sql = "SELECT * FROM ware";
+        String sql = "SELECT * FROM WARE";
         try (Connection connection = connectionManager.getNewConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(sql);
              ResultSet resultSet = preparedStatement.executeQuery()) {
@@ -86,7 +86,7 @@ public class WareDaoSqlite implements IDao<IWare, Long> {
     @Override
     public void update(IWare ware) {
         if (ware instanceof Ware) {
-            String sql = "UPDATE ware SET bezeichnung = ?, beschreibung = ?, preis = ?, maengel = ?, besonderheiten = ? WHERE id = ?";
+            String sql = "UPDATE WARE SET bezeichnung = ?, beschreibung = ?, preis = ?, maengel = ?, besonderheiten = ? WHERE id = ?";
             try (Connection connection = connectionManager.getNewConnection();
                  PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
                 preparedStatement.setString(1, ware.getBezeichnung());
@@ -103,7 +103,7 @@ public class WareDaoSqlite implements IDao<IWare, Long> {
 
     @Override
     public void delete(Long id) {
-        String sql = "DELETE FROM ware WHERE id = ?";
+        String sql = "DELETE FROM WARE WHERE id = ?";
         try (Connection connection = connectionManager.getNewConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setLong(1, id);
