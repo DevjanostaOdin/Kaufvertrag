@@ -21,8 +21,10 @@ public class Programm {
 
    //dao.create(vertPart);
    //dao.update(vertPart);
-   dao.read("8");
+        //System.out.println(dao.read("2").toString());
+ dao.readAll();
    //dao.delete("VERTRAGSPARTNER");
    //dao.delete("ADRESSE");
+
     }
 }

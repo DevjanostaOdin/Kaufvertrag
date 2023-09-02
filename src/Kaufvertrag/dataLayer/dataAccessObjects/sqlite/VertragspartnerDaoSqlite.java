@@ -10,6 +10,7 @@ import Kaufvertrag.dataLayer.dataAccessObjects.IDao;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
                                                 // WIR HATTEN IDAO OHNE <..., ...> DAHER HATTEN WIR OBJECT TRALALA
@@ -67,48 +68,66 @@ public class VertragspartnerDaoSqlite implements IDao<IVertragspartner, String> 
          return connection;
      }
 
-                                                    @Override
+     @Override
     public IVertragspartner read(String id) {
         Connection connection = getConnection();
         IVertragspartner vertragspartner = new Vertragspartner();
         IAdresse adresse = new Adresse();
 
-        String sqlRead = "SELECT * FROM VERTRAGSPARTNER WHERE ID = " + id;
+        String sqlReadPerson = "SELECT * FROM VERTRAGSPARTNER WHERE ID = " + id;
         String sqlReadAdresse = "SELECT * FROM ADRESSE WHERE ID = " + id;
-        System.out.println(sqlRead);
+        System.out.println(sqlReadPerson);
+        System.out.println(sqlReadAdresse);
         try{
-            ResultSet resultSet = connection.createStatement().executeQuery(sqlRead);
-            if(resultSet.next()){
-                vertragspartner.setAusweisNr(resultSet.getString("AUSWEIS_NR"));
-                vertragspartner.setVorname(resultSet.getString("VORNAME"));
-                vertragspartner.setNachname(resultSet.getString("NACHNAME"));
-//                adresse.setStrasse(resultSet.getString("STRASSE"));
-//                adresse.setHausNr(resultSet.getString("HAUSNUMMER"));
-//                adresse.setPlz(resultSet.getString("PLZ"));
-//                adresse.setOrt(resultSet.getString("ORT"));
+            ResultSet resultSetPerson = connection.createStatement().executeQuery(sqlReadPerson);
+            ResultSet resultSetAdresse = connection.createStatement().executeQuery(sqlReadAdresse);
+            if(resultSetAdresse.next()){
+                adresse.setStrasse(resultSetAdresse.getString("STRASSE"));
+                adresse.setHausNr(resultSetAdresse.getString("HAUSNUMMER"));
+                adresse.setPlz(resultSetAdresse.getString("PLZ"));
+                adresse.setOrt(resultSetAdresse.getString("ORT"));
+            }
+            if(resultSetPerson.next()){
+                vertragspartner.setAusweisNr(resultSetPerson.getString("AUSWEIS_NR"));
+                vertragspartner.setVorname(resultSetPerson.getString("VORNAME"));
+                vertragspartner.setNachname(resultSetPerson.getString("NACHNAME"));
                 vertragspartner.setAdresse(adresse);
-                return vertragspartner;
+
             }
         } catch (SQLException e){
             e.printStackTrace();
         }
 
-    return null;
+
+         return vertragspartner;
     }
 
     @Override
     public List<IVertragspartner> readAll() {
+        Connection connection = getConnection();
         List<IVertragspartner> listVertragspartner = new ArrayList<IVertragspartner>();
 
-        IVertragspartner vertragspartner = new Vertragspartner();
-        vertragspartner.getAusweisNr();
-
-        String sqlReadAll = "SELECT * " +
-                " FROM VERTRAGSPARTNER ";
-        System.out.println(sqlReadAll);
-
+        String sqlMaxPK = "SELECT * FROM VERTRAGSPARTNER;";
+        System.out.println(sqlMaxPK);
+        try {
+            ResultSet resultSet = connection.createStatement().executeQuery(sqlMaxPK);
+            int id = 0;
+            while (resultSet.next()){
+                id++;
+                listVertragspartner.add(read(Integer.toString(id)));
+            }
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
+        for(IVertragspartner value : listVertragspartner){
+            System.out.println(value.toString());
+        }
         return listVertragspartner;
     }
+
+
+
+
 
     @Override
     public void update(IVertragspartner objectTpUpdate) {
