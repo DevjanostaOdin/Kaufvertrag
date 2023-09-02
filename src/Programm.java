@@ -10,21 +10,23 @@ import Kaufvertrag.dataLayer.dataAccessObjects.sqlite.VertragspartnerDaoSqlite;
 
 public class Programm {
     public static void main(String[] args) {
+        /*
+        TO DO: ConnectionManager "close()" Methode implementieren. In VertragspartnerDaoSqlite Statement
+        Klasse hinzufügen!
+        */
 
+        IVertragspartner vertPart = new Vertragspartner("100", "Dollar");
+        vertPart.setAusweisNr("0111111");
+        IAdresse adresse = new Adresse("Danzigerstr", "10", "66666", "Hamburg");
+        vertPart.setAdresse(adresse);
 
-   IVertragspartner vertPart = new Vertragspartner("100", "Dollar");
-    vertPart.setAusweisNr("0111111");
-    IAdresse adresse = new Adresse("Danzigerstr","10","66666","Hamburg");
-    vertPart.setAdresse(adresse);
+        IDao<IVertragspartner, String> dao = DataLayerManager.getInstance().getDataLayer().getDaoVertragspartner();
 
-   IDao<IVertragspartner, String> dao = DataLayerManager.getInstance().getDataLayer().getDaoVertragspartner();
-
-   //dao.create(vertPart);
-   //dao.update(vertPart);
+        //dao.create(vertPart);
+        //dao.update(vertPart);
         //System.out.println(dao.read("2").toString());
- dao.readAll();
-   //dao.delete("VERTRAGSPARTNER");
-   //dao.delete("ADRESSE");
-
+        dao.readAll();
+        //dao.delete("VERTRAGSPARTNER");
+        //dao.delete("ADRESSE");
     }
 }

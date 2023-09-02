@@ -49,6 +49,14 @@ public class VertragspartnerDaoSqlite implements IDao<IVertragspartner, String> 
             connection.createStatement().executeUpdate(sqlAdresse);
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            if   (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
         }
     }
 
@@ -85,6 +93,14 @@ public class VertragspartnerDaoSqlite implements IDao<IVertragspartner, String> 
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            if   (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
         }
         return vertragspartner;
     }
@@ -105,6 +121,14 @@ public class VertragspartnerDaoSqlite implements IDao<IVertragspartner, String> 
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            if   (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
         }
         for (IVertragspartner value : listVertragspartner) {
             System.out.println(value.toString());
@@ -139,6 +163,14 @@ public class VertragspartnerDaoSqlite implements IDao<IVertragspartner, String> 
             connection.createStatement().execute(sqlUpdatePerson);
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            if   (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
         }
     }
 
@@ -152,6 +184,14 @@ public class VertragspartnerDaoSqlite implements IDao<IVertragspartner, String> 
             connection.createStatement().execute(sqlDelete);
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            if   (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
         }
     }
 }
