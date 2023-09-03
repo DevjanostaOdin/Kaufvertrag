@@ -25,15 +25,15 @@ public class Programm {
 
         */
 
-        IVertragspartner vertPart = new Vertragspartner("100", "Dollar");
-        vertPart.setAusweisNr("0111111");
-        IAdresse adresse = new Adresse("Danzigerstr", "10", "66666", "Hamburg");
-        vertPart.setAdresse(adresse);
-
+//        IVertragspartner vertPart = new Vertragspartner("100", "Dollar");
+//        vertPart.setAusweisNr("0111111");
+//        IAdresse adresse = new Adresse("Danzigerstr", "10", "66666", "Hamburg");
+//        vertPart.setAdresse(adresse);
+//
         IDao<IVertragspartner, String> dao = DataLayerManager.getInstance().getDataLayer().getDaoVertragspartner();
 
-
-        dao.create(vertPart);
+        dao.read("1111111");
+        //dao.create(vertPart);
         //dao.update(vertPart);
         //System.out.println(dao.read("2").toString());
         //dao.readAll();
