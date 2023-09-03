@@ -11,8 +11,12 @@ import Kaufvertrag.dataLayer.dataAccessObjects.sqlite.VertragspartnerDaoSqlite;
 public class Programm {
     public static void main(String[] args) {
         /*
+
         TO DO: ConnectionManager "close()" Methode implementieren. In VertragspartnerDaoSqlite Statement
         Klasse hinzufügen!
+
+        TO DO: SqlException umschreiben zu DaoException!
+
         */
 
         IVertragspartner vertPart = new Vertragspartner("100", "Dollar");
@@ -22,10 +26,11 @@ public class Programm {
 
         IDao<IVertragspartner, String> dao = DataLayerManager.getInstance().getDataLayer().getDaoVertragspartner();
 
-        //dao.create(vertPart);
+
+        dao.create(vertPart);
         //dao.update(vertPart);
         //System.out.println(dao.read("2").toString());
-        dao.readAll();
+        //dao.readAll();
         //dao.delete("VERTRAGSPARTNER");
         //dao.delete("ADRESSE");
     }

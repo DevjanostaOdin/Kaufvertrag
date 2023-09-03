@@ -20,13 +20,12 @@ public class DataLayerManager {
         }
         return instance;
     }
- // WIR HATTEN UNTEN getInstance() und OBEN den KONSTRUKTOR
+
     private DataLayerManager() {
 
     }
 
     public IDataLayer getDataLayer() {
-        // WIR HATTEN STATT readPersistenceType() - > persistenceType
         if (readPersistenceType().equalsIgnoreCase("sqlite")) {
             return new DataLayerSqlite();
         } else if (readPersistenceType().equalsIgnoreCase("xml")){
