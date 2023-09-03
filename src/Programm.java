@@ -14,8 +14,14 @@ public class Programm {
 
         TO DO: ConnectionManager "close()" Methode implementieren. In VertragspartnerDaoSqlite Statement
         Klasse hinzufügen!
+        CLASSNAME fehlt!
+        classLoaded fehlt!
 
         TO DO: SqlException umschreiben zu DaoException!
+
+        TO DO: DatalayerManager.ReadPesistenztyp() Methode von Scanner zu BufferedReader umschreiben.
+
+        TO DO:
 
         */
 

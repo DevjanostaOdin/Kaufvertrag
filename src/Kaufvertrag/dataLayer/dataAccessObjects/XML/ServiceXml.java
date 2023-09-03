@@ -1,6 +1,7 @@
 package Kaufvertrag.dataLayer.dataAccessObjects.XML;
 
 import Kaufvertrag.businessObjects.IVertragspartner;
+import Kaufvertrag.businessObjects.IWare;
 import org.jdom2.Document;
 import org.jdom2.Element;
 import org.jdom2.output.Format;
@@ -9,6 +10,10 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 
 public class ServiceXml {
+    public String dateiName;
+
+    private String dateiPfad = ".\\";
+
     public void CreateXmlDocument(IVertragspartner vertragspartner) throws IOException {
         Document document = new Document();
         Element root = new Element("Kaufvertrag");
@@ -19,7 +24,7 @@ public class ServiceXml {
 //        document.getRootElement().addContent(AddWare(kaufvertrag.ware));
 //        document.getRootElement().addContent(ZahlungsMethodeHinzufuegen(kaufvertrag.zahlung));
 
-        String datei = "C:\\Users\\VTischer\\Documents\\Schule\\Lernfeld 5\\XML-Datei schreiben\\Kaufvertrag5.xml";
+        String datei = dateiPfad + dateiName + ".xml";
         FileOutputStream fileOutputStream = new FileOutputStream(datei);
 
         Format format = Format.getPrettyFormat();
@@ -56,7 +61,7 @@ public class ServiceXml {
         return Person;
     }
 
-//    public Element AddWare(Ware ware) {
+    //public Element AddWare(IWare ware) {
 //        Element zuVerkaufendeWare = new Element("Ware");
 //        zuVerkaufendeWare.setAttribute("Bezeichnung", ware.bezeichnung);
 //        Element beschreibung = new Element("Beschreibung");
