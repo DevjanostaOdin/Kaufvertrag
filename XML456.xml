@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Kaufvertrag>
+    <Vertragspartner Ausweisnummer="0111111">
+        <Vorname>100</Vorname>
+        <Nachname>Dollar</Nachname>
+        <Adresse>
+            <Strasse>Danzigerstr</Strasse>
+            <HausNr>10</HausNr>
+            <Plz>66666</Plz>
+            <Ort>Hamburg</Ort>
+        </Adresse>
+    </Vertragspartner>
+	<Vertragspartner Ausweisnummer="1111111">
+        <Vorname>50</Vorname>
+        <Nachname>Cent</Nachname>
+        <Adresse>
+            <Strasse>Danzigerstr</Strasse>
+            <HausNr>10</HausNr>
+            <Plz>66666</Plz>
+            <Ort>Hamburg</Ort>
+        </Adresse>
+    </Vertragspartner>
+</Kaufvertrag>

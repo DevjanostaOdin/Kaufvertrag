@@ -8,6 +8,6 @@ public interface IAdresse {
     String getPlz();
     void setPlz(String plz);
     String getOrt();
-    void setOrt();
+    void setOrt(String ort);
     String toString();
 }

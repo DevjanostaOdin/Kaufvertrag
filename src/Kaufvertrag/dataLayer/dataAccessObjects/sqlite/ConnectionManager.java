@@ -41,6 +41,7 @@ public class ConnectionManager {
         try {
             if (connection != null && !connection.isClosed()) {
                 connection.close();
+                System.out.println("Connection to SQLite has been closed.");
             }
         } catch (SQLException e) {
             e.printStackTrace();

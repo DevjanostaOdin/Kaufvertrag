@@ -14,6 +14,9 @@ public class Vertragspartner implements IVertragspartner {
         this.nachname = nachname;
     }
 
+    public Vertragspartner() {
+    }
+
     @Override
     public String getAusweisNr() {
         return ausweisNr;
@@ -57,10 +60,10 @@ public class Vertragspartner implements IVertragspartner {
     @Override
     public String toString() {
         return "Vertragspartner{" +
-                "ausweisNr='" + ausweisNr + '\'' +
-                ", vorname='" + vorname + '\'' +
-                ", nachname='" + nachname + '\'' +
-                ", adresse=" + adresse +
+                "\nausweisNr='" + ausweisNr + '\'' +
+                ",\n vorname='" + vorname + '\'' +
+                ",\n nachname='" + nachname + '\'' +
+                ",\n adresse=" + adresse +
                 '}';
     }
 }
