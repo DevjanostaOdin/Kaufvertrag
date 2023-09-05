@@ -1,66 +1,57 @@
 package Kaufvertrag.dataLayer.dataAccessObjects.sqlite;
 
+import Kaufvertrag.exceptions.DaoException;
+
 import java.sql.*;
 
 public class ConnectionManager {
 
-    // JDBC URL - zu welchem Datenbanktyp wollen wir uns verbinden = jdbc:sqlite
-
     private static final String CONNECTIONSTRING = "jdbc:sqlite:db.sqlite";
     private static Connection existingConnection;
+
+    // classLoaded wird auch nicht genutzt. Laut google wird das für ältere Java Versionen benötigt, aber jetzt nicht mehr.
     private static boolean classLoaded = false;
 
-    public Connection getNewConnection(){
+    //CLASSNAME wird laut Klassendiagraqmm benötigt, aber nicht genutzt -> nachfragen wofür das da ist
+    private static String CLASSNAME;
+
+    public Connection getNewConnection() throws DaoException {
         return connect();
     }
 
-    public Connection getExistingConnection(){
-        if (existingConnection == null){
+    public Connection getExistingConnection() throws DaoException {
+        if (existingConnection == null) {
             existingConnection = getNewConnection();
         }
         return existingConnection;
     }
 
-    public void close(ResultSet resultset, Statement statement, Connection connection) {
+    // close Methode vereinfacht mit einem einzigen Try Block um Code kürzer zu halten
+    public void close(ResultSet resultSet, Statement statement, Connection connection) throws DaoException {
         try {
-            if (resultset != null) {
-                resultset.close();
+            if (resultSet != null) {
+                resultSet.close();
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        try {
             if (statement != null) {
                 statement.close();
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        try {
             if (connection != null && !connection.isClosed()) {
                 connection.close();
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DaoException("Fehler beim Schließen der Datenbankverbindung: " + e.getMessage());
         }
     }
-    private Connection connect() {
+
+    // Url Variable kann direkt ersetzt werden durch CONNECTIONSTRING
+    private Connection connect() throws DaoException {
         Connection conn = null;
         try {
-            // db parameters
-            String url = CONNECTIONSTRING;
-            // create a connection to the database
-            conn = DriverManager.getConnection(url);
-
-            System.out.println("Connection to SQLite has been established.");
-            return conn;
-
+            conn = DriverManager.getConnection(CONNECTIONSTRING);
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            throw new DaoException("Fehler beim Herstellen der Datenbankverbindung: " + e.getMessage());
         }
-        return null;
+        return conn;
     }
 }
 

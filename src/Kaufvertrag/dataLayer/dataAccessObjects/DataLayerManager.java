@@ -1,18 +1,16 @@
 package Kaufvertrag.dataLayer.dataAccessObjects;
 
-import Kaufvertrag.businessObjects.IVertragspartner;
-import Kaufvertrag.businessObjects.IWare;
 import Kaufvertrag.dataLayer.dataAccessObjects.XML.DataLayerXml;
 import Kaufvertrag.dataLayer.dataAccessObjects.sqlite.DataLayerSqlite;
-import com.sun.source.tree.IfTree;
-import jdk.jshell.spi.ExecutionControl;
-import Kaufvertrag.dataLayer.dataAccessObjects.IDataLayer;
+import Kaufvertrag.exceptions.DaoException;
+
 
 import java.util.Scanner;
 
 public class DataLayerManager {
     private static DataLayerManager instance;
-    private String persistenceType;
+
+    private DataLayerManager() {}
 
     public static DataLayerManager getInstance() {
         if (instance == null) {
@@ -20,27 +18,28 @@ public class DataLayerManager {
         }
         return instance;
     }
- // WIR HATTEN UNTEN getInstance() und OBEN den KONSTRUKTOR
-    private DataLayerManager() {
-
-    }
 
     public IDataLayer getDataLayer() {
-        // WIR HATTEN STATT readPersistenceType() - > persistenceType
-        if (readPersistenceType().equalsIgnoreCase("sqlite")) {
-            return new DataLayerSqlite();
-        } else if (readPersistenceType().equalsIgnoreCase("xml")){
-            return new DataLayerXml();
-        }
+        String type;
+        do {
+            type = readPersistenceType();
+            if (type.equalsIgnoreCase("sqlite")) {
+                return new DataLayerSqlite();
+            } else if (type.equalsIgnoreCase("xml")) {
+                return new DataLayerXml();
+            } else {
+                System.out.println("Ungültige Eingabe. Bitte geben Sie 'sqlite' oder 'xml' ein.");
+            }
+        } while (!type.equalsIgnoreCase("sqlite") && !type.equalsIgnoreCase("xml"));
+        // return null wird nie erreicht, aber return wird benötigt für den Compiler
         return null;
     }
 
     private String readPersistenceType() {
-        // WAS IST DIE IDEE DAHINTER
+        String persistenceType;
         Scanner sc = new Scanner(System.in);
         System.out.println("Give persistence type: (sqlite or xml)");
-        String type = String.valueOf(sc.nextLine());
-        persistenceType = type;
+        persistenceType = String.valueOf(sc.nextLine());
         return persistenceType;
     }
 }

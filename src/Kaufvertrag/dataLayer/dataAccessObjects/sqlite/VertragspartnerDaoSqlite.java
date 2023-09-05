@@ -5,6 +5,7 @@ import Kaufvertrag.businessObjects.IVertragspartner;
 import Kaufvertrag.dataLayer.businessObjects.Adresse;
 import Kaufvertrag.dataLayer.businessObjects.Vertragspartner;
 import Kaufvertrag.dataLayer.dataAccessObjects.IDao;
+import Kaufvertrag.exceptions.DaoException;
 
 
 import java.sql.Connection;
@@ -22,7 +23,7 @@ public class VertragspartnerDaoSqlite implements IDao<IVertragspartner, String> 
     }
 
     @Override   // HIER HATTEN WIR NICHT IVERTRAGSPARTNER SONDERN OBJECT ...
-    public void create(IVertragspartner objectToInsert) {
+    public void create(IVertragspartner objectToInsert) throws DaoException {
 
         Connection connection = getConnection();
         String sqlTemplatePerson = "INSERT INTO" +
@@ -57,18 +58,18 @@ public class VertragspartnerDaoSqlite implements IDao<IVertragspartner, String> 
             connection.createStatement().executeUpdate(sqlPerson);
             connection.createStatement().executeUpdate(sqlAdresse);
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DaoException("Fehler beim Erstellen der Ware in der Datenbank.");
         }
     }
 
-     private Connection getConnection() {
+     private Connection getConnection() throws DaoException {
          ConnectionManager conMan = new ConnectionManager();
          Connection connection = conMan.getNewConnection();
          return connection;
      }
 
                                                     @Override
-    public IVertragspartner read(String id) {
+    public IVertragspartner read(String id) throws DaoException {
         Connection connection = getConnection();
         IVertragspartner vertragspartner = new Vertragspartner();
         IAdresse adresse = new Adresse();
@@ -90,7 +91,7 @@ public class VertragspartnerDaoSqlite implements IDao<IVertragspartner, String> 
                 return vertragspartner;
             }
         } catch (SQLException e){
-            e.printStackTrace();
+            throw new DaoException("Fehler beim Lesen der Ware in der Datenbank.");
         }
 
     return null;
@@ -111,7 +112,7 @@ public class VertragspartnerDaoSqlite implements IDao<IVertragspartner, String> 
     }
 
     @Override
-    public void update(IVertragspartner objectTpUpdate) {
+    public void update(IVertragspartner objectTpUpdate) throws DaoException  {
 
         Connection connection = getConnection();
         String sqlUpdateAdresse = "UPDATE " +
@@ -136,12 +137,12 @@ public class VertragspartnerDaoSqlite implements IDao<IVertragspartner, String> 
             connection.createStatement().execute(sqlUpdateAdresse);
             connection.createStatement().execute(sqlUpdatePerson);
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DaoException("Fehler beim Updaten der Ware in der Datenbank.");
         }
     }
 
     @Override
-    public void delete(String id) {
+    public void delete(String id) throws DaoException {
         Connection connection = getConnection();
         String sqlDelete = "DELETE " +
                 "FROM " + id;
@@ -149,7 +150,7 @@ public class VertragspartnerDaoSqlite implements IDao<IVertragspartner, String> 
         try {
             connection.createStatement().execute(sqlDelete);
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DaoException("Fehler beim Löschen der Ware in der Datenbank.");
         }
     }
 }

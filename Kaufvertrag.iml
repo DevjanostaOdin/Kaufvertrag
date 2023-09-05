@@ -10,11 +10,14 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$USER_HOME$/Downloads/sqlite-jdbc-3.42.0.1.jar!/" />
+          <root url="jar://$MODULE_DIR$/sqlite-jdbc-3.36.0.3.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
       </library>
     </orderEntry>
+  </component>
+  <component name="SonarLintModuleSettings">
+    <option name="uniqueId" value="11ffe675-cdfd-431b-9b6e-c157f9165dfc" />
   </component>
 </module>
