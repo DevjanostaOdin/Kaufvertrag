@@ -25,7 +25,7 @@ public class WareDaoSqlite implements IDao<IWare, Long> {
 
     @Override
     public void create(IWare ware) throws DaoException {
-        String sql = "INSERT INTO WARE (bezeichnung, beschreibung, preis, maengel, besonderheiten) VALUES (?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO ware (bezeichnung, beschreibung, preis, maengel, besonderheiten) VALUES (?, ?, ?, ?, ?)";
         try (Connection connection = connectionManager.getNewConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setString(1, ware.getBezeichnung());

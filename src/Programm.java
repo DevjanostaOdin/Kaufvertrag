@@ -1,3 +1,4 @@
+import Kaufvertrag.businessObjects.IVertragspartner;
 import Kaufvertrag.businessObjects.IWare;
 import Kaufvertrag.dataLayer.businessObjects.Ware;
 import Kaufvertrag.dataLayer.dataAccessObjects.DataLayerManager;
@@ -13,6 +14,7 @@ public class Programm {
     private static final Scanner scanner = new Scanner(System.in);
 
     private static IDao<IWare, Long> wareDao;
+    private static IDao<IVertragspartner, String> vertragspartnerDao;
 
 
     public static void main(String[] args) throws DaoException {
@@ -35,12 +37,30 @@ public class Programm {
             }
 
             case 2 -> {
-         //       vertragspartnerDao = dataLayerManager.getDataLayer().getDaoVertragspartner();
+                vertragspartnerDao = dataLayerManager.getDataLayer().getDaoVertragspartner();
+                vertragspartnerOptionen();
             }
             case 3 -> {
                 System.out.println("Programm wird beendet.");
             }
             default -> System.out.println("Ungültige Auswahl. Bitte erneut versuchen.");
+        }
+    }
+
+    private static void vertragspartnerOptionen() {
+        System.out.println("Geben Sie die ID des Vertragpartners ein:");
+        String id = scanner.next();
+        scanner.nextLine();
+
+        try {
+            IVertragspartner vertragspartner = vertragspartnerDao.read(id);
+            if (vertragspartner != null) {
+                System.out.println(vertragspartner);
+            } else {
+                System.out.println("Vertragspartner mit ID " + id + " wurde nicht gefunden.");
+            }
+        } catch (DaoException e) {
+            System.out.println("Fehler beim Abrufen der Ware: " + e.getMessage());
         }
     }
 

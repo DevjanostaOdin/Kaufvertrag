@@ -5,6 +5,8 @@ import Kaufvertrag.businessObjects.IVertragspartner;
 import Kaufvertrag.dataLayer.businessObjects.Adresse;
 import Kaufvertrag.dataLayer.businessObjects.Vertragspartner;
 import Kaufvertrag.dataLayer.dataAccessObjects.IDao;
+import Kaufvertrag.exceptions.DaoException;
+
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -19,7 +21,7 @@ public class VertragspartnerDaoSqlite implements IDao<IVertragspartner, String> 
     }
 
     @Override
-    public void create(IVertragspartner objectToInsert) {
+    public void create(IVertragspartner objectToInsert) throws DaoException {
 
         Connection connection = getConnection();
         String sqlTemplatePerson = "INSERT INTO" +
@@ -60,14 +62,14 @@ public class VertragspartnerDaoSqlite implements IDao<IVertragspartner, String> 
         }
     }
 
-    private Connection getConnection() {
+    private Connection getConnection() throws DaoException {
         ConnectionManager conMan = new ConnectionManager();
         Connection connection = conMan.getNewConnection();
         return connection;
     }
 
     @Override
-    public IVertragspartner read(String id) {
+    public IVertragspartner read(String id) throws DaoException {
         Connection connection = getConnection();
         IVertragspartner vertragspartner = new Vertragspartner();
         IAdresse adresse = new Adresse();
@@ -106,7 +108,7 @@ public class VertragspartnerDaoSqlite implements IDao<IVertragspartner, String> 
     }
 
     @Override
-    public List<IVertragspartner> readAll() {
+    public List<IVertragspartner> readAll() throws DaoException {
         Connection connection = getConnection();
         List<IVertragspartner> listVertragspartner = new ArrayList<IVertragspartner>();
 
@@ -137,7 +139,7 @@ public class VertragspartnerDaoSqlite implements IDao<IVertragspartner, String> 
     }
 
     @Override
-    public void update(IVertragspartner objectTpUpdate) {
+    public void update(IVertragspartner objectTpUpdate) throws DaoException {
 
         Connection connection = getConnection();
         String sqlUpdateAdresse = "UPDATE " +
@@ -175,7 +177,7 @@ public class VertragspartnerDaoSqlite implements IDao<IVertragspartner, String> 
     }
 
     @Override
-    public void delete(String id) {
+    public void delete(String id) throws DaoException {
         Connection connection = getConnection();
         String sqlDelete = "DELETE " +
                 "FROM " + id;
