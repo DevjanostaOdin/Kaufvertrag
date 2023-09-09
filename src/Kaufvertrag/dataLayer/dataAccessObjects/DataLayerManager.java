@@ -2,7 +2,7 @@ package Kaufvertrag.dataLayer.dataAccessObjects;
 
 import Kaufvertrag.dataLayer.dataAccessObjects.XML.DataLayerXml;
 import Kaufvertrag.dataLayer.dataAccessObjects.sqlite.DataLayerSqlite;
-import Kaufvertrag.exceptions.DaoException;
+
 
 
 import java.util.Scanner;
