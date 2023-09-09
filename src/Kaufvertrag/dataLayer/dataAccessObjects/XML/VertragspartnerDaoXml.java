@@ -1,6 +1,8 @@
 package Kaufvertrag.dataLayer.dataAccessObjects.XML;
 
+import Kaufvertrag.businessObjects.IAdresse;
 import Kaufvertrag.businessObjects.IVertragspartner;
+import Kaufvertrag.dataLayer.businessObjects.Adresse;
 import Kaufvertrag.dataLayer.businessObjects.Vertragspartner;
 import Kaufvertrag.dataLayer.dataAccessObjects.IDao;
 import Kaufvertrag.exceptions.DaoException;
@@ -18,11 +20,15 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
 public class VertragspartnerDaoXml implements IDao<IVertragspartner, String> {
     static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    IVertragspartner vertragspartner = new Vertragspartner();
+    IAdresse adresse = new Adresse();
+    DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
 
     @Override
     public IVertragspartner create() {
@@ -45,17 +51,9 @@ public class VertragspartnerDaoXml implements IDao<IVertragspartner, String> {
 
     @Override
     public IVertragspartner read(String id) {
-        IVertragspartner vertragspartner = new Vertragspartner();
-        DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
-        String dateiName;
-        String dateiPfad = ".\\";
         try {
-            System.out.println("Welche Datei möchten sie lesen?");
-            dateiName = br.readLine();
-
             DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
-            Document document = documentBuilder.parse(new File(dateiPfad + dateiName));
-
+            Document document = documentBuilder.parse(new File(".\\XML_Persistierung.xml"));
             NodeList list = document.getElementsByTagName("Vertragspartner");
 
             for (int temp = 0; temp < list.getLength(); temp++) {
@@ -66,27 +64,25 @@ public class VertragspartnerDaoXml implements IDao<IVertragspartner, String> {
 
                     Element element = (Element) node;
 
-                    // get staff's attribute
-                    id = element.getAttribute("Ausweisnummer");
+                    String ausweisnummer = element.getAttribute("Ausweisnummer");
+                    if( ausweisnummer.equalsIgnoreCase(id)) {
+                        String vorname = element.getElementsByTagName("Vorname").item(0).getTextContent();
+                        String nachname = element.getElementsByTagName("Nachname").item(0).getTextContent();
+                        String strasse = element.getElementsByTagName("Strasse").item(0).getTextContent();
+                        String hausNr = element.getElementsByTagName("HausNr").item(0).getTextContent();
+                        String plz = element.getElementsByTagName("Plz").item(0).getTextContent();
+                        String ort = element.getElementsByTagName("Ort").item(0).getTextContent();
 
-                    // get text
-                    String vorname = element.getElementsByTagName("Vorname").item(0).getTextContent();
-                    String nachname = element.getElementsByTagName("Nachname").item(0).getTextContent();
-                    String adresse = element.getElementsByTagName("Adresse").item(0).getTextContent();
-
-                    //NodeList salaryNodeList = element.getElementsByTagName("salary");
-                    //String salary = salaryNodeList.item(0).getTextContent();
-
-                    // get salary's attribute
-                    //String currency = salaryNodeList.item(0).getAttributes().getNamedItem("currency").getTextContent();
-
-                    System.out.println("Current Element :" + node.getNodeName());
-                    System.out.println("Ausweisnummer : " + id);
-                    System.out.println("Vorname : " + vorname);
-                    System.out.println("Nachname : " + nachname);
-                    System.out.println("Adresse : " + adresse);
-                    //System.out.printf("Salary [Currency] : %,.2f [%s]%n%n", Float.parseFloat(salary), currency);
-
+                        vertragspartner.setAusweisNr(id);
+                        vertragspartner.setVorname(vorname);
+                        vertragspartner.setNachname(nachname);
+                        adresse.setStrasse(strasse);
+                        adresse.setHausNr(hausNr);
+                        adresse.setPlz(plz);
+                        adresse.setOrt(ort);
+                        vertragspartner.setAdresse(adresse);
+                        break;
+                    }
                 }
             }
 
@@ -98,7 +94,46 @@ public class VertragspartnerDaoXml implements IDao<IVertragspartner, String> {
 
     @Override
     public List<IVertragspartner> readAll() {
-        return null;
+        List<IVertragspartner> vertragspartnerList = new ArrayList<>();
+        try {
+            DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
+            Document document = documentBuilder.parse(new File(".\\XML_Persistierung.xml"));
+            NodeList list = document.getElementsByTagName("Vertragspartner");
+
+            for (int temp = 0; temp < list.getLength(); temp++) {
+                Node node = list.item(temp);
+
+                if (node.getNodeType() == Node.ELEMENT_NODE) {
+                    Element element = (Element) node;
+
+                    String ausweisnummer = element.getAttribute("Ausweisnummer");
+                    String vorname = element.getElementsByTagName("Vorname").item(0).getTextContent();
+                    String nachname = element.getElementsByTagName("Nachname").item(0).getTextContent();
+                    String strasse = element.getElementsByTagName("Strasse").item(0).getTextContent();
+                    String hausNr = element.getElementsByTagName("HausNr").item(0).getTextContent();
+                    String plz = element.getElementsByTagName("Plz").item(0).getTextContent();
+                    String ort = element.getElementsByTagName("Ort").item(0).getTextContent();
+
+                    Vertragspartner vertragspartner = new Vertragspartner();
+                    vertragspartner.setAusweisNr(ausweisnummer);
+                    vertragspartner.setVorname(vorname);
+                    vertragspartner.setNachname(nachname);
+
+                    Adresse adresse = new Adresse();
+                    adresse.setStrasse(strasse);
+                    adresse.setHausNr(hausNr);
+                    adresse.setPlz(plz);
+                    adresse.setOrt(ort);
+
+                    vertragspartner.setAdresse(adresse);
+
+                    vertragspartnerList.add(vertragspartner);
+                }
+            }
+        } catch (ParserConfigurationException | SAXException | IOException e) {
+            e.printStackTrace();
+        }
+        return vertragspartnerList;
     }
 
     @Override
@@ -111,3 +146,5 @@ public class VertragspartnerDaoXml implements IDao<IVertragspartner, String> {
 
     }
 }
+
+

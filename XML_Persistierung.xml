@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Kaufvertrag>
-    <Vertragspartner Ausweisnummer="0111111">
+    <Vertragspartner Ausweisnummer="098">
         <Vorname>100</Vorname>
         <Nachname>Dollar</Nachname>
         <Adresse>
@@ -10,7 +10,7 @@
             <Ort>Hamburg</Ort>
         </Adresse>
     </Vertragspartner>
-	<Vertragspartner Ausweisnummer="1111111">
+	<Vertragspartner Ausweisnummer="1234">
         <Vorname>50</Vorname>
         <Nachname>Cent</Nachname>
         <Adresse>

@@ -63,8 +63,8 @@ public class VertragspartnerDaoSqlite implements IDao<IVertragspartner, String> 
     }
 
     private Connection getConnection() throws DaoException {
-        ConnectionManager conMan = new ConnectionManager();
-        Connection connection = conMan.getNewConnection();
+        ConnectionManager connectionManager = new ConnectionManager();
+        Connection connection = connectionManager.getNewConnection();
         return connection;
     }
 

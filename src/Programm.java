@@ -48,6 +48,37 @@ public class Programm {
     }
 
     private static void vertragspartnerOptionen() {
+        System.out.println("Bitte wählen Sie eine Option:");
+        System.out.println("1. Vertragspartner nach ID auslesen");
+        System.out.println("2. Alle Vertragspartner auslesen");
+        int choice = scanner.nextInt();
+        scanner.nextLine();
+
+        switch (choice) {
+            case 1 -> displayVertragspartner();
+            case 2 -> displayAllVertragspartner();
+        }
+
+
+
+    }
+
+    private static void displayAllVertragspartner() {
+        try {
+            List<IVertragspartner> listVertragspartner = vertragspartnerDao.readAll();
+            if (listVertragspartner != null){
+                for(IVertragspartner vertragspartner : listVertragspartner){
+                    System.out.println(vertragspartner);
+                }
+            }
+        } catch (DaoException e) {
+            System.out.println("Fehler beim Abrufen des Vertragspartners: " + e.getMessage());
+        }
+
+    }
+
+    private static void displayVertragspartner() {
+
         System.out.println("Geben Sie die ID des Vertragpartners ein:");
         String id = scanner.next();
         scanner.nextLine();
@@ -60,7 +91,7 @@ public class Programm {
                 System.out.println("Vertragspartner mit ID " + id + " wurde nicht gefunden.");
             }
         } catch (DaoException e) {
-            System.out.println("Fehler beim Abrufen der Ware: " + e.getMessage());
+            System.out.println("Fehler beim Abrufen des Vertragspartners: " + e.getMessage());
         }
     }
 
