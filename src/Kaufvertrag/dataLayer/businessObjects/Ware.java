@@ -12,6 +12,9 @@ public class Ware implements IWare {
     private List<String> besonderheiten;
     private List<String> maengel;
 
+    public Ware() {
+    }
+
     public Ware(String bezeichnung, double preis) {
         this.bezeichnung = bezeichnung;
         this.preis = preis;
@@ -50,7 +53,7 @@ public class Ware implements IWare {
 
     @Override
     public String getBeschreibung() {
-        return bezeichnung;
+        return beschreibung;
     }
 
     @Override
@@ -69,12 +72,23 @@ public class Ware implements IWare {
     }
 
     @Override
-    public List<String> getBesonderheiten() {
+    public List<String> getBesonderheiten(String s) {
         return besonderheiten;
+    }
+
+    @Override
+    public void setBesonderheiten(List<String> besonderheiten) {
+        this.besonderheiten = besonderheiten;
     }
 
     @Override
     public List<String> getMaengel() {
         return maengel;
     }
+
+    @Override
+    public void setMaengel(List<String> maengel) {
+        this.maengel = maengel;
+    }
+
 }

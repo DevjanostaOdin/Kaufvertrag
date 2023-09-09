@@ -6,6 +6,8 @@ import Kaufvertrag.dataLayer.dataAccessObjects.IDao;
 import Kaufvertrag.dataLayer.dataAccessObjects.IDataLayer;
 
 public class DataLayerSqlite implements IDataLayer {
+    ConnectionManager connectionManager = new ConnectionManager();
+
     @Override
     public IDao<IVertragspartner, String> getDaoVertragspartner() {
         return new VertragspartnerDaoSqlite();
@@ -13,6 +15,6 @@ public class DataLayerSqlite implements IDataLayer {
 
     @Override
     public IDao<IWare, Long> getDaoWare() {
-        return new WareDaoSqlite();
+        return new WareDaoSqlite(connectionManager);
     }
 }
