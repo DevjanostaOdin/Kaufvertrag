@@ -1,15 +1,8 @@
-import Kaufvertrag.businessObjects.IVertragspartner;
 import Kaufvertrag.businessObjects.IWare;
-import Kaufvertrag.dataLayer.businessObjects.Vertragspartner;
 import Kaufvertrag.dataLayer.businessObjects.Ware;
 import Kaufvertrag.dataLayer.dataAccessObjects.DataLayerManager;
 import Kaufvertrag.dataLayer.dataAccessObjects.IDao;
-import Kaufvertrag.dataLayer.dataAccessObjects.IDataLayer;
-import Kaufvertrag.dataLayer.dataAccessObjects.XML.DataLayerXml;
-import Kaufvertrag.dataLayer.dataAccessObjects.sqlite.ConnectionManager;
-import Kaufvertrag.dataLayer.dataAccessObjects.sqlite.DataLayerSqlite;
-import Kaufvertrag.dataLayer.dataAccessObjects.sqlite.VertragspartnerDaoSqlite;
-import Kaufvertrag.dataLayer.dataAccessObjects.sqlite.WareDaoSqlite;
+
 import Kaufvertrag.exceptions.DaoException;
 
 import java.util.Arrays;
@@ -18,54 +11,31 @@ import java.util.Scanner;
 
 public class Programm {
     private static final Scanner scanner = new Scanner(System.in);
-    IDao<IVertragspartner, String> vertragspartnerDao = DataLayerManager.getInstance().getDataLayer().getDaoVertragspartner();
+
     private static IDao<IWare, Long> wareDao;
 
 
+    public static void main(String[] args) throws DaoException {
 
-    public static void main(String[] args) {
-    /*
-        IVertragspartner vertPart = new Vertragspartner("100", "Dollar");
-        vertPart.setAusweisNr("0111111");
-        IAdresse adresse = new Adresse("Danzigerstr", "10", "66666", "Hamburg");
-        vertPart.setAdresse(adresse);
-
-        IDao<IVertragspartner, String> dao = DataLayerManager.getInstance().getDataLayer().getDaoVertragspartner();
-
-        //dao.create(vertPart);
-        //dao.update(vertPart);
-        dao.read("8");
-        //dao.delete("VERTRAGSPARTNER");
-        //dao.delete("ADRESSE");
-    }*/
+       DataLayerManager dataLayerManager = DataLayerManager.getInstance();
 
 
-        /* Ablauf des Verbindungsaufbaus
-         * 1. Eine Instanz des DataLayerManagers holen mit .getInstance
-         * 2. Wenn keine instance vorhanden ist, wird ein new DataLayerManager erstellt
-         * 3. Es wird ausgewählt, welcher PersistenceType gebraucht wird (also SQL oder XML)
-         * 4. Daraufhin wird ein DataLayer mit entweder SQL oder XML angelegt
-         * 5. Dann wird je nachdem, ob ein Vertragspartner oder eine Ware angelegt werden soll, das entsprechende DAO
-         * aufgerufen mit der .getDao... Methode
-         * 6. Im nöchsten Schritt wird eine neue instanz von Ware oder Vertragspartner erstellt.
-         * 7. Anschließend kann das neu erstellte Projekt übergeben werden an wareDao oder vertragspartnerDao und dort der
-         * Datenbank hinzugefügt werden per .create Methode.
-         * */
+        System.out.println("Möchten Sie mit Ware oder Vertragspartner arbeiten?");
+        System.out.println("1. Ware");
+        System.out.println("2. Vertragspartner");
+        System.out.println("3. Beenden");
 
-        IDataLayer dataLayer = DataLayerManager.getInstance().getDataLayer();
-
-            System.out.println("Möchten Sie mit Ware oder Vertragspartner arbeiten?");
-            System.out.println("1. Ware");
-            System.out.println("2. Vertragspartner");
-            System.out.println("3. Beenden");
-
-            int auswahl = scanner.nextInt();
-            scanner.nextLine();
+        int auswahl = scanner.nextInt();
+        scanner.nextLine();
 
         switch (auswahl) {
-            case 1 -> wareOptionen();
+            case 1 -> {
+                wareDao = dataLayerManager.getDataLayer().getDaoWare();
+                wareOptionen();
+            }
+
             case 2 -> {
-                // vertragspartnerOptionen();
+         //       vertragspartnerDao = dataLayerManager.getDataLayer().getDaoVertragspartner();
             }
             case 3 -> {
                 System.out.println("Programm wird beendet.");
@@ -94,7 +64,8 @@ public class Programm {
                 case 4 -> deleteWare();
                 case 5 -> displayAllWaren();
                 case 6 -> {
-                    return; // Zurück zum Hauptmenü
+                    // funktioniert noch nicht
+                    return;
                 }
                 default -> System.out.println("Ungültige Auswahl. Bitte erneut versuchen.");
             }
@@ -133,7 +104,6 @@ public class Programm {
         } catch (DaoException e) {
             System.out.println("Fehler beim Hinzufügen der Ware: " + e.getMessage());
         }
-
     }
 
 
@@ -157,7 +127,7 @@ public class Programm {
     private static void updateWare() {
         System.out.println("Geben Sie die ID der zu aktualisierenden Ware ein:");
         long id = scanner.nextLong();
-        scanner.nextLine(); // Zeilenumbruchzeichen (\n) bleibt sonst im Eingabefeld
+        scanner.nextLine();
 
         try {
             IWare ware = wareDao.read(id);
