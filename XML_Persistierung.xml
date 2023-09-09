@@ -10,7 +10,7 @@
             <Ort>Hamburg</Ort>
         </Adresse>
     </Vertragspartner>
-	<Vertragspartner Ausweisnummer="1234">
+    <Vertragspartner Ausweisnummer="1234">
         <Vorname>50</Vorname>
         <Nachname>Cent</Nachname>
         <Adresse>

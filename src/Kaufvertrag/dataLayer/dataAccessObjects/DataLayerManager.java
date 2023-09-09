@@ -1,10 +1,13 @@
 package Kaufvertrag.dataLayer.dataAccessObjects;
 
 import Kaufvertrag.dataLayer.dataAccessObjects.XML.DataLayerXml;
+import Kaufvertrag.dataLayer.dataAccessObjects.XML.ServiceXml;
 import Kaufvertrag.dataLayer.dataAccessObjects.sqlite.DataLayerSqlite;
 
 
-
+import javax.imageio.metadata.IIOInvalidTreeException;
+import java.io.File;
+import java.io.IOException;
 import java.util.Scanner;
 
 public class DataLayerManager {
@@ -26,6 +29,16 @@ public class DataLayerManager {
             if (type.equalsIgnoreCase("sqlite")) {
                 return new DataLayerSqlite();
             } else if (type.equalsIgnoreCase("xml")) {
+                String filePath = ".\\XML_Persistierung_Test.xml";
+                File file = new File(filePath);
+                if (!file.exists()) {
+                    ServiceXml serviceXml = new ServiceXml();
+                    try {
+                        serviceXml.createXmlDocument();
+                    } catch (IOException e) {
+                        System.out.println(e.getMessage());
+                    }
+                }
                 return new DataLayerXml();
             } else {
                 System.out.println("Ungültige Eingabe. Bitte geben Sie 'sqlite' oder 'xml' ein.");

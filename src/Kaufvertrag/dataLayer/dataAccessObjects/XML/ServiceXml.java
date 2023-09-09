@@ -1,11 +1,12 @@
 package Kaufvertrag.dataLayer.dataAccessObjects.XML;
 
 import Kaufvertrag.businessObjects.IVertragspartner;
-import Kaufvertrag.businessObjects.IWare;
 import org.jdom2.Document;
 import org.jdom2.Element;
 import org.jdom2.output.Format;
 import org.jdom2.output.XMLOutputter;
+
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
@@ -14,12 +15,27 @@ public class ServiceXml {
 
     private String dateiPfad = ".\\";
 
-    public void CreateXmlDocument(IVertragspartner vertragspartner) throws IOException {
+    public void createXmlDocument() throws IOException {
+        Document document = new Document();
+        Element root = new Element("Kaufvertrag");
+        document.setRootElement(root);
+        String datei = ".\\XML_Persistierung_Test.xml";
+        FileOutputStream fileOutputStream = new FileOutputStream(datei);
+
+        Format format = Format.getPrettyFormat();
+        format.setIndent("    ");
+
+        XMLOutputter xmlOutputter = new XMLOutputter(format);
+        xmlOutputter.output(document, fileOutputStream);
+
+    }
+
+    public void createXmlDocument(IVertragspartner vertragspartner) throws IOException {
         Document document = new Document();
         Element root = new Element("Kaufvertrag");
         document.setRootElement(root);
 
-        document.getRootElement().addContent(AddVertragspartner(vertragspartner));
+        document.getRootElement().addContent(addVertragspartner(vertragspartner));
 
 //        document.getRootElement().addContent(AddWare(kaufvertrag.ware));
 //        document.getRootElement().addContent(ZahlungsMethodeHinzufuegen(kaufvertrag.zahlung));
@@ -34,7 +50,7 @@ public class ServiceXml {
         xmlOutputter.output(document, fileOutputStream);
     }
 
-    public Element AddVertragspartner(IVertragspartner vertragspartner) {
+    public Element addVertragspartner(IVertragspartner vertragspartner) {
         Element Person = new Element("Vertragspartner");
         Person.setAttribute("Ausweisnummer" ,vertragspartner.getAusweisNr());
         Element vorname = new Element("Vorname");
