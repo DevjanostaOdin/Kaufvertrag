@@ -13,7 +13,7 @@ public class ConnectionManager {
     private static boolean classLoaded = false;
 
     //CLASSNAME wird laut Klassendiagraqmm benötigt, aber nicht genutzt -> nachfragen wofür das da ist
-    private static String CLASSNAME;
+    private static final String CLASSNAME = "";
 
     public Connection getNewConnection() throws DaoException {
         return connect();

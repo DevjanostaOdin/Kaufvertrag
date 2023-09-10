@@ -6,10 +6,13 @@ import Kaufvertrag.dataLayer.businessObjects.Adresse;
 import Kaufvertrag.dataLayer.businessObjects.Vertragspartner;
 import Kaufvertrag.dataLayer.dataAccessObjects.IDao;
 import Kaufvertrag.exceptions.DaoException;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
+import org.jdom2.Document;
+import org.jdom2.Element;
+import org.jdom2.JDOMException;
+import org.jdom2.input.SAXBuilder;
+import org.jdom2.output.Format;
+import org.jdom2.output.XMLOutputter;
+
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -20,10 +23,7 @@ import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -43,98 +43,167 @@ public class VertragspartnerDaoXml implements IDao<IVertragspartner, String> {
     public void create(IVertragspartner objectToInsert) {
         ServiceXml serviceXml = new ServiceXml();
         try {
-            serviceXml.addVertragspartner(objectToInsert);
+            Document document = serviceXml.loadXmlDocument(serviceXml.DATEIPFAD);
+            serviceXml.addVertragspartner(objectToInsert, document);
+            serviceXml.saveXmlDocument(document);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
+//    @Override
+//    public IVertragspartner read(String id) {
+//        ServiceXml serviceXml = new ServiceXml();
+//        try {
+//            Document document = serviceXml.loadXmlDocument(serviceXml.DATEIPFAD);
+//            Element root = document.getRootElement();
+//            List<Element> vertragspartnerElements = root.getChildren("Vertragspartner");
+//
+//            for (Element element : vertragspartnerElements) {
+//                String ausweisnummer = element.getAttributeValue("Ausweisnummer");
+//                if (ausweisnummer.equalsIgnoreCase(id)) {
+//                    String vorname = element.getChildText("Vorname");
+//                    String nachname = element.getChildText("Nachname");
+//                    String strasse = element.getChildText("Strasse");
+//                    String hausNr = element.getChildText("HausNr");
+//                    String plz = element.getChildText("Plz");
+//                    String ort = element.getChildText("Ort");
+//
+//                    vertragspartner.setAusweisNr(id);
+//                    vertragspartner.setVorname(vorname);
+//                    vertragspartner.setNachname(nachname);
+//                    adresse.setStrasse(strasse);
+//                    adresse.setHausNr(hausNr);
+//                    adresse.setPlz(plz);
+//                    adresse.setOrt(ort);
+//                    vertragspartner.setAdresse(adresse);
+//                    break;
+//                }
+//            }
+//        } catch (IOException | JDOMException e) {
+//            e.printStackTrace();
+//        }
+//        return vertragspartner;
+//    }
+
     @Override
     public IVertragspartner read(String id) {
+        ServiceXml serviceXml = new ServiceXml();
         try {
-            DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
-            Document document = documentBuilder.parse(new File(".\\XML_Persistierung.xml"));
-            NodeList list = document.getElementsByTagName("Vertragspartner");
+            Document document = serviceXml.loadXmlDocument(serviceXml.DATEIPFAD);
+            Element root = document.getRootElement();
+            List<Element> vertragspartnerElements = root.getChildren("Vertragspartner");
 
-            for (int temp = 0; temp < list.getLength(); temp++) {
+            for (Element element : vertragspartnerElements) {
+                String ausweisnummer = element.getAttributeValue("Ausweisnummer");
+                if (ausweisnummer.equalsIgnoreCase(id)) {
+                    String vorname = element.getChildText("Vorname");
+                    String nachname = element.getChildText("Nachname");
 
-                Node node = list.item(temp);
+                    Vertragspartner vertragspartner = new Vertragspartner();
+                    vertragspartner.setAusweisNr(id);
+                    vertragspartner.setVorname(vorname);
+                    vertragspartner.setNachname(nachname);
 
-                if (node.getNodeType() == Node.ELEMENT_NODE) {
+                    // Create a new Adresse object and set its properties
+                    Adresse adresse = new Adresse();
+                    adresse.setStrasse(element.getChildText("Strasse"));
+                    adresse.setHausNr(element.getChildText("HausNr"));
+                    adresse.setPlz(element.getChildText("Plz"));
+                    adresse.setOrt(element.getChildText("Ort"));
 
-                    Element element = (Element) node;
+                    // Set the Adresse object in the Vertragspartner
+                    vertragspartner.setAdresse(adresse);
 
-                    String ausweisnummer = element.getAttribute("Ausweisnummer");
-                    if( ausweisnummer.equalsIgnoreCase(id)) {
-                        String vorname = element.getElementsByTagName("Vorname").item(0).getTextContent();
-                        String nachname = element.getElementsByTagName("Nachname").item(0).getTextContent();
-                        String strasse = element.getElementsByTagName("Strasse").item(0).getTextContent();
-                        String hausNr = element.getElementsByTagName("HausNr").item(0).getTextContent();
-                        String plz = element.getElementsByTagName("Plz").item(0).getTextContent();
-                        String ort = element.getElementsByTagName("Ort").item(0).getTextContent();
-
-                        vertragspartner.setAusweisNr(id);
-                        vertragspartner.setVorname(vorname);
-                        vertragspartner.setNachname(nachname);
-                        adresse.setStrasse(strasse);
-                        adresse.setHausNr(hausNr);
-                        adresse.setPlz(plz);
-                        adresse.setOrt(ort);
-                        vertragspartner.setAdresse(adresse);
-                        break;
-                    }
+                    return vertragspartner; // Return the Vertragspartner with Adresse
                 }
             }
-
-        } catch (ParserConfigurationException | SAXException | IOException e) {
+        } catch (IOException | JDOMException e) {
             e.printStackTrace();
         }
-        return vertragspartner;
+        return null; // Return null if no matching Vertragspartner is found
     }
+
+
+//    @Override
+//    public List<IVertragspartner> readAll() {
+//        List<IVertragspartner> vertragspartnerList = new ArrayList<>();
+//        ServiceXml serviceXml = new ServiceXml();
+//        try {
+//            Document document = serviceXml.loadXmlDocument(serviceXml.DATEIPFAD);
+//            Element root = document.getRootElement();
+//            List<Element> vertragspartnerElements = root.getChildren("Vertragspartner");
+//
+//            for (Element element : vertragspartnerElements) {
+//                String ausweisnummer = element.getAttributeValue("Ausweisnummer");
+//                String vorname = element.getChildText("Vorname");
+//                String nachname = element.getChildText("Nachname");
+//                String strasse = element.getChildText("Strasse");
+//                String hausNr = element.getChildText("HausNr");
+//                String plz = element.getChildText("Plz");
+//                String ort = element.getChildText("Ort");
+//
+//                Vertragspartner vertragspartner = new Vertragspartner();
+//                vertragspartner.setAusweisNr(ausweisnummer);
+//                vertragspartner.setVorname(vorname);
+//                vertragspartner.setNachname(nachname);
+//
+//                Adresse adresse = new Adresse();
+//                adresse.setStrasse(strasse);
+//                adresse.setHausNr(hausNr);
+//                adresse.setPlz(plz);
+//                adresse.setOrt(ort);
+//
+//                vertragspartner.setAdresse(adresse);
+//
+//                vertragspartnerList.add(vertragspartner);
+//            }
+//        } catch (IOException | JDOMException e) {
+//            e.printStackTrace();
+//        }
+//        return vertragspartnerList;
+//    }
 
     @Override
     public List<IVertragspartner> readAll() {
         List<IVertragspartner> vertragspartnerList = new ArrayList<>();
+        ServiceXml serviceXml = new ServiceXml();
         try {
-            DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
-            Document document = documentBuilder.parse(new File(".\\XML_Persistierung.xml"));
-            NodeList list = document.getElementsByTagName("Vertragspartner");
+            Document document = serviceXml.loadXmlDocument(serviceXml.DATEIPFAD);
+            Element root = document.getRootElement();
+            List<Element> vertragspartnerElements = root.getChildren("Vertragspartner");
 
-            for (int temp = 0; temp < list.getLength(); temp++) {
-                Node node = list.item(temp);
+            for (Element element : vertragspartnerElements) {
+                String ausweisnummer = element.getAttributeValue("Ausweisnummer");
+                String vorname = element.getChildText("Vorname");
+                String nachname = element.getChildText("Nachname");
+                Element adresseElement = element.getChild("Adresse");
+                String strasse = adresseElement.getChildText("Strasse");
+                String hausNr = adresseElement.getChildText("HausNr");
+                String plz = adresseElement.getChildText("Plz");
+                String ort = adresseElement.getChildText("Ort");
 
-                if (node.getNodeType() == Node.ELEMENT_NODE) {
-                    Element element = (Element) node;
+                Vertragspartner vertragspartner = new Vertragspartner();
+                vertragspartner.setAusweisNr(ausweisnummer);
+                vertragspartner.setVorname(vorname);
+                vertragspartner.setNachname(nachname);
 
-                    String ausweisnummer = element.getAttribute("Ausweisnummer");
-                    String vorname = element.getElementsByTagName("Vorname").item(0).getTextContent();
-                    String nachname = element.getElementsByTagName("Nachname").item(0).getTextContent();
-                    String strasse = element.getElementsByTagName("Strasse").item(0).getTextContent();
-                    String hausNr = element.getElementsByTagName("HausNr").item(0).getTextContent();
-                    String plz = element.getElementsByTagName("Plz").item(0).getTextContent();
-                    String ort = element.getElementsByTagName("Ort").item(0).getTextContent();
+                Adresse adresse = new Adresse();
+                adresse.setStrasse(strasse);
+                adresse.setHausNr(hausNr);
+                adresse.setPlz(plz);
+                adresse.setOrt(ort);
 
-                    Vertragspartner vertragspartner = new Vertragspartner();
-                    vertragspartner.setAusweisNr(ausweisnummer);
-                    vertragspartner.setVorname(vorname);
-                    vertragspartner.setNachname(nachname);
+                vertragspartner.setAdresse(adresse);
 
-                    Adresse adresse = new Adresse();
-                    adresse.setStrasse(strasse);
-                    adresse.setHausNr(hausNr);
-                    adresse.setPlz(plz);
-                    adresse.setOrt(ort);
-
-                    vertragspartner.setAdresse(adresse);
-
-                    vertragspartnerList.add(vertragspartner);
-                }
+                vertragspartnerList.add(vertragspartner);
             }
-        } catch (ParserConfigurationException | SAXException | IOException e) {
+        } catch (IOException | JDOMException e) {
             e.printStackTrace();
         }
         return vertragspartnerList;
     }
+
 
     @Override
     public void update(IVertragspartner objectToUpdate) {
@@ -226,37 +295,62 @@ public class VertragspartnerDaoXml implements IDao<IVertragspartner, String> {
 
     @Override
     public void delete(String id) {
-
+        ServiceXml serviceXml = new ServiceXml();
         try {
-            DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
-            Document document = documentBuilder.parse(new File(".\\XML_Persistierung.xml"));
-            NodeList list = document.getElementsByTagName("Vertragspartner");
+            Document document = serviceXml.loadXmlDocument(serviceXml.DATEIPFAD);
+            Element root = document.getRootElement();
+            List<Element> vertragspartnerElements = root.getChildren("Vertragspartner");
 
-            for (int temp = 0; temp < list.getLength(); temp++) {
-
-                Node node = list.item(temp);
-
-                if (node.getNodeType() == Node.ELEMENT_NODE) {
-
-                    Element element = (Element) node;
-
-                    String ausweisnummer = element.getAttribute("Ausweisnummer");
-                    if( ausweisnummer.equalsIgnoreCase(id)) {
-                        node.getParentNode().removeChild(node);
-                    }
+            for (Element element : vertragspartnerElements) {
+                String ausweisnummer = element.getAttributeValue("Ausweisnummer");
+                if (ausweisnummer.equalsIgnoreCase(id)) {
+                    // Remove the matching "Vertragspartner" element
+                    root.removeContent(element);
+                    break;
                 }
             }
 
-            TransformerFactory transformerFactory = TransformerFactory.newInstance();
-            Transformer transformer = transformerFactory.newTransformer();
-            DOMSource source = new DOMSource(document);
-            StreamResult result = new StreamResult(new File(".\\XML_Persistierung.xml"));
-            transformer.transform(source, result);
-
-        } catch (ParserConfigurationException | SAXException | IOException | TransformerException e) {
+            // Save the updated document back to the file
+            serviceXml.saveXmlDocument(document);
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
+
+//    @Override
+//    public void delete(String id) {
+//
+//        try {
+//            DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
+//            Document document = documentBuilder.parse(new File(".\\XML_Persistierung.xml"));
+//            NodeList list = document.getElementsByTagName("Vertragspartner");
+//
+//            for (int temp = 0; temp < list.getLength(); temp++) {
+//
+//                Node node = list.item(temp);
+//
+//                if (node.getNodeType() == Node.ELEMENT_NODE) {
+//
+//                    Element element = (Element) node;
+//
+//                    String ausweisnummer = element.getAttribute("Ausweisnummer");
+//                    if( ausweisnummer.equalsIgnoreCase(id)) {
+//                        node.getParentNode().removeChild(node);
+//                    }
+//                }
+//            }
+//
+//            TransformerFactory transformerFactory = TransformerFactory.newInstance();
+//            Transformer transformer = transformerFactory.newTransformer();
+//            DOMSource source = new DOMSource(document);
+//            StreamResult result = new StreamResult(new File(".\\XML_Persistierung.xml"));
+//            transformer.transform(source, result);
+//
+//        } catch (ParserConfigurationException | SAXException | IOException | TransformerException e) {
+//            e.printStackTrace();
+//        }
+//    }
 }
 
 

@@ -3,44 +3,22 @@ package Kaufvertrag.dataLayer.dataAccessObjects.XML;
 import Kaufvertrag.businessObjects.IVertragspartner;
 import org.jdom2.Document;
 import org.jdom2.Element;
+import org.jdom2.JDOMException;
+import org.jdom2.input.SAXBuilder;
 import org.jdom2.output.Format;
 import org.jdom2.output.XMLOutputter;
-
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
 public class ServiceXml {
-    public String dateiName;
-
-    private String dateiPfad = ".\\";
+    public final String DATEIPFAD = ".\\XML_Persistierung_Test.xml";
 
     public void createXmlDocument() throws IOException {
         Document document = new Document();
         Element root = new Element("Kaufvertrag");
         document.setRootElement(root);
-        String datei = ".\\XML_Persistierung_Test.xml";
-        FileOutputStream fileOutputStream = new FileOutputStream(datei);
 
-        Format format = Format.getPrettyFormat();
-        format.setIndent("    ");
-
-        XMLOutputter xmlOutputter = new XMLOutputter(format);
-        xmlOutputter.output(document, fileOutputStream);
-
-    }
-
-    public void createXmlDocument(IVertragspartner vertragspartner) throws IOException {
-        Document document = new Document();
-        Element root = new Element("Kaufvertrag");
-        document.setRootElement(root);
-
-        document.getRootElement().addContent(addVertragspartner(vertragspartner));
-
-//        document.getRootElement().addContent(AddWare(kaufvertrag.ware));
-//        document.getRootElement().addContent(ZahlungsMethodeHinzufuegen(kaufvertrag.zahlung));
-
-        String datei = dateiPfad + dateiName + ".xml";
+        String datei = DATEIPFAD;
         FileOutputStream fileOutputStream = new FileOutputStream(datei);
 
         Format format = Format.getPrettyFormat();
@@ -50,7 +28,9 @@ public class ServiceXml {
         xmlOutputter.output(document, fileOutputStream);
     }
 
-    public Element addVertragspartner(IVertragspartner vertragspartner) {
+    public void addVertragspartner(IVertragspartner vertragspartner, Document document) {
+        Element root = document.getRootElement();
+
         Element Person = new Element("Vertragspartner");
         Person.setAttribute("Ausweisnummer" ,vertragspartner.getAusweisNr());
         Element vorname = new Element("Vorname");
@@ -74,7 +54,7 @@ public class ServiceXml {
         ort.addContent(vertragspartner.getAdresse().getOrt());
         adresse.addContent(ort);
 
-        return Person;
+        root.addContent(Person);
     }
 
     //public Element AddWare(IWare ware) {
@@ -102,4 +82,19 @@ public class ServiceXml {
 //        zuVerkaufendeWare.addContent(maengelListe);
 //        return zuVerkaufendeWare;
 //    }
+
+    public Document loadXmlDocument(String filePath) throws JDOMException, IOException {
+        SAXBuilder saxBuilder = new SAXBuilder();
+        return saxBuilder.build(filePath);
+    }
+
+    public void saveXmlDocument(Document document) throws IOException {
+        FileOutputStream fileOutputStream = new FileOutputStream(DATEIPFAD);
+
+        Format format = Format.getPrettyFormat();
+        format.setIndent("    ");
+
+        XMLOutputter xmlOutputter = new XMLOutputter(format);
+        xmlOutputter.output(document, fileOutputStream);
+    }
 }

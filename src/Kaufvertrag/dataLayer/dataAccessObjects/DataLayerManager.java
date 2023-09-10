@@ -29,10 +29,9 @@ public class DataLayerManager {
             if (type.equalsIgnoreCase("sqlite")) {
                 return new DataLayerSqlite();
             } else if (type.equalsIgnoreCase("xml")) {
-                String filePath = ".\\XML_Persistierung_Test.xml";
-                File file = new File(filePath);
+                ServiceXml serviceXml = new ServiceXml();
+                File file = new File(serviceXml.DATEIPFAD);
                 if (!file.exists()) {
-                    ServiceXml serviceXml = new ServiceXml();
                     try {
                         serviceXml.createXmlDocument();
                     } catch (IOException e) {

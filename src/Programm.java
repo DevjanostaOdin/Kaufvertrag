@@ -69,9 +69,6 @@ public class Programm {
             case 4 -> deleteVertragspartner();
             case 5 -> displayAllVertragspartner();
         }
-
-
-
     }
 
     private static void addVertragspartner() {
