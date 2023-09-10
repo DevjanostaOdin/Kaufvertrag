@@ -26,7 +26,7 @@ public class ConnectionManager {
         return existingConnection;
     }
 
-    // close Methode vereinfacht mit einem einzigen Try Block um Code kürzer zu halten
+
     public void close(ResultSet resultSet, Statement statement, Connection connection) throws DaoException {
         try {
             if (resultSet != null) {
@@ -44,7 +44,6 @@ public class ConnectionManager {
         }
     }
 
-    // Url Variable kann direkt ersetzt werden durch CONNECTIONSTRING
     private Connection connect() throws DaoException {
         Connection conn = null;
         try {

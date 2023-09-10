@@ -42,7 +42,7 @@ public class WareDaoSqlite implements IDao<IWare, Long> {
             }
         } catch (SQLException e) {
             throw new DaoException("Fehler beim Erstellen der Ware in der Datenbank.");
-        }
+        }// durch die Nuzung von try-with-ressources (resultSet und prepared statements) ist kein close der connection nötig
     }
 
     @Override
