@@ -142,7 +142,7 @@ public class VertragspartnerDaoXml implements IDao<IVertragspartner, String> {
         String id = objectToUpdate.getAusweisNr();
         delete(id);
         Scanner scanner = new Scanner(System.in);
-        //
+        // delete danach create mit parametern ausführen
         System.out.print("Geben Sie den neuen Vornamen ein:");
         String vornameUpdated = scanner.nextLine();
         System.out.print("Geben Sie den neuen Nachnamen ein:");
