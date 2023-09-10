@@ -33,23 +33,30 @@ public class ServiceXml {
 
         Element Person = new Element("Vertragspartner");
         Person.setAttribute("Ausweisnummer" ,vertragspartner.getAusweisNr());
+
         Element vorname = new Element("Vorname");
         vorname.addContent(vertragspartner.getVorname());
         Person.addContent(vorname);
+
         Element nachname = new Element("Nachname");
         nachname.addContent(vertragspartner.getNachname());
         Person.addContent(nachname);
+
         Element adresse = new Element("Adresse");
         Person.addContent(adresse);
+
         Element strasse = new Element("Strasse");
         strasse.addContent(vertragspartner.getAdresse().getStrasse());
         adresse.addContent(strasse);
+
         Element hausNr = new Element("HausNr");
         hausNr.addContent(vertragspartner.getAdresse().getHausNr());
         adresse.addContent(hausNr);
+
         Element plz = new Element("Plz");
         plz.addContent(vertragspartner.getAdresse().getPlz());
         adresse.addContent(plz);
+
         Element ort = new Element("Ort");
         ort.addContent(vertragspartner.getAdresse().getOrt());
         adresse.addContent(ort);

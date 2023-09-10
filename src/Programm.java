@@ -6,14 +6,10 @@ import Kaufvertrag.dataLayer.businessObjects.Vertragspartner;
 import Kaufvertrag.dataLayer.businessObjects.Ware;
 import Kaufvertrag.dataLayer.dataAccessObjects.DataLayerManager;
 import Kaufvertrag.dataLayer.dataAccessObjects.IDao;
-
-import Kaufvertrag.dataLayer.dataAccessObjects.XML.ServiceXml;
 import Kaufvertrag.exceptions.DaoException;
-
 import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
-import java.util.ServiceConfigurationError;
 
 public class Programm {
     private static final Scanner scanner = new Scanner(System.in);
@@ -21,9 +17,7 @@ public class Programm {
     private static IDao<IVertragspartner, String> vertragspartnerDao;
 
     public static void main(String[] args) throws DaoException {
-
-       DataLayerManager dataLayerManager = DataLayerManager.getInstance();
-
+        DataLayerManager dataLayerManager = DataLayerManager.getInstance();
 
         System.out.println("Möchten Sie mit Ware oder Vertragspartner arbeiten?");
         System.out.println("1. Ware");
@@ -38,7 +32,6 @@ public class Programm {
                 wareDao = dataLayerManager.getDataLayer().getDaoWare();
                 wareOptionen();
             }
-
             case 2 -> {
                 vertragspartnerDao = dataLayerManager.getDataLayer().getDaoVertragspartner();
                 vertragspartnerOptionen();
@@ -47,25 +40,6 @@ public class Programm {
                 System.out.println("Programm wird beendet.");
             }
             default -> System.out.println("Ungültige Auswahl. Bitte erneut versuchen.");
-        }
-    }
-
-    private static void vertragspartnerOptionen() {
-        System.out.println("Bitte wählen Sie eine Option:");
-        System.out.println("1. Vertragspartner hinzufügen");
-        System.out.println("2. Vertragspartner nach ID auslesen");
-        System.out.println("3. Vertragspartner bearbeiten");
-        System.out.println("4. Vertragspartner nach ID löschen");
-        System.out.println("5. Alle Vertragspartner auslesen");
-        int choice = scanner.nextInt();
-        scanner.nextLine();
-
-        switch (choice) {
-            case 1 -> addVertragspartner();
-            case 2 -> displayVertragspartner();
-            case 3 -> updateVertragspartner();
-            case 4 -> deleteVertragspartner();
-            case 5 -> displayAllVertragspartner();
         }
     }
 
@@ -97,10 +71,28 @@ public class Programm {
         adresse.setPlz(plz);
         adresse.setOrt(ort);
         vertragspartner.setAdresse(adresse);
+
         try{
             vertragspartnerDao.create(vertragspartner);
         } catch (DaoException e){
             System.out.println(e.getMessage());
+        }
+    }
+
+    private static void displayVertragspartner() {
+        System.out.println("Geben Sie die ID des Vertragpartners ein:");
+        String id = scanner.next();
+        scanner.nextLine();
+
+        try {
+            IVertragspartner vertragspartner = vertragspartnerDao.read(id);
+            if (vertragspartner != null) {
+                System.out.println(vertragspartner);
+            } else {
+                System.out.println("Vertragspartner mit ID " + id + " wurde nicht gefunden.");
+            }
+        } catch (DaoException e) {
+            System.out.println("Fehler beim Abrufen des Vertragspartners: " + e.getMessage());
         }
     }
 
@@ -109,6 +101,7 @@ public class Programm {
         String id = scanner.next();
         scanner.nextLine();
         IVertragspartner vertragspartner;
+
         try {
             vertragspartner = vertragspartnerDao.read(id);
             try {
@@ -144,52 +137,24 @@ public class Programm {
         } catch (DaoException e) {
             System.out.println("Fehler beim Abrufen des Vertragspartners: " + e.getMessage());
         }
-
     }
 
-    private static void displayVertragspartner() {
-
-        System.out.println("Geben Sie die ID des Vertragpartners ein:");
-        String id = scanner.next();
+    private static void vertragspartnerOptionen() {
+        System.out.println("Bitte wählen Sie eine Option:");
+        System.out.println("1. Vertragspartner hinzufügen");
+        System.out.println("2. Vertragspartner nach ID auslesen");
+        System.out.println("3. Vertragspartner bearbeiten");
+        System.out.println("4. Vertragspartner nach ID löschen");
+        System.out.println("5. Alle Vertragspartner auslesen");
+        int choice = scanner.nextInt();
         scanner.nextLine();
 
-        try {
-            IVertragspartner vertragspartner = vertragspartnerDao.read(id);
-            if (vertragspartner != null) {
-                System.out.println(vertragspartner);
-            } else {
-                System.out.println("Vertragspartner mit ID " + id + " wurde nicht gefunden.");
-            }
-        } catch (DaoException e) {
-            System.out.println("Fehler beim Abrufen des Vertragspartners: " + e.getMessage());
-        }
-    }
-
-    private static void wareOptionen() {
-        while (true) {
-            System.out.println("Bitte wählen Sie eine Option:");
-            System.out.println("1. Ware hinzufügen");
-            System.out.println("2. Ware anzeigen");
-            System.out.println("3. Ware bearbeiten");
-            System.out.println("4. Ware löschen");
-            System.out.println("5. Alle Waren anzeigen");
-            System.out.println("6. Zurück zum Hauptmenü");
-
-            int choice = scanner.nextInt();
-            scanner.nextLine();
-
-            switch (choice) {
-                case 1 -> addWare();
-                case 2 -> displayWare();
-                case 3 -> updateWare();
-                case 4 -> deleteWare();
-                case 5 -> displayAllWaren();
-                case 6 -> {
-                    // funktioniert noch nicht
-                    return;
-                }
-                default -> System.out.println("Ungültige Auswahl. Bitte erneut versuchen.");
-            }
+        switch (choice) {
+            case 1 -> addVertragspartner();
+            case 2 -> displayVertragspartner();
+            case 3 -> updateVertragspartner();
+            case 4 -> deleteVertragspartner();
+            case 5 -> displayAllVertragspartner();
         }
     }
 
@@ -226,7 +191,6 @@ public class Programm {
             System.out.println("Fehler beim Hinzufügen der Ware: " + e.getMessage());
         }
     }
-
 
     private static void displayWare() {
         System.out.println("Geben Sie die ID der Ware ein:");
@@ -304,6 +268,34 @@ public class Programm {
 
         } catch (DaoException e) {
             System.out.println("Fehler beim Abrufen der Waren: " + e.getMessage());
+        }
+    }
+
+    private static void wareOptionen() {
+        while (true) {
+            System.out.println("Bitte wählen Sie eine Option:");
+            System.out.println("1. Ware hinzufügen");
+            System.out.println("2. Ware anzeigen");
+            System.out.println("3. Ware bearbeiten");
+            System.out.println("4. Ware löschen");
+            System.out.println("5. Alle Waren anzeigen");
+            System.out.println("6. Zurück zum Hauptmenü");
+
+            int choice = scanner.nextInt();
+            scanner.nextLine();
+
+            switch (choice) {
+                case 1 -> addWare();
+                case 2 -> displayWare();
+                case 3 -> updateWare();
+                case 4 -> deleteWare();
+                case 5 -> displayAllWaren();
+                case 6 -> {
+                    // funktioniert noch nicht
+                    return;
+                }
+                default -> System.out.println("Ungültige Auswahl. Bitte erneut versuchen.");
+            }
         }
     }
 }

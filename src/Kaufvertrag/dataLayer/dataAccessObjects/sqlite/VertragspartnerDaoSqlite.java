@@ -6,7 +6,6 @@ import Kaufvertrag.dataLayer.businessObjects.Adresse;
 import Kaufvertrag.dataLayer.businessObjects.Vertragspartner;
 import Kaufvertrag.dataLayer.dataAccessObjects.IDao;
 import Kaufvertrag.exceptions.DaoException;
-
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -140,7 +139,6 @@ public class VertragspartnerDaoSqlite implements IDao<IVertragspartner, String> 
 
     @Override
     public void update(IVertragspartner objectTpUpdate) throws DaoException {
-
         Connection connection = getConnection();
         String sqlUpdateAdresse = "UPDATE " +
                 " ADRESSE " +

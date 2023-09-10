@@ -3,9 +3,6 @@ package Kaufvertrag.dataLayer.dataAccessObjects;
 import Kaufvertrag.dataLayer.dataAccessObjects.XML.DataLayerXml;
 import Kaufvertrag.dataLayer.dataAccessObjects.XML.ServiceXml;
 import Kaufvertrag.dataLayer.dataAccessObjects.sqlite.DataLayerSqlite;
-
-
-import javax.imageio.metadata.IIOInvalidTreeException;
 import java.io.File;
 import java.io.IOException;
 import java.util.Scanner;

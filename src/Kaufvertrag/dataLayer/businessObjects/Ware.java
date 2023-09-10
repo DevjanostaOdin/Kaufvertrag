@@ -1,7 +1,6 @@
 package Kaufvertrag.dataLayer.businessObjects;
 
 import Kaufvertrag.businessObjects.IWare;
-
 import java.util.List;
 
 public class Ware implements IWare {
@@ -78,6 +77,7 @@ public class Ware implements IWare {
     public void setMaengel(List<String> maengel) {
         this.maengel = maengel;
     }
+
     @Override
     public String toString() {
         return "Ware " +

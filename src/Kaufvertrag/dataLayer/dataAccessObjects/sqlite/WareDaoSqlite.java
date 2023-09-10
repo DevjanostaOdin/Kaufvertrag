@@ -4,7 +4,6 @@ import Kaufvertrag.businessObjects.IWare;
 import Kaufvertrag.dataLayer.businessObjects.Ware;
 import Kaufvertrag.dataLayer.dataAccessObjects.IDao;
 import Kaufvertrag.exceptions.DaoException;
-
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -45,8 +44,6 @@ public class WareDaoSqlite implements IDao<IWare, Long> {
             throw new DaoException("Fehler beim Erstellen der Ware in der Datenbank.");
         }
     }
-
-
 
     @Override
     public IWare read(Long id) throws DaoException {
@@ -119,5 +116,4 @@ public class WareDaoSqlite implements IDao<IWare, Long> {
         ware.setBesonderheiten(Arrays.asList(resultSet.getString("besonderheiten").split(",")));
         return ware;
     }
-
 }

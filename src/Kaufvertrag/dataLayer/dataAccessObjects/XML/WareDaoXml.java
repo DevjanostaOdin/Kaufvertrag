@@ -2,7 +2,6 @@ package Kaufvertrag.dataLayer.dataAccessObjects.XML;
 
 import Kaufvertrag.businessObjects.IWare;
 import Kaufvertrag.dataLayer.dataAccessObjects.IDao;
-
 import java.util.List;
 
 public class WareDaoXml implements IDao<IWare, Long> {
