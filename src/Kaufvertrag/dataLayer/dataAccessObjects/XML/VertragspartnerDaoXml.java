@@ -107,10 +107,11 @@ public class VertragspartnerDaoXml implements IDao<IVertragspartner, String> {
 
                     // Create a new Adresse object and set its properties
                     Adresse adresse = new Adresse();
-                    adresse.setStrasse(element.getChildText("Strasse"));
-                    adresse.setHausNr(element.getChildText("HausNr"));
-                    adresse.setPlz(element.getChildText("Plz"));
-                    adresse.setOrt(element.getChildText("Ort"));
+                    Element adresseElement = element.getChild("Adresse");
+                    adresse.setStrasse(adresseElement.getChildText("Strasse"));
+                    adresse.setHausNr(adresseElement.getChildText("HausNr"));
+                    adresse.setPlz(adresseElement.getChildText("Plz"));
+                    adresse.setOrt(adresseElement.getChildText("Ort"));
 
                     // Set the Adresse object in the Vertragspartner
                     vertragspartner.setAdresse(adresse);
