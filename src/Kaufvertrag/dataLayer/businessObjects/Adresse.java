@@ -60,11 +60,11 @@ public class Adresse implements IAdresse {
 
     @Override
     public String toString() {
-        return "Adresse{" +
-                "strasse='" + strasse + '\'' +
-                ", hausNr='" + hausNr + '\'' +
-                ", plz='" + plz + '\'' +
-                ", ort='" + ort + '\'' +
-                '}';
+        return "Adresse " +
+                "Strasse: " + strasse +
+                ", Hausnummer: " + hausNr +
+                ", Plz: " + plz +
+                ", Ort: " + ort +
+                '.';
     }
 }

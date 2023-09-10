@@ -51,41 +51,6 @@ public class VertragspartnerDaoXml implements IDao<IVertragspartner, String> {
         }
     }
 
-//    @Override
-//    public IVertragspartner read(String id) {
-//        ServiceXml serviceXml = new ServiceXml();
-//        try {
-//            Document document = serviceXml.loadXmlDocument(serviceXml.DATEIPFAD);
-//            Element root = document.getRootElement();
-//            List<Element> vertragspartnerElements = root.getChildren("Vertragspartner");
-//
-//            for (Element element : vertragspartnerElements) {
-//                String ausweisnummer = element.getAttributeValue("Ausweisnummer");
-//                if (ausweisnummer.equalsIgnoreCase(id)) {
-//                    String vorname = element.getChildText("Vorname");
-//                    String nachname = element.getChildText("Nachname");
-//                    String strasse = element.getChildText("Strasse");
-//                    String hausNr = element.getChildText("HausNr");
-//                    String plz = element.getChildText("Plz");
-//                    String ort = element.getChildText("Ort");
-//
-//                    vertragspartner.setAusweisNr(id);
-//                    vertragspartner.setVorname(vorname);
-//                    vertragspartner.setNachname(nachname);
-//                    adresse.setStrasse(strasse);
-//                    adresse.setHausNr(hausNr);
-//                    adresse.setPlz(plz);
-//                    adresse.setOrt(ort);
-//                    vertragspartner.setAdresse(adresse);
-//                    break;
-//                }
-//            }
-//        } catch (IOException | JDOMException e) {
-//            e.printStackTrace();
-//        }
-//        return vertragspartner;
-//    }
-
     @Override
     public IVertragspartner read(String id) {
         ServiceXml serviceXml = new ServiceXml();
@@ -105,7 +70,6 @@ public class VertragspartnerDaoXml implements IDao<IVertragspartner, String> {
                     vertragspartner.setVorname(vorname);
                     vertragspartner.setNachname(nachname);
 
-                    // Create a new Adresse object and set its properties
                     Adresse adresse = new Adresse();
                     Element adresseElement = element.getChild("Adresse");
                     adresse.setStrasse(adresseElement.getChildText("Strasse"));
@@ -113,57 +77,16 @@ public class VertragspartnerDaoXml implements IDao<IVertragspartner, String> {
                     adresse.setPlz(adresseElement.getChildText("Plz"));
                     adresse.setOrt(adresseElement.getChildText("Ort"));
 
-                    // Set the Adresse object in the Vertragspartner
                     vertragspartner.setAdresse(adresse);
 
-                    return vertragspartner; // Return the Vertragspartner with Adresse
+                    return vertragspartner;
                 }
             }
         } catch (IOException | JDOMException e) {
             e.printStackTrace();
         }
-        return null; // Return null if no matching Vertragspartner is found
+        return null;
     }
-
-
-//    @Override
-//    public List<IVertragspartner> readAll() {
-//        List<IVertragspartner> vertragspartnerList = new ArrayList<>();
-//        ServiceXml serviceXml = new ServiceXml();
-//        try {
-//            Document document = serviceXml.loadXmlDocument(serviceXml.DATEIPFAD);
-//            Element root = document.getRootElement();
-//            List<Element> vertragspartnerElements = root.getChildren("Vertragspartner");
-//
-//            for (Element element : vertragspartnerElements) {
-//                String ausweisnummer = element.getAttributeValue("Ausweisnummer");
-//                String vorname = element.getChildText("Vorname");
-//                String nachname = element.getChildText("Nachname");
-//                String strasse = element.getChildText("Strasse");
-//                String hausNr = element.getChildText("HausNr");
-//                String plz = element.getChildText("Plz");
-//                String ort = element.getChildText("Ort");
-//
-//                Vertragspartner vertragspartner = new Vertragspartner();
-//                vertragspartner.setAusweisNr(ausweisnummer);
-//                vertragspartner.setVorname(vorname);
-//                vertragspartner.setNachname(nachname);
-//
-//                Adresse adresse = new Adresse();
-//                adresse.setStrasse(strasse);
-//                adresse.setHausNr(hausNr);
-//                adresse.setPlz(plz);
-//                adresse.setOrt(ort);
-//
-//                vertragspartner.setAdresse(adresse);
-//
-//                vertragspartnerList.add(vertragspartner);
-//            }
-//        } catch (IOException | JDOMException e) {
-//            e.printStackTrace();
-//        }
-//        return vertragspartnerList;
-//    }
 
     @Override
     public List<IVertragspartner> readAll() {
@@ -212,20 +135,34 @@ public class VertragspartnerDaoXml implements IDao<IVertragspartner, String> {
         String id = objectToUpdate.getAusweisNr();
         delete(id);
         Scanner scanner = new Scanner(System.in);
-        // delete danach create mit parametern ausführen
-        System.out.print("Geben Sie den neuen Vornamen ein:");
+
+        System.out.println("Geben Sie den neuen Vornamen ein:");
         String vornameUpdated = scanner.nextLine();
-        System.out.print("Geben Sie den neuen Nachnamen ein:");
+        System.out.println("Geben Sie den neuen Nachnamen ein:");
         String nachnameUpdated = scanner.nextLine();
-        System.out.print("Geben Sie die neue Strasse ein:");
+        System.out.println("Geben Sie die neue Strasse ein:");
         String strasseUpdated = scanner.nextLine();
-        System.out.print("Geben Sie die neue Hausnummer ein:");
+        System.out.println("Geben Sie die neue Hausnummer ein:");
         String hausnrUpdated = scanner.nextLine();
-        System.out.print("Geben Sie die neue PLZ ein:");
+        System.out.println("Geben Sie die neue PLZ ein:");
         String plzUpdated = scanner.nextLine();
-        System.out.print("Geben Sie den neuen Ort ein:");
+        System.out.println("Geben Sie den neuen Ort ein:");
         String ortUpdated = scanner.nextLine();
 
+        IAdresse adresse = new Adresse();
+
+        objectToUpdate.setAusweisNr(id);
+        objectToUpdate.setVorname(vornameUpdated);
+        objectToUpdate.setNachname(nachnameUpdated);
+
+        adresse.setStrasse(strasseUpdated);
+        adresse.setHausNr(hausnrUpdated);
+        adresse.setPlz(plzUpdated);
+        adresse.setOrt(ortUpdated);
+
+        objectToUpdate.setAdresse(adresse);
+
+        create(objectToUpdate);
 
 
 
@@ -305,53 +242,16 @@ public class VertragspartnerDaoXml implements IDao<IVertragspartner, String> {
             for (Element element : vertragspartnerElements) {
                 String ausweisnummer = element.getAttributeValue("Ausweisnummer");
                 if (ausweisnummer.equalsIgnoreCase(id)) {
-                    // Remove the matching "Vertragspartner" element
                     root.removeContent(element);
                     break;
                 }
             }
 
-            // Save the updated document back to the file
             serviceXml.saveXmlDocument(document);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-
-
-//    @Override
-//    public void delete(String id) {
-//
-//        try {
-//            DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
-//            Document document = documentBuilder.parse(new File(".\\XML_Persistierung.xml"));
-//            NodeList list = document.getElementsByTagName("Vertragspartner");
-//
-//            for (int temp = 0; temp < list.getLength(); temp++) {
-//
-//                Node node = list.item(temp);
-//
-//                if (node.getNodeType() == Node.ELEMENT_NODE) {
-//
-//                    Element element = (Element) node;
-//
-//                    String ausweisnummer = element.getAttribute("Ausweisnummer");
-//                    if( ausweisnummer.equalsIgnoreCase(id)) {
-//                        node.getParentNode().removeChild(node);
-//                    }
-//                }
-//            }
-//
-//            TransformerFactory transformerFactory = TransformerFactory.newInstance();
-//            Transformer transformer = transformerFactory.newTransformer();
-//            DOMSource source = new DOMSource(document);
-//            StreamResult result = new StreamResult(new File(".\\XML_Persistierung.xml"));
-//            transformer.transform(source, result);
-//
-//        } catch (ParserConfigurationException | SAXException | IOException | TransformerException e) {
-//            e.printStackTrace();
-//        }
-//    }
 }
 
 

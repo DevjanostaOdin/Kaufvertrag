@@ -17,16 +17,6 @@ public class Kaufvertrag implements IKaufvertrag {
     }
 
     @Override
-    public String toString() {
-        return "Kaufvertrag: " +
-                "Verkäufer: " + verkaeufer +
-                ", Käufer: " + kaeufer +
-                ", Ware: " + ware +
-                ", Zahlungsmodalitäten: '" + zahlungsModalitaeten + '\'' +
-                '.';
-    }
-
-    @Override
     public IVertragspartner getVerkaeufer() {
         return verkaeufer;
     }
@@ -64,5 +54,15 @@ public class Kaufvertrag implements IKaufvertrag {
     @Override
     public void setZahlungsModalitaeten(String zahlungsModalitaeten) {
         this.zahlungsModalitaeten = zahlungsModalitaeten;
+    }
+
+    @Override
+    public String toString() {
+        return "Kaufvertrag: " +
+                "Verkäufer: " + verkaeufer +
+                ", Käufer: " + kaeufer +
+                ", Ware: " + ware +
+                ", Zahlungsmodalitäten: '" + zahlungsModalitaeten + '\'' +
+                '.';
     }
 }

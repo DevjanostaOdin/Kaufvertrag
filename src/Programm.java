@@ -17,10 +17,8 @@ import java.util.ServiceConfigurationError;
 
 public class Programm {
     private static final Scanner scanner = new Scanner(System.in);
-
     private static IDao<IWare, Long> wareDao;
     private static IDao<IVertragspartner, String> vertragspartnerDao;
-
 
     public static void main(String[] args) throws DaoException {
 
@@ -121,7 +119,6 @@ public class Programm {
         } catch (DaoException e){
             System.out.println("Vertragspartner mit ID " + id + " wurde nicht gefunden." + e.getMessage());
         }
-
     }
 
     private static void deleteVertragspartner() {
@@ -292,7 +289,6 @@ public class Programm {
         }
     }
 
-
     private static void displayAllWaren() {
         try {
             List<IWare> warenListe = wareDao.readAll();
@@ -311,4 +307,3 @@ public class Programm {
         }
     }
 }
-

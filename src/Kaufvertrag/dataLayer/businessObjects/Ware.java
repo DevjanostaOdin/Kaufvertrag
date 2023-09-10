@@ -25,18 +25,6 @@ public class Ware implements IWare {
     }
 
     @Override
-    public String toString() {
-        return "Ware " +
-                "ID: " + id +
-                ", Bezeichnung: '" + bezeichnung + '\'' +
-                ", Beschreibung: '" + beschreibung + '\'' +
-                ", Preis: " + preis +
-                ", Besonderheiten: " + besonderheiten +
-                ", Mängel: " + maengel +
-                '.';
-    }
-
-    @Override
     public long getId() {
         return id;
     }
@@ -90,5 +78,15 @@ public class Ware implements IWare {
     public void setMaengel(List<String> maengel) {
         this.maengel = maengel;
     }
-
+    @Override
+    public String toString() {
+        return "Ware " +
+                "ID: " + id +
+                ", Bezeichnung: '" + bezeichnung + '\'' +
+                ", Beschreibung: '" + beschreibung + '\'' +
+                ", Preis: " + preis +
+                ", Besonderheiten: " + besonderheiten +
+                ", Mängel: " + maengel +
+                '.';
+    }
 }
