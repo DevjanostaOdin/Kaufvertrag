@@ -20,6 +20,10 @@ public class Programm {
     public static void main(String[] args) throws DaoException {
         DataLayerManager dataLayerManager = DataLayerManager.getInstance();
 
+
+
+
+
         System.out.println("Möchten Sie mit Ware oder Vertragspartner arbeiten?");
         System.out.println("1. Ware");
         System.out.println("2. Vertragspartner");
@@ -30,15 +34,16 @@ public class Programm {
 
         switch (auswahl) {
             case 1 -> {
-                wareDao = dataLayerManager.getDataLayer().getDaoWare();
+                IDao<IWare, Long> wareDao = dataLayerManager.getDataLayer().getDaoWare();
+                WareService wareService = new WareService(scanner, wareDao);
                 wareService.wareOptionen();
             }
             case 2 -> {
-                vertragspartnerDao = dataLayerManager.getDataLayer().getDaoVertragspartner();
+                IDao<IVertragspartner, String> vertragspartnerDao = dataLayerManager.getDataLayer().getDaoVertragspartner();
+                VertragspartnerService vertragspartnerService = new VertragspartnerService(scanner, vertragspartnerDao);
                 vertragspartnerService.vertragspartnerOptionen();
             }
             case 3 -> System.out.println("Programm wird beendet.");
-
             default -> System.out.println("Ungültige Auswahl. Bitte erneut versuchen.");
         }
     }
