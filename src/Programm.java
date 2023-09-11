@@ -12,17 +12,8 @@ import java.util.Scanner;
 public class Programm {
     private static final Scanner scanner = new Scanner(System.in);
 
-    private static IDao<IWare, Long> wareDao;
-    static WareService wareService = new WareService(scanner, wareDao);
-    private static IDao<IVertragspartner, String> vertragspartnerDao;
-    static VertragspartnerService vertragspartnerService = new VertragspartnerService(scanner, vertragspartnerDao);
-
     public static void main(String[] args) throws DaoException {
         DataLayerManager dataLayerManager = DataLayerManager.getInstance();
-
-
-
-
 
         System.out.println("Möchten Sie mit Ware oder Vertragspartner arbeiten?");
         System.out.println("1. Ware");
