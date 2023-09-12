@@ -1,12 +1,14 @@
 package Kaufvertrag.dataLayer.dataAccessObjects.XML;
 
 import Kaufvertrag.businessObjects.IVertragspartner;
+import Kaufvertrag.businessObjects.IWare;
 import org.jdom2.Document;
 import org.jdom2.Element;
 import org.jdom2.JDOMException;
 import org.jdom2.input.SAXBuilder;
 import org.jdom2.output.Format;
 import org.jdom2.output.XMLOutputter;
+
 import java.io.FileOutputStream;
 import java.io.IOException;
 
@@ -31,19 +33,19 @@ public class ServiceXml {
     public void addVertragspartner(IVertragspartner vertragspartner, Document document) {
         Element root = document.getRootElement();
 
-        Element Person = new Element("Vertragspartner");
-        Person.setAttribute("Ausweisnummer" ,vertragspartner.getAusweisNr());
+        Element person = new Element("Vertragspartner");
+        person.setAttribute("Ausweisnummer", vertragspartner.getAusweisNr());
 
         Element vorname = new Element("Vorname");
         vorname.addContent(vertragspartner.getVorname());
-        Person.addContent(vorname);
+        person.addContent(vorname);
 
         Element nachname = new Element("Nachname");
         nachname.addContent(vertragspartner.getNachname());
-        Person.addContent(nachname);
+        person.addContent(nachname);
 
         Element adresse = new Element("Adresse");
-        Person.addContent(adresse);
+        person.addContent(adresse);
 
         Element strasse = new Element("Strasse");
         strasse.addContent(vertragspartner.getAdresse().getStrasse());
@@ -61,34 +63,8 @@ public class ServiceXml {
         ort.addContent(vertragspartner.getAdresse().getOrt());
         adresse.addContent(ort);
 
-        root.addContent(Person);
+        root.addContent(person);
     }
-
-    //public Element AddWare(IWare ware) {
-//        Element zuVerkaufendeWare = new Element("Ware");
-//        zuVerkaufendeWare.setAttribute("Bezeichnung", ware.bezeichnung);
-//        Element beschreibung = new Element("Beschreibung");
-//        beschreibung.addContent(ware.beschreibung);
-//        zuVerkaufendeWare.addContent(beschreibung);
-//        Element preis = new Element("Preis");
-//        preis.addContent(ware.preis);
-//        zuVerkaufendeWare.addContent(preis);
-//        Element besonderheitenliste = new Element("Besonderheitenliste");
-//        for (var item : ware.besonderheitenListe) {
-//            Element besonderheit = new Element("Besonderheit");
-//            besonderheit.addContent(item);
-//            besonderheitenliste.addContent(besonderheit);
-//        }
-//        zuVerkaufendeWare.addContent(besonderheitenliste);
-//        Element maengelListe = new Element("Maengelliste");
-//        for (var item : ware.maengelListe) {
-//            Element mangel = new Element("Mangel");
-//            mangel.addContent(item);
-//            maengelListe.addContent(mangel);
-//        }
-//        zuVerkaufendeWare.addContent(maengelListe);
-//        return zuVerkaufendeWare;
-//    }
 
     public Document loadXmlDocument(String filePath) throws JDOMException, IOException {
         SAXBuilder saxBuilder = new SAXBuilder();
@@ -103,5 +79,35 @@ public class ServiceXml {
 
         XMLOutputter xmlOutputter = new XMLOutputter(format);
         xmlOutputter.output(document, fileOutputStream);
+    }
+
+    public void addWare(IWare ware, Document document) {
+        Element root = document.getRootElement();
+
+        Element zuVerkaufendeWare = new Element("Ware");
+        zuVerkaufendeWare.setAttribute("Ausweisnummer", String.valueOf(ware.getId()));
+
+        zuVerkaufendeWare.setAttribute("Bezeichnung", ware.getBezeichnung());
+        Element beschreibung = new Element("Beschreibung");
+        beschreibung.addContent(ware.getBeschreibung());
+        zuVerkaufendeWare.addContent(beschreibung);
+        Element preis = new Element("Preis");
+        preis.addContent(String.valueOf(ware.getPreis()));
+        zuVerkaufendeWare.addContent(preis);
+        Element besonderheitenliste = new Element("Besonderheitenliste");
+        for (var item : ware.getBesonderheiten()) {
+            Element besonderheit = new Element("Besonderheit");
+            besonderheit.addContent(item);
+            besonderheitenliste.addContent(besonderheit);
+        }
+        zuVerkaufendeWare.addContent(besonderheitenliste);
+        Element maengelListe = new Element("Maengelliste");
+        for (var item : ware.getMaengel()) {
+            Element mangel = new Element("Mangel");
+            mangel.addContent(item);
+            maengelListe.addContent(mangel);
+        }
+        zuVerkaufendeWare.addContent(maengelListe);
+        root.addContent(zuVerkaufendeWare);
     }
 }
