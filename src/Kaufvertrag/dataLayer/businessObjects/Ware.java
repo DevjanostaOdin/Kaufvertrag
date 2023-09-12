@@ -59,7 +59,7 @@ public class Ware implements IWare {
     }
 
     @Override
-    public List<String> getBesonderheiten(String s) {
+    public List<String> getBesonderheiten() {
         return besonderheiten;
     }
 

@@ -10,7 +10,7 @@ public interface IWare {
     void setBeschreibung(String beschreibung);
     double getPreis();
     void setPreis(double preis);
-    List<String> getBesonderheiten(String s);
+    List<String> getBesonderheiten();
     void setBesonderheiten(List<String> besonderheiten);
     List<String> getMaengel();
     void setMaengel(List<String> maengel);

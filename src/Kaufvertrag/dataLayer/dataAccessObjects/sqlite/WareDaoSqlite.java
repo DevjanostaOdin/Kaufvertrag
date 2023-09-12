@@ -31,7 +31,7 @@ public class WareDaoSqlite implements IDao<IWare, Long> {
             preparedStatement.setString(2, ware.getBeschreibung());
             preparedStatement.setDouble(3, ware.getPreis());
             preparedStatement.setString(4, String.join(",", ware.getMaengel()));
-            preparedStatement.setString(5, String.join(",", ware.getBesonderheiten("")));
+            preparedStatement.setString(5, String.join(",", ware.getBesonderheiten()));
             preparedStatement.executeUpdate();
 
             try (ResultSet resultSet = preparedStatement.getGeneratedKeys()) {
@@ -88,7 +88,7 @@ public class WareDaoSqlite implements IDao<IWare, Long> {
             preparedStatement.setString(2, ware.getBeschreibung());
             preparedStatement.setDouble(3, ware.getPreis());
             preparedStatement.setString(4, String.join(",", ware.getMaengel()));
-            preparedStatement.setString(5, String.join(",", ware.getBesonderheiten("")));
+            preparedStatement.setString(5, String.join(",", ware.getBesonderheiten()));
             preparedStatement.setLong(6, ware.getId());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
