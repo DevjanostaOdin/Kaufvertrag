@@ -3,15 +3,30 @@ package Kaufvertrag.dataLayer.dataAccessObjects.XML;
 import Kaufvertrag.businessObjects.IWare;
 import Kaufvertrag.dataLayer.businessObjects.Ware;
 import Kaufvertrag.dataLayer.dataAccessObjects.IDao;
-import org.jdom2.Document;
-import org.jdom2.Element;
-import org.jdom2.JDOMException;
 
+import javax.xml.bind.JAXBException;
+import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 
 public class WareDaoXml implements IDao<IWare, Long> {
+    List<Ware> waren = new ArrayList<>();
+    ServiceXml2 serviceXml2 = new ServiceXml2();
+
+/*    private List<Ware> setNextId(List<Ware> originalWarenXml) {
+
+        int warenXmlSize = this.waren.size();
+        if (warenXmlSize < 2) {
+            waren.get(warenXmlSize - 1).setId(1);
+        } else {
+            long lastID = waren.get(warenXmlSize - 2).getId();
+            waren.get(warenXmlSize - 1).setId(lastID + 1);
+        }
+
+        return waren;
+    }*/
 
     @Override
     public IWare create() {
@@ -20,46 +35,24 @@ public class WareDaoXml implements IDao<IWare, Long> {
 
     @Override
     public void create(IWare objectToInsert) {
-        ServiceXml serviceXml = new ServiceXml();
+        Ware ware = (Ware) objectToInsert;
+        int nextId = waren.size() + 1;
+        ware.setId(nextId);
+
         try {
-            Document document = serviceXml.loadXmlDocument(serviceXml.DATEIPFAD);
-            serviceXml.addWare(objectToInsert, document);
-            serviceXml.saveXmlDocument(document);
-        } catch (Exception e) {
-            e.printStackTrace();
+            serviceXml2.writeXml(ware);
+            waren.add(ware);
+        } catch (JAXBException e) {
+            throw new RuntimeException(e);
         }
     }
 
     @Override
     public IWare read(Long id) {
-        ServiceXml serviceXml = new ServiceXml();
         try {
-            Document document = serviceXml.loadXmlDocument(serviceXml.DATEIPFAD);
-            Element root = document.getRootElement();
-            List<Element> wareElements = root.getChildren("Ware");
+            return serviceXml2.readXml(id);
 
-            for (Element element : wareElements) {
-                String id1 = element.getAttributeValue("ID");
-                if (id1.equalsIgnoreCase(String.valueOf(id))) {
-                    String bezeichnung = element.getChildText("Bezeichnung");
-                    String beschreibung = element.getChildText("Beschreibung");
-                    String preis = element.getChildText("Preis");
-                    String besonderheitenListe = element.getChildText("Besonderheitenliste");
-
-                    Ware ware = new Ware();
-                    ware.setId(id);
-                    ware.setBezeichnung(bezeichnung);
-                    ware.setBeschreibung(beschreibung);
-                    ware.setPreis(Double.parseDouble(preis));/*
-                    ware.setBesonderheiten(besonderheitenListe);*/
-
-
-
-
-                    return ware;
-                }
-            }
-        } catch (IOException | JDOMException e) {
+        } catch (IOException | JAXBException e) {
             e.printStackTrace();
         }
         return null;
@@ -72,28 +65,23 @@ public class WareDaoXml implements IDao<IWare, Long> {
 
     @Override
     public void update(IWare objectTpUpdate) {
-
+        ServiceXml2 serviceXml2 = new ServiceXml2();
+        try {
+            serviceXml2.writeXml(objectTpUpdate);
+        } catch (JAXBException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
     public void delete(Long id) {
-/*        ServiceXml serviceXml = new ServiceXml();
-        try {
-            Document document = serviceXml.loadXmlDocument(serviceXml.DATEIPFAD);
-            Element root = document.getRootElement();
-            List<Element> vertragspartnerElements = root.getChildren("Ware");
-
-            for (Element element : vertragspartnerElements) {
-                String id1 = element.getAttributeValue("ID");
-                if (ausweisnummer.equalsIgnoreCase(id)) {
-                    root.removeContent(element);
-                    break;
-                }
-            }
-            serviceXml.saveXmlDocument(document);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }*/
+        File xmlFile = new File(String.format("\\wareXml\\ware%d.xml", id));
+        if (xmlFile.exists()) {
+            xmlFile.delete();
+        } else {
+            System.out.println("file exestiert nicht");
+        }
+        waren.removeIf(ware -> (ware.getId() == id));
     }
 
 }
