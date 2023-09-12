@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Kaufvertrag>
+    <Vertragspartner Ausweisnummer="23">
+        <Vorname>test</Vorname>
+        <Nachname>Test</Nachname>
+        <Adresse>
+            <Strasse>dreiStarß2 3</Strasse>
+            <HausNr>243</HausNr>
+            <Plz>12345</Plz>
+            <Ort>Ort</Ort>
+        </Adresse>
+    </Vertragspartner>
+    <Vertragspartner Ausweisnummer="234">
+        <Vorname>heyhey</Vorname>
+        <Nachname>HEyEy</Nachname>
+        <Adresse>
+            <Strasse>strasse</Strasse>
+            <HausNr>252</HausNr>
+            <Plz>1234</Plz>
+            <Ort>rere+</Ort>
+        </Adresse>
+    </Vertragspartner>
+    <Ware Bezeichnung="hhh">
+        <Beschreibung>dd</Beschreibung>
+        <Preis>23.0</Preis>
+        <Besonderheitenliste>
+            <Besonderheit>groß</Besonderheit>
+            <Besonderheit>klein</Besonderheit>
+        </Besonderheitenliste>
+        <Maengelliste>
+            <Mangel>eeee</Mangel>
+            <Mangel>und loch</Mangel>
+        </Maengelliste>
+    </Ware>
+    <Ware Bezeichnung="gg">
+        <Beschreibung>dd</Beschreibung>
+        <Preis>23.0</Preis>
+        <Besonderheitenliste>
+            <Besonderheit>eee</Besonderheit>
+        </Besonderheitenliste>
+        <Maengelliste>
+            <Mangel>ee</Mangel>
+        </Maengelliste>
+    </Ware>
+    <Ware Bezeichnung="dd">
+        <Beschreibung>dd</Beschreibung>
+        <Preis>34.0</Preis>
+        <Besonderheitenliste>
+            <Besonderheit>ee</Besonderheit>
+        </Besonderheitenliste>
+        <Maengelliste>
+            <Mangel>ee</Mangel>
+        </Maengelliste>
+    </Ware>
+</Kaufvertrag>
