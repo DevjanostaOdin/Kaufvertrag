@@ -9,7 +9,7 @@ import Kaufvertrag.exceptions.DaoException;
 public class DataLayerSqlite implements IDataLayer {
 
     @Override
-    public IDao<IVertragspartner, String> getDaoVertragspartner() {
+    public IDao<IVertragspartner, String> getDaoVertragspartner() throws DaoException {
         return new VertragspartnerDaoSqlite();
     }
 
