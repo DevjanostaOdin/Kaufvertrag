@@ -5,6 +5,7 @@ import Kaufvertrag.dataLayer.businessObjects.Ware;
 import Kaufvertrag.dataLayer.dataAccessObjects.IDao;
 import Kaufvertrag.exceptions.DaoException;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
@@ -117,6 +118,22 @@ public class WareService {
                 double preis = scanner.nextDouble();
                 ware.setPreis(preis);
                 scanner.nextLine();
+
+                System.out.println("Aktuelle Mängel: " + String.join(", ", ware.getMaengel()));
+                System.out.print("Geben Sie die neuen Mängel der Ware ein (durch Komma getrennt, leer lassen für keine Änderung):");
+                String maengelInput = scanner.nextLine();
+                if (!maengelInput.isEmpty()) {
+                    List<String> maengel = Arrays.asList(maengelInput.split(","));
+                    ware.setMaengel(maengel);
+                }
+
+                System.out.println("Aktuelle Besonderheiten: " + String.join(", ", ware.getBesonderheiten()));
+                System.out.print("Geben Sie die neuen Besonderheiten der Ware ein (durch Komma getrennt, leer lassen für keine Änderung):");
+                String besonderheitenInput = scanner.nextLine();
+                if (!besonderheitenInput.isEmpty()) {
+                    List<String> besonderheiten = Arrays.asList(besonderheitenInput.split(","));
+                    ware.setBesonderheiten(besonderheiten);
+                }
 
                 wareDao.update(ware);
                 System.out.println("Ware erfolgreich aktualisiert.");
