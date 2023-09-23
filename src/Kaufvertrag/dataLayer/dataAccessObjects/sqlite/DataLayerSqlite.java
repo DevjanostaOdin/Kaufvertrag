@@ -4,9 +4,9 @@ import Kaufvertrag.businessObjects.IVertragspartner;
 import Kaufvertrag.businessObjects.IWare;
 import Kaufvertrag.dataLayer.dataAccessObjects.IDao;
 import Kaufvertrag.dataLayer.dataAccessObjects.IDataLayer;
+import Kaufvertrag.exceptions.DaoException;
 
 public class DataLayerSqlite implements IDataLayer {
-    ConnectionManager connectionManager = new ConnectionManager();
 
     @Override
     public IDao<IVertragspartner, String> getDaoVertragspartner() {
@@ -14,7 +14,7 @@ public class DataLayerSqlite implements IDataLayer {
     }
 
     @Override
-    public IDao<IWare, Long> getDaoWare() {
-        return new WareDaoSqlite(connectionManager);
+    public IDao<IWare, Long> getDaoWare() throws DaoException {
+        return new WareDaoSqlite();
     }
 }

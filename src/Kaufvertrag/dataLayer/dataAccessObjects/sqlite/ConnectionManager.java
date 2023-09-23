@@ -5,15 +5,22 @@ import Kaufvertrag.exceptions.DaoException;
 import java.sql.*;
 
 public class ConnectionManager {
-
     private static final String CONNECTIONSTRING = "jdbc:sqlite:db.sqlite";
     private static Connection existingConnection;
 
-    // classLoaded wird auch nicht genutzt. Laut google wird das für ältere Java Versionen benötigt, aber jetzt nicht mehr.
     private static boolean classLoaded = false;
+    private static final String CLASSNAME = "org.sqlite.JDBC";
 
-    //CLASSNAME wird laut Klassendiagraqmm benötigt, aber nicht genutzt -> nachfragen wofür das da ist
-    private static final String CLASSNAME = "";
+    public ConnectionManager() throws DaoException {
+        if (!classLoaded) {
+            try {
+                Class.forName(CLASSNAME);
+                classLoaded = true;
+            } catch (ClassNotFoundException e) {
+                throw new DaoException("Der SQLite JDBC Treiber kann nicht geladen werden.");
+            }
+        }
+    }
 
     public Connection getNewConnection() throws DaoException {
         return connect();
@@ -25,7 +32,6 @@ public class ConnectionManager {
         }
         return existingConnection;
     }
-
 
     public void close(ResultSet resultSet, Statement statement, Connection connection) throws DaoException {
         try {
@@ -54,4 +60,5 @@ public class ConnectionManager {
         return conn;
     }
 }
+
 

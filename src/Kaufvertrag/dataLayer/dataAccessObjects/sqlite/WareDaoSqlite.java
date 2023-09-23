@@ -4,6 +4,7 @@ import Kaufvertrag.businessObjects.IWare;
 import Kaufvertrag.dataLayer.businessObjects.Ware;
 import Kaufvertrag.dataLayer.dataAccessObjects.IDao;
 import Kaufvertrag.exceptions.DaoException;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -11,10 +12,10 @@ import java.util.List;
 
 public class WareDaoSqlite implements IDao<IWare, Long> {
 
-    private final ConnectionManager connectionManager;
+    private ConnectionManager connectionManager;
 
-    public WareDaoSqlite(ConnectionManager connectionManager) {
-        this.connectionManager = connectionManager;
+    public WareDaoSqlite() throws DaoException {
+        connectionManager = new ConnectionManager();
     }
 
     @Override
@@ -25,13 +26,16 @@ public class WareDaoSqlite implements IDao<IWare, Long> {
     @Override
     public void create(IWare ware) throws DaoException {
         String sql = "INSERT INTO ware (bezeichnung, beschreibung, preis, maengel, besonderheiten) VALUES (?, ?, ?, ?, ?)";
-        try (Connection connection = connectionManager.getNewConnection();
+
+        try (Connection connection = connectionManager.getExistingConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+
             preparedStatement.setString(1, ware.getBezeichnung());
             preparedStatement.setString(2, ware.getBeschreibung());
             preparedStatement.setDouble(3, ware.getPreis());
             preparedStatement.setString(4, String.join(",", ware.getMaengel()));
             preparedStatement.setString(5, String.join(",", ware.getBesonderheiten()));
+
             preparedStatement.executeUpdate();
 
             try (ResultSet resultSet = preparedStatement.getGeneratedKeys()) {
@@ -42,54 +46,64 @@ public class WareDaoSqlite implements IDao<IWare, Long> {
             }
         } catch (SQLException e) {
             throw new DaoException("Fehler beim Erstellen der Ware in der Datenbank.");
-        }// durch die Nuzung von try-with-ressources (resultSet und prepared statements) ist kein close der connection nötig
+        }
     }
 
     @Override
     public IWare read(Long id) throws DaoException {
         String sql = "SELECT * FROM WARE WHERE id = ?";
+        IWare result = null;
+
         try (Connection connection = connectionManager.getNewConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+
             preparedStatement.setLong(1, id);
+
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 if (resultSet.next()) {
-                    return resultSetToWare(resultSet);
-                } else {
-                    return null;
+                    result = resultSetToWare(resultSet);
                 }
             }
         } catch (SQLException e) {
             throw new DaoException("Fehler beim Lesen der Ware in der Datenbank.");
         }
+
+        return result;
     }
 
     @Override
     public List<IWare> readAll() throws DaoException {
         List<IWare> waren = new ArrayList<>();
         String sql = "SELECT * FROM WARE";
+
         try (Connection connection = connectionManager.getNewConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(sql);
              ResultSet resultSet = preparedStatement.executeQuery()) {
+
             while (resultSet.next()) {
                 waren.add(resultSetToWare(resultSet));
             }
         } catch (SQLException e) {
             throw new DaoException("Fehler beim Lesen der Waren in der Datenbank.");
         }
+
         return waren;
     }
 
     @Override
     public void update(IWare ware) throws DaoException {
         String sql = "UPDATE WARE SET bezeichnung = ?, beschreibung = ?, preis = ?, maengel = ?, besonderheiten = ? WHERE id = ?";
+
         try (Connection connection = connectionManager.getNewConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+
             preparedStatement.setString(1, ware.getBezeichnung());
             preparedStatement.setString(2, ware.getBeschreibung());
             preparedStatement.setDouble(3, ware.getPreis());
             preparedStatement.setString(4, String.join(",", ware.getMaengel()));
             preparedStatement.setString(5, String.join(",", ware.getBesonderheiten()));
             preparedStatement.setLong(6, ware.getId());
+
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             throw new DaoException("Fehler beim Updaten der Ware in der Datenbank.");
