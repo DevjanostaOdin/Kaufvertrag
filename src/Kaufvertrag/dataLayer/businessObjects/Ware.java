@@ -1,8 +1,14 @@
 package Kaufvertrag.dataLayer.businessObjects;
 
 import Kaufvertrag.businessObjects.IWare;
+
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.util.List;
 
+@XmlRootElement(name = "ware")
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Ware implements IWare {
     private long id;
     private String bezeichnung;

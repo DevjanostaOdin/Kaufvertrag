@@ -3,97 +3,227 @@ package Kaufvertrag.dataLayer.dataAccessObjects.XML;
 import Kaufvertrag.businessObjects.IWare;
 import Kaufvertrag.dataLayer.businessObjects.Ware;
 import Kaufvertrag.dataLayer.dataAccessObjects.IDao;
+import Kaufvertrag.exceptions.DaoException;
 import org.jdom2.Document;
 import org.jdom2.Element;
 import org.jdom2.JDOMException;
+import org.jdom2.input.SAXBuilder;
+import org.jdom2.output.Format;
+import org.jdom2.output.XMLOutputter;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
-
 
 public class WareDaoXml implements IDao<IWare, Long> {
 
+    private static final String DATEIPFAD = ".\\XML_Persistierung.xml";
+
     @Override
     public IWare create() {
-        return new Ware();
+        return null;
     }
 
     @Override
-    public void create(IWare objectToInsert) {
-        ServiceXml serviceXml = new ServiceXml();
+    public void create(IWare ware) throws DaoException {
         try {
-            Document document = serviceXml.loadXmlDocument(serviceXml.DATEIPFAD);
-            serviceXml.addWare(objectToInsert, document);
-            serviceXml.saveXmlDocument(document);
+            Document doc = loadXmlDocument(DATEIPFAD);
+            Element root = doc.getRootElement();
+
+            if (ware.getId() == 0) {
+                ((Ware) ware).setId(generateNextId());
+            }
+
+            Element wareElement = new Element("Ware");
+            wareElement.setAttribute("id", String.valueOf(ware.getId()));
+            wareElement.addContent(new Element("Bezeichnung").setText(ware.getBezeichnung()));
+            wareElement.addContent(new Element("Beschreibung").setText(ware.getBeschreibung()));
+            wareElement.addContent(new Element("Preis").setText(String.valueOf(ware.getPreis())));
+
+            Element besonderheitenliste = new Element("Besonderheitenliste");
+            for (String item : ware.getBesonderheiten()) {
+                Element besonderheit = new Element("Besonderheit");
+                besonderheit.addContent(item);
+                besonderheitenliste.addContent(besonderheit);
+            }
+            wareElement.addContent(besonderheitenliste);
+            Element maengelListe = new Element("Maengelliste");
+            for (String item : ware.getMaengel()) {
+                Element mangel = new Element("Mangel");
+                mangel.addContent(item);
+                maengelListe.addContent(mangel);
+            }
+            wareElement.addContent(maengelListe);
+
+            root.addContent(wareElement);
+
+            saveXmlDocument(doc);
+
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new DaoException("Fehler beim Speichern der Ware" + e.getMessage());
         }
     }
 
     @Override
-    public IWare read(Long id) {
-        ServiceXml serviceXml = new ServiceXml();
+    public IWare read(Long id) throws DaoException {
         try {
-            Document document = serviceXml.loadXmlDocument(serviceXml.DATEIPFAD);
-            Element root = document.getRootElement();
-            List<Element> wareElements = root.getChildren("Ware");
-
-            for (Element element : wareElements) {
-                String id1 = element.getAttributeValue("ID");
-                if (id1.equalsIgnoreCase(String.valueOf(id))) {
-                    String bezeichnung = element.getChildText("Bezeichnung");
-                    String beschreibung = element.getChildText("Beschreibung");
-                    String preis = element.getChildText("Preis");
-                    String besonderheitenListe = element.getChildText("Besonderheitenliste");
-
+            Document doc = loadXmlDocument(DATEIPFAD);
+            Element root = doc.getRootElement();
+            for (Element wareElement : root.getChildren("Ware")) {
+                if (Long.parseLong(wareElement.getAttributeValue("id")) == id) {
                     Ware ware = new Ware();
                     ware.setId(id);
-                    ware.setBezeichnung(bezeichnung);
-                    ware.setBeschreibung(beschreibung);
-                    ware.setPreis(Double.parseDouble(preis));/*
-                    ware.setBesonderheiten(besonderheitenListe);*/
+                    ware.setBezeichnung(wareElement.getChildText("Bezeichnung"));
+                    ware.setBeschreibung(wareElement.getChildText("Beschreibung"));
+                    ware.setPreis(Double.parseDouble(wareElement.getChildText("Preis")));
 
+                    List<String> besonderheiten = new ArrayList<>();
+                    for (Element besonderheitElement : wareElement.getChild("Besonderheitenliste").getChildren("Besonderheit")) {
+                        besonderheiten.add(besonderheitElement.getText());
+                    }
+                    ware.setBesonderheiten(besonderheiten);
 
-
-
+                    List<String> maengel = new ArrayList<>();
+                    for (Element mangelElement : wareElement.getChild("Maengelliste").getChildren("Mangel")) {
+                        maengel.add(mangelElement.getText());
+                    }
+                    ware.setMaengel(maengel);
                     return ware;
                 }
             }
-        } catch (IOException | JDOMException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
+            throw new DaoException("Fehler beim Finden der Ware"+ e.getMessage());
         }
         return null;
     }
 
     @Override
-    public List<IWare> readAll() {
-        return null;
-    }
-
-    @Override
-    public void update(IWare objectTpUpdate) {
-
-    }
-
-    @Override
-    public void delete(Long id) {
-/*        ServiceXml serviceXml = new ServiceXml();
+    public List<IWare> readAll() throws DaoException {
+        List<IWare> warenList = new ArrayList<>();
         try {
-            Document document = serviceXml.loadXmlDocument(serviceXml.DATEIPFAD);
-            Element root = document.getRootElement();
-            List<Element> vertragspartnerElements = root.getChildren("Ware");
+            Document doc = loadXmlDocument(DATEIPFAD);
+            Element root = doc.getRootElement();
+            for (Element wareElement : root.getChildren("Ware")) {
+                Ware ware = new Ware();
+                if (wareElement.getAttributeValue("id") == null) {
+                    ware.setId(0);
+                }
+                ware.setId(Long.parseLong(wareElement.getAttributeValue("id")));
+                ware.setBezeichnung(wareElement.getChildText("Bezeichnung"));
+                ware.setBeschreibung(wareElement.getChildText("Beschreibung"));
+                ware.setPreis(Double.parseDouble(wareElement.getChildText("Preis")));
 
-            for (Element element : vertragspartnerElements) {
-                String id1 = element.getAttributeValue("ID");
-                if (ausweisnummer.equalsIgnoreCase(id)) {
-                    root.removeContent(element);
+                List<String> besonderheiten = new ArrayList<>();
+                for (Element besonderheitElement : wareElement.getChild("Besonderheitenliste").getChildren("Besonderheit")) {
+                    besonderheiten.add(besonderheitElement.getText());
+                }
+                ware.setBesonderheiten(besonderheiten);
+
+                List<String> maengel = new ArrayList<>();
+                for (Element mangelElement : wareElement.getChild("Maengelliste").getChildren("Mangel")) {
+                    maengel.add(mangelElement.getText());
+                }
+                ware.setMaengel(maengel);
+                warenList.add(ware);
+            }
+        } catch (Exception e) {
+            throw new DaoException("Fehler beim Abrufen der Warenliste"+ e.getMessage());
+        }
+        return warenList;
+    }
+
+    @Override
+    public void update(IWare wareToUpdate) throws DaoException {
+        try {
+            Document doc = loadXmlDocument(DATEIPFAD);
+            Element root = doc.getRootElement();
+
+            Element toUpdate = null;
+            for (Element wareElement : root.getChildren("Ware")) {
+                if (Long.parseLong(wareElement.getAttributeValue("id")) == wareToUpdate.getId()) {
+                    toUpdate = wareElement;
                     break;
                 }
             }
-            serviceXml.saveXmlDocument(document);
+
+            if (toUpdate != null) {
+                toUpdate.getChild("Bezeichnung").setText(wareToUpdate.getBezeichnung());
+                toUpdate.getChild("Beschreibung").setText(wareToUpdate.getBeschreibung());
+                toUpdate.getChild("Preis").setText(String.valueOf(wareToUpdate.getPreis()));
+
+                Element besonderheitenliste = toUpdate.getChild("Besonderheitenliste");
+                besonderheitenliste.removeContent();
+                for (String item : wareToUpdate.getBesonderheiten()) {
+                    Element besonderheit = new Element("Besonderheit");
+                    besonderheit.addContent(item);
+                    besonderheitenliste.addContent(besonderheit);
+                }
+
+                Element maengelListe = toUpdate.getChild("Maengelliste");
+                maengelListe.removeContent();
+                for (String item : wareToUpdate.getMaengel()) {
+                    Element mangel = new Element("Mangel");
+                    mangel.addContent(item);
+                    maengelListe.addContent(mangel);
+                }
+
+                saveXmlDocument(doc);
+            } else {
+                throw new DaoException("Ware mit der ID " + wareToUpdate.getId() + " nicht gefunden.");
+            }
         } catch (Exception e) {
-            e.printStackTrace();
-        }*/
+            throw new DaoException("Fehler beim Aktualisieren der Ware" + e.getMessage());
+        }
     }
 
+
+    @Override
+    public void delete(Long id) throws DaoException {
+        IWare ware = read(id);
+        try {
+            Document doc = loadXmlDocument(DATEIPFAD);
+            Element root = doc.getRootElement();
+            Element toDelete = null;
+            for (Element wareElement : root.getChildren("Ware")) {
+                if (Long.parseLong(wareElement.getAttributeValue("id")) == ware.getId()) {
+                    toDelete = wareElement;
+                    break;
+                }
+            }
+            if (toDelete != null) {
+                root.removeContent(toDelete);
+                saveXmlDocument(doc);
+            }
+        } catch (Exception e) {
+            throw new DaoException("Fehler beim Löschen der Ware" + e.getMessage());
+        }
+    }
+
+    private long generateNextId() throws DaoException {
+        List<IWare> waren = readAll();
+        long highestId = 0;
+        for (IWare ware : waren) {
+            if (ware.getId() > highestId) {
+                highestId = ware.getId();
+            }
+        }
+        return highestId + 1;
+    }
+
+    private Document loadXmlDocument(String filePath) throws JDOMException, IOException {
+        SAXBuilder saxBuilder = new SAXBuilder();
+        return saxBuilder.build(new File(filePath));
+    }
+
+    private void saveXmlDocument(Document document) throws IOException {
+        FileOutputStream fileOutputStream = new FileOutputStream(DATEIPFAD);
+
+        Format format = Format.getPrettyFormat();
+        format.setIndent("    ");
+
+        XMLOutputter xmlOutputter = new XMLOutputter(format);
+        xmlOutputter.output(document, fileOutputStream);
+    }
 }

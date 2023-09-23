@@ -20,4 +20,18 @@
             <Ort>Hamburg</Ort>
         </Adresse>
     </Vertragspartner>
+    <Ware id="1">
+        <Bezeichnung>Squishmellow</Bezeichnung>
+        <Beschreibung>Pink und Weich</Beschreibung>
+        <Preis>39.99</Preis>
+        <Besonderheitenliste>
+            <Besonderheit />
+        </Besonderheitenliste>
+        <Maengelliste>
+            <Mangel>Zerbrechlich</Mangel>
+            <Mangel>nicht puschelig</Mangel>
+            <Mangel>spitz</Mangel>
+            <Mangel>stinkt</Mangel>
+        </Maengelliste>
+    </Ware>
 </Kaufvertrag>
