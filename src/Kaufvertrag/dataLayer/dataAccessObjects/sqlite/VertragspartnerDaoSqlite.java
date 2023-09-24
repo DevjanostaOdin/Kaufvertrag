@@ -138,38 +138,34 @@ public class VertragspartnerDaoSqlite implements IDao<IVertragspartner, String> 
 
         Connection connection = getConnection();
         List<IVertragspartner> listVertragspartner = new ArrayList<>();
-        String sqlVertragspartner = "SELECT * FROM VERTRAGSPARTNER;";
-        String sqlAdresse = "SELECT * FROM ADRESSE;";
+        String sqlQuery = "SELECT v.AUSWEIS_NR, v.VORNAME, v.NACHNAME, a.STRASSE, a.HAUSNUMMER, a.PLZ, a.ORT " +
+                "FROM VERTRAGSPARTNER v " +
+                "INNER JOIN ADRESSE a ON v.ADRESSE_ID = a.Id";
 
         try {
-            ResultSet resultSetVertragspartner = connection.createStatement().executeQuery(sqlVertragspartner);
+            PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
+            ResultSet resultSet = preparedStatement.executeQuery();
 
-
-            while (resultSetVertragspartner.next()) {
+            while (resultSet.next()) {
                 IVertragspartner vertragspartner = new Vertragspartner();
                 IAdresse adresse = new Adresse();
 
-                String ausweisNr = resultSetVertragspartner.getString(1);
-                String vorname = resultSetVertragspartner.getString(2);
-                String nachname = resultSetVertragspartner.getString(3);
+                String ausweisNr = resultSet.getString("AUSWEIS_NR");
+                String vorname = resultSet.getString("VORNAME");
+                String nachname = resultSet.getString("NACHNAME");
+                String strasse = resultSet.getString("STRASSE");
+                String hausNr = resultSet.getString("HAUSNUMMER");
+                String plz = resultSet.getString("PLZ");
+                String ort = resultSet.getString("ORT");
 
                 vertragspartner.setAusweisNr(ausweisNr);
                 vertragspartner.setVorname(vorname);
                 vertragspartner.setNachname(nachname);
 
-                ResultSet resultSetAdresse = connection.createStatement().executeQuery(sqlAdresse);
-
-                while (resultSetAdresse.next()) {
-                    String strasse = resultSetAdresse.getString(2);
-                    String hausNr = resultSetAdresse.getString(3);
-                    String plz = resultSetAdresse.getString(4);
-                    String ort = resultSetAdresse.getString(5);
-
-                    adresse.setStrasse(strasse);
-                    adresse.setHausNr(hausNr);
-                    adresse.setPlz(plz);
-                    adresse.setOrt(ort);
-                }
+                adresse.setStrasse(strasse);
+                adresse.setHausNr(hausNr);
+                adresse.setPlz(plz);
+                adresse.setOrt(ort);
 
                 vertragspartner.setAdresse(adresse);
                 listVertragspartner.add(vertragspartner);
@@ -179,6 +175,7 @@ public class VertragspartnerDaoSqlite implements IDao<IVertragspartner, String> 
         }
         return listVertragspartner;
     }
+
 
 
     @Override
