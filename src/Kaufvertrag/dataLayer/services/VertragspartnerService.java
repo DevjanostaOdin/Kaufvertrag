@@ -100,7 +100,7 @@ public class VertragspartnerService {
     }
 
     private void updateVertragspartner() {
-        System.out.println("Geben Sie die Ausweisnummer des Vertragpartners ein:");
+        System.out.println("Geben Sie die Ausweisnummer des zu aktualisierenden Vertragpartners ein:");
         String ausweisnummer = scanner.next();
         scanner.nextLine();
         IVertragspartner vertragspartner;
@@ -110,10 +110,6 @@ public class VertragspartnerService {
             vertragspartner = vertragspartnerDao.read(ausweisnummer);
             adresse = vertragspartner.getAdresse();
             try {
-
-                System.out.println("Geben Sie die neue Ausweisnummer des Vertragspartners ein (aktuell: " + vertragspartner.getAusweisNr() + "):");
-                String ausweis = scanner.nextLine();
-                vertragspartner.setAusweisNr(ausweis);
 
                 System.out.println("Geben Sie den neuen Vornamen des Vertragspartners ein (aktuell: " + vertragspartner.getVorname() + "):");
                 String vorname = scanner.nextLine();

@@ -137,7 +137,8 @@ public class VertragspartnerDaoSqlite implements IDao<IVertragspartner, String> 
     @Override
     public List<IVertragspartner> readAll() throws DaoException {
         List<IVertragspartner> vertragspartners = new ArrayList<>();
-        String sql = "SELECT * FROM VERTRAGSPARTNER";
+        String sql = "SELECT TOP 1 FROM VERTRAGSPARTNER";
+        //String sql = "SELECT * FROM VERTRAGSPARTNER";
 
         try (Connection connection = connectionManager.getNewConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(sql);
@@ -164,23 +165,26 @@ public class VertragspartnerDaoSqlite implements IDao<IVertragspartner, String> 
     @Override
     public void update(IVertragspartner objectToUpdate) throws DaoException {
         Connection connection = getConnection();
-
-        String sqlUpdateAdresse = "UPDATE ADRESSE" +
-                " SET STRASSE = \'" + objectToUpdate.getAdresse().getStrasse() + "\'," +
-                " HAUSNUMMER = \'" + objectToUpdate.getAdresse().getHausNr() + "\', " +
-                " PLZ = \'" + objectToUpdate.getAdresse().getPlz() + "\', " +
-                " ORT = \'" + objectToUpdate.getAdresse().getOrt() + "\'" +
-                " WHERE ID = 24";
+        String sqlReadPerson = "SELECT * FROM VERTRAGSPARTNER WHERE AUSWEIS_NR = \'" + objectToUpdate.getAusweisNr() + "\'";
 
         String sqlUpdatePerson = "UPDATE VERTRAGSPARTNER" +
                 " SET AUSWEIS_NR = \'" + objectToUpdate.getAusweisNr() + "\'," +
                 " VORNAME = \'" + objectToUpdate.getVorname() + "\'," +
                 " NACHNAME = \'" + objectToUpdate.getNachname() + "\'" +
-                " WHERE ID = 20";
+                " WHERE AUSWEIS_NR = \'" + objectToUpdate.getAusweisNr() + "\'";
 
-        System.out.println(sqlUpdateAdresse);
-        System.out.println(sqlUpdatePerson);
+
         try {
+            ResultSet resultSetPerson = connection.createStatement().executeQuery(sqlReadPerson);
+            int adressId = resultSetPerson.getInt("ADRESSE_ID");
+
+            String sqlUpdateAdresse = "UPDATE ADRESSE" +
+                    " SET STRASSE = \'" + objectToUpdate.getAdresse().getStrasse() + "\'," +
+                    " HAUSNUMMER = \'" + objectToUpdate.getAdresse().getHausNr() + "\', " +
+                    " PLZ = \'" + objectToUpdate.getAdresse().getPlz() + "\', " +
+                    " ORT = \'" + objectToUpdate.getAdresse().getOrt() + "\'" +
+                    " WHERE ID = \'" + adressId + "\'";
+
             connection.createStatement().execute(sqlUpdateAdresse);
             connection.createStatement().execute(sqlUpdatePerson);
         } catch (SQLException e) {
