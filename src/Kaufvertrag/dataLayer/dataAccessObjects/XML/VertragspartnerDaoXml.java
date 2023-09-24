@@ -113,35 +113,8 @@ public class VertragspartnerDaoXml implements IDao<IVertragspartner, String> {
 
         String id = objectToUpdate.getAusweisNr();
         delete(id);
-        Scanner scanner = new Scanner(System.in);
-
-        System.out.println("Geben Sie den neuen Vornamen ein:");
-        String vornameUpdated = scanner.nextLine();
-        System.out.println("Geben Sie den neuen Nachnamen ein:");
-        String nachnameUpdated = scanner.nextLine();
-        System.out.println("Geben Sie die neue Strasse ein:");
-        String strasseUpdated = scanner.nextLine();
-        System.out.println("Geben Sie die neue Hausnummer ein:");
-        String hausnrUpdated = scanner.nextLine();
-        System.out.println("Geben Sie die neue PLZ ein:");
-        String plzUpdated = scanner.nextLine();
-        System.out.println("Geben Sie den neuen Ort ein:");
-        String ortUpdated = scanner.nextLine();
-
-        IAdresse adresse = new Adresse();
-
-        objectToUpdate.setAusweisNr(id);
-        objectToUpdate.setVorname(vornameUpdated);
-        objectToUpdate.setNachname(nachnameUpdated);
-
-        adresse.setStrasse(strasseUpdated);
-        adresse.setHausNr(hausnrUpdated);
-        adresse.setPlz(plzUpdated);
-        adresse.setOrt(ortUpdated);
-
-        objectToUpdate.setAdresse(adresse);
-
         create(objectToUpdate);
+
     }
 
     @Override

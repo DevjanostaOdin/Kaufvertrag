@@ -1,25 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Kaufvertrag>
-    <Vertragspartner Ausweisnummer="23">
-        <Vorname>test</Vorname>
-        <Nachname>Test</Nachname>
-        <Adresse>
-            <Strasse>dreiStarß2 3</Strasse>
-            <HausNr>243</HausNr>
-            <Plz>12345</Plz>
-            <Ort>Ort</Ort>
-        </Adresse>
-    </Vertragspartner>
-    <Vertragspartner Ausweisnummer="234">
-        <Vorname>heyhey</Vorname>
-        <Nachname>HEyEy</Nachname>
-        <Adresse>
-            <Strasse>strasse</Strasse>
-            <HausNr>252</HausNr>
-            <Plz>1234</Plz>
-            <Ort>rere+</Ort>
-        </Adresse>
-    </Vertragspartner>
     <Ware Bezeichnung="hhh">
         <Beschreibung>dd</Beschreibung>
         <Preis>23.0</Preis>
@@ -52,4 +32,14 @@
             <Mangel>ee</Mangel>
         </Maengelliste>
     </Ware>
+    <Vertragspartner Ausweisnummer="001">
+        <Vorname>Luis</Vorname>
+        <Nachname>Figo</Nachname>
+        <Adresse>
+            <Strasse>barcastr</Strasse>
+            <HausNr>2</HausNr>
+            <Plz>11222</Plz>
+            <Ort>Hambrug</Ort>
+        </Adresse>
+    </Vertragspartner>
 </Kaufvertrag>

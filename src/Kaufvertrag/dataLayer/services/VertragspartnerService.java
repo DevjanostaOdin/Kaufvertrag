@@ -53,7 +53,8 @@ public class VertragspartnerService {
 
         System.out.println("Geben Sie die Ausweisnummer ein:");
         String ausweisnummer = scanner.next();
-        boolean vertragspartnerExists = false;
+
+       /* boolean vertragspartnerExists = false;
         while (!vertragspartnerExists) {
             try {
                 vertragspartner = vertragspartnerDao.read(ausweisnummer);
@@ -68,7 +69,8 @@ public class VertragspartnerService {
             } catch (DaoException e) {
                 e.printStackTrace();
             }
-        }
+        }*/
+
         scanner.nextLine();
         System.out.print("Geben Sie den Vornamen ein:");
         String vorname = scanner.nextLine();
@@ -125,6 +127,9 @@ public class VertragspartnerService {
     private void updateVertragspartner() {
         System.out.println("Geben Sie die Ausweisnummer des zu aktualisierenden Vertragpartners ein:");
         String ausweisnummer = scanner.next();
+
+
+
         scanner.nextLine();
         IVertragspartner vertragspartner;
         IAdresse adresse;
