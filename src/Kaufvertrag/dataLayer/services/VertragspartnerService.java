@@ -23,9 +23,9 @@ public class VertragspartnerService {
         while (true) {
             System.out.println("Bitte wählen Sie eine Option:");
             System.out.println("1. Vertragspartner hinzufügen");
-            System.out.println("2. Vertragspartner nach ID auslesen");
+            System.out.println("2. Vertragspartner nach Ausweisnummer auslesen");
             System.out.println("3. Vertragspartner bearbeiten");
-            System.out.println("4. Vertragspartner nach ID löschen");
+            System.out.println("4. Vertragspartner nach Ausweisnummer löschen");
             System.out.println("5. Alle Vertragspartner auslesen");
             System.out.println("6. Programm beenden");
 
@@ -83,7 +83,7 @@ public class VertragspartnerService {
     }
 
     private void displayVertragspartner() {
-        System.out.println("Geben Sie die ID des Vertragpartners ein:");
+        System.out.println("Geben Sie die Ausweisnummer des Vertragpartners ein:");
         String id = scanner.next();
         scanner.nextLine();
 
@@ -92,7 +92,7 @@ public class VertragspartnerService {
             if (vertragspartner != null) {
                 System.out.println(vertragspartner);
             } else {
-                System.out.println("Vertragspartner mit ID " + id + " wurde nicht gefunden.");
+                System.out.println("Vertragspartner mit dem Ausweisnummer " + id + " wurde nicht gefunden.");
             }
         } catch (DaoException e) {
             System.out.println("Fehler beim Abrufen des Vertragspartners: " + e.getMessage());
@@ -100,25 +100,60 @@ public class VertragspartnerService {
     }
 
     private void updateVertragspartner() {
-        System.out.println("Geben Sie die ID des Vertragpartners ein:");
-        String id = scanner.next();
+        System.out.println("Geben Sie die Ausweisnummer des Vertragpartners ein:");
+        String ausweisnummer = scanner.next();
         scanner.nextLine();
         IVertragspartner vertragspartner;
+        IAdresse adresse;
 
         try {
-            vertragspartner = vertragspartnerDao.read(id);
+            vertragspartner = vertragspartnerDao.read(ausweisnummer);
+            adresse = vertragspartner.getAdresse();
             try {
+
+                System.out.println("Geben Sie die neue Ausweisnummer des Vertragspartners ein (aktuell: " + vertragspartner.getAusweisNr() + "):");
+                String ausweis = scanner.nextLine();
+                vertragspartner.setAusweisNr(ausweis);
+
+                System.out.println("Geben Sie den neuen Vornamen des Vertragspartners ein (aktuell: " + vertragspartner.getVorname() + "):");
+                String vorname = scanner.nextLine();
+                vertragspartner.setVorname(vorname);
+
+                System.out.println("Geben Sie den neuen Nachnamen des Vertragspartners ein (aktuell: " + vertragspartner.getNachname() + "):");
+                String nachname = scanner.nextLine();
+                vertragspartner.setNachname(nachname);
+
+                System.out.println("Geben Sie die neue Straße ein (aktuell: " + adresse.getStrasse() + "):");
+                String strasse = scanner.nextLine();
+                adresse.setStrasse(strasse);
+
+                System.out.println("Geben Sie die neue Hausnummer ein (aktuell: " + adresse.getHausNr() + "):");
+                String hausnr = scanner.nextLine();
+                adresse.setHausNr(hausnr);
+
+                System.out.println("Geben Sie die neue Postleitzahl ein (aktuell: " + adresse.getPlz() + "):");
+                String plz = scanner.nextLine();
+                adresse.setPlz(plz);
+
+                System.out.println("Geben Sie den neuen Ort ein (aktuell: " + adresse.getOrt() + "):");
+                String ort = scanner.nextLine();
+                adresse.setOrt(ort);
+
+                vertragspartner.setAdresse(adresse);
+
                 vertragspartnerDao.update(vertragspartner);
+
+
             } catch (DaoException e) {
                 System.out.println("Fehler beim Bearbeiten des Vertragspartners " + e.getMessage());
             }
         } catch (DaoException e) {
-            System.out.println("Vertragspartner mit ID " + id + " wurde nicht gefunden." + e.getMessage());
+            System.out.println("Vertragspartner mit Ausweisnummer " + ausweisnummer + " wurde nicht gefunden." + e.getMessage());
         }
     }
 
     private void deleteVertragspartner() {
-        System.out.println("Geben Sie die ID des Vertragpartners ein:");
+        System.out.println("Geben Sie die Ausweisnummer des Vertragpartners ein:");
         String id = scanner.next();
         scanner.nextLine();
 

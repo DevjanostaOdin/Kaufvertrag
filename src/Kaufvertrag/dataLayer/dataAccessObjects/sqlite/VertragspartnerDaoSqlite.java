@@ -97,13 +97,14 @@ public class VertragspartnerDaoSqlite implements IDao<IVertragspartner, String> 
         IVertragspartner vertragspartner = new Vertragspartner();
         IAdresse adresse = new Adresse();
 
-        String sqlReadPerson = "SELECT * FROM VERTRAGSPARTNER WHERE ID = " + id;
+        String sqlReadPerson = "SELECT * FROM VERTRAGSPARTNER WHERE AUSWEIS_NR = \'" + id + "\'";
 
         String sqlReadAdresse;
         try {
             ResultSet resultSetPerson = connection.createStatement().executeQuery(sqlReadPerson);
 
             int adressId = resultSetPerson.getInt("ADRESSE_ID");
+
             sqlReadAdresse= "SELECT * FROM ADRESSE WHERE ID = " + adressId;
             ResultSet resultSetAdresse = connection.createStatement().executeQuery(sqlReadAdresse);
 
@@ -163,18 +164,19 @@ public class VertragspartnerDaoSqlite implements IDao<IVertragspartner, String> 
     @Override
     public void update(IVertragspartner objectToUpdate) throws DaoException {
         Connection connection = getConnection();
+
         String sqlUpdateAdresse = "UPDATE ADRESSE" +
                 " SET STRASSE = \'" + objectToUpdate.getAdresse().getStrasse() + "\'," +
                 " HAUSNUMMER = \'" + objectToUpdate.getAdresse().getHausNr() + "\', " +
                 " PLZ = \'" + objectToUpdate.getAdresse().getPlz() + "\', " +
                 " ORT = \'" + objectToUpdate.getAdresse().getOrt() + "\'" +
-                " WHERE ID = " +  " ;";
+                " WHERE ID = 24";
 
         String sqlUpdatePerson = "UPDATE VERTRAGSPARTNER" +
                 " SET AUSWEIS_NR = \'" + objectToUpdate.getAusweisNr() + "\'," +
                 " VORNAME = \'" + objectToUpdate.getVorname() + "\'," +
                 " NACHNAME = \'" + objectToUpdate.getNachname() + "\'" +
-                " WHERE ID = " +  " ;";
+                " WHERE ID = 20";
 
         System.out.println(sqlUpdateAdresse);
         System.out.println(sqlUpdatePerson);
@@ -199,8 +201,8 @@ public class VertragspartnerDaoSqlite implements IDao<IVertragspartner, String> 
         Connection connection = getConnection();
         String sqlDeleteAdresse;
 
-        String sqlAdressId = "SELECT ADRESSE_ID FROM VERTRAGSPARTNER WHERE Id = " + id;
-        String sqlDeleteVertragspartner = "DELETE FROM VERTRAGSPARTNER WHERE Id = " + id;
+        String sqlAdressId = "SELECT ADRESSE_ID FROM VERTRAGSPARTNER WHERE AUSWEIS_NR = \'" + id + "\'";
+        String sqlDeleteVertragspartner = "DELETE FROM VERTRAGSPARTNER WHERE AUSWEIS_NR = \'" + id + "\'";
         try {
             ResultSet resultSetPerson = connection.createStatement().executeQuery(sqlAdressId);
             int adressId = resultSetPerson.getInt("ADRESSE_ID");
