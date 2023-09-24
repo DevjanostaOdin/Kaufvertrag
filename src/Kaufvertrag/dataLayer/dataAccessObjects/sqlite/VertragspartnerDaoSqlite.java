@@ -62,7 +62,6 @@ public class VertragspartnerDaoSqlite implements IDao<IVertragspartner, String> 
 
         try {
             ResultSet resultSetAdressId = connection.createStatement().executeQuery(sqlAdressId);
-            System.out.println(resultSetAdressId.getInt("Id"));
             adressId = resultSetAdressId.getInt("Id");
 
             sqlPerson = String.format(sqlTemplatePerson,
@@ -136,7 +135,28 @@ public class VertragspartnerDaoSqlite implements IDao<IVertragspartner, String> 
 
     @Override
     public List<IVertragspartner> readAll() throws DaoException {
+
         List<IVertragspartner> vertragspartners = new ArrayList<>();
+        String sql = "SELECT * FROM VERTRAGSPARTNER";
+
+        try {
+
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if   (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+
+
+        /*List<IVertragspartner> vertragspartners = new ArrayList<>();
         String sql = "SELECT TOP 1 FROM VERTRAGSPARTNER";
         //String sql = "SELECT * FROM VERTRAGSPARTNER";
 
@@ -151,7 +171,7 @@ public class VertragspartnerDaoSqlite implements IDao<IVertragspartner, String> 
             throw new DaoException("Fehler beim Lesen der Vertragspartner in der Datenbank.");
         }
 
-        return vertragspartners;
+        return vertragspartners;*/
     }
 
     private IVertragspartner resultSetVertragspartner(ResultSet resultSet) throws SQLException {

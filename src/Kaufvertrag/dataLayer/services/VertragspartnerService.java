@@ -7,6 +7,7 @@ import Kaufvertrag.dataLayer.businessObjects.Vertragspartner;
 import Kaufvertrag.dataLayer.dataAccessObjects.IDao;
 import Kaufvertrag.exceptions.DaoException;
 
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Scanner;
 
@@ -52,6 +53,22 @@ public class VertragspartnerService {
 
         System.out.println("Geben Sie die Ausweisnummer ein:");
         String ausweisnummer = scanner.next();
+        boolean vertragspartnerExists = false;
+        while (!vertragspartnerExists) {
+            try {
+                vertragspartner = vertragspartnerDao.read(ausweisnummer);
+                String ausweisNrOfExistingVertragspartner = vertragspartner.getAusweisNr();
+                if (ausweisNrOfExistingVertragspartner != null) {
+                    System.out.println("Diese Ausweisnummer existiert schon! Bitte eine andere Ausweisnummer eingeben:");
+                    ausweisnummer = scanner.next();
+                    vertragspartner = null;
+                } else {
+                    vertragspartnerExists = true;
+                }
+            } catch (DaoException e) {
+                e.printStackTrace();
+            }
+        }
         scanner.nextLine();
         System.out.print("Geben Sie den Vornamen ein:");
         String vorname = scanner.nextLine();
@@ -63,8 +80,14 @@ public class VertragspartnerService {
         String hausnr = scanner.nextLine();
         System.out.print("Geben Sie die PLZ ein:");
         String plz = scanner.nextLine();
+        while (!(plz.length() == 5)) {
+            System.out.println("Die Postleitzahl muss 5 Ziffern betragen! Bitte geben Sie erneut die PLZ ein:");
+            plz = scanner.nextLine();
+        }
+
         System.out.print("Geben Sie den Ort ein:");
         String ort = scanner.nextLine();
+        System.out.println("");
 
         vertragspartner.setAusweisNr(ausweisnummer);
         vertragspartner.setVorname(vorname);
@@ -129,6 +152,10 @@ public class VertragspartnerService {
 
                 System.out.println("Geben Sie die neue Postleitzahl ein (aktuell: " + adresse.getPlz() + "):");
                 String plz = scanner.nextLine();
+                while (!(plz.length() == 5)) {
+                    System.out.println("Die Postleitzahl muss 5 Ziffern betragen! Bitte geben Sie erneut die PLZ ein:");
+                    plz = scanner.nextLine();
+                }
                 adresse.setPlz(plz);
 
                 System.out.println("Geben Sie den neuen Ort ein (aktuell: " + adresse.getOrt() + "):");
