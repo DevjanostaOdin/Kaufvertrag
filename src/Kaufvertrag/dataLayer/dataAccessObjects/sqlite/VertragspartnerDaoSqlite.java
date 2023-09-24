@@ -136,51 +136,50 @@ public class VertragspartnerDaoSqlite implements IDao<IVertragspartner, String> 
     @Override
     public List<IVertragspartner> readAll() throws DaoException {
 
-        List<IVertragspartner> vertragspartners = new ArrayList<>();
-        String sql = "SELECT * FROM VERTRAGSPARTNER";
+        Connection connection = getConnection();
+        List<IVertragspartner> listVertragspartner = new ArrayList<>();
+        String sqlVertragspartner = "SELECT * FROM VERTRAGSPARTNER;";
+        String sqlAdresse = "SELECT * FROM ADRESSE;";
 
         try {
+            ResultSet resultSetVertragspartner = connection.createStatement().executeQuery(sqlVertragspartner);
 
 
+            while (resultSetVertragspartner.next()) {
+                IVertragspartner vertragspartner = new Vertragspartner();
+                IAdresse adresse = new Adresse();
+
+                String ausweisNr = resultSetVertragspartner.getString(1);
+                String vorname = resultSetVertragspartner.getString(2);
+                String nachname = resultSetVertragspartner.getString(3);
+
+                vertragspartner.setAusweisNr(ausweisNr);
+                vertragspartner.setVorname(vorname);
+                vertragspartner.setNachname(nachname);
+
+                ResultSet resultSetAdresse = connection.createStatement().executeQuery(sqlAdresse);
+
+                while (resultSetAdresse.next()) {
+                    String strasse = resultSetAdresse.getString(2);
+                    String hausNr = resultSetAdresse.getString(3);
+                    String plz = resultSetAdresse.getString(4);
+                    String ort = resultSetAdresse.getString(5);
+
+                    adresse.setStrasse(strasse);
+                    adresse.setHausNr(hausNr);
+                    adresse.setPlz(plz);
+                    adresse.setOrt(ort);
+                }
+
+                vertragspartner.setAdresse(adresse);
+                listVertragspartner.add(vertragspartner);
+            }
         } catch (SQLException e) {
             e.printStackTrace();
-        } finally {
-            if   (connection != null) {
-                try {
-                    connection.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
         }
-
-
-
-        /*List<IVertragspartner> vertragspartners = new ArrayList<>();
-        String sql = "SELECT TOP 1 FROM VERTRAGSPARTNER";
-        //String sql = "SELECT * FROM VERTRAGSPARTNER";
-
-        try (Connection connection = connectionManager.getNewConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(sql);
-             ResultSet resultSet = preparedStatement.executeQuery()) {
-
-            while (resultSet.next()) {
-                vertragspartners.add(resultSetVertragspartner(resultSet));
-            }
-        } catch (SQLException e) {
-            throw new DaoException("Fehler beim Lesen der Vertragspartner in der Datenbank.");
-        }
-
-        return vertragspartners;*/
+        return listVertragspartner;
     }
 
-    private IVertragspartner resultSetVertragspartner(ResultSet resultSet) throws SQLException {
-        Vertragspartner vertragspartner = new Vertragspartner(resultSet.getString("VORNAME"), resultSet.getString("NACHNAME"));
-        vertragspartner.setAusweisNr(resultSet.getString("AUSWEISNUMMER"));
-        Adresse adresse = new Adresse(resultSet.getString("STRASSE"), resultSet.getString("HAUSNUMMER"), resultSet.getString("PLZ"), resultSet.getString("ORT"));
-        vertragspartner.setAdresse(adresse);
-        return vertragspartner;
-    }
 
     @Override
     public void update(IVertragspartner objectToUpdate) throws DaoException {
