@@ -1,7 +1,6 @@
 package Kaufvertrag.dataLayer.dataAccessObjects.XML;
 
 import Kaufvertrag.businessObjects.IVertragspartner;
-import Kaufvertrag.businessObjects.IWare;
 import org.jdom2.Document;
 import org.jdom2.Element;
 import org.jdom2.JDOMException;
@@ -81,33 +80,4 @@ public class ServiceXml {
         xmlOutputter.output(document, fileOutputStream);
     }
 
-    public void addWare(IWare ware, Document document) {
-        Element root = document.getRootElement();
-
-        Element zuVerkaufendeWare = new Element("Ware");
-        zuVerkaufendeWare.setAttribute("Ausweisnummer", String.valueOf(ware.getId()));
-
-        zuVerkaufendeWare.setAttribute("Bezeichnung", ware.getBezeichnung());
-        Element beschreibung = new Element("Beschreibung");
-        beschreibung.addContent(ware.getBeschreibung());
-        zuVerkaufendeWare.addContent(beschreibung);
-        Element preis = new Element("Preis");
-        preis.addContent(String.valueOf(ware.getPreis()));
-        zuVerkaufendeWare.addContent(preis);
-        Element besonderheitenliste = new Element("Besonderheitenliste");
-        for (var item : ware.getBesonderheiten()) {
-            Element besonderheit = new Element("Besonderheit");
-            besonderheit.addContent(item);
-            besonderheitenliste.addContent(besonderheit);
-        }
-        zuVerkaufendeWare.addContent(besonderheitenliste);
-        Element maengelListe = new Element("Maengelliste");
-        for (var item : ware.getMaengel()) {
-            Element mangel = new Element("Mangel");
-            mangel.addContent(item);
-            maengelListe.addContent(mangel);
-        }
-        zuVerkaufendeWare.addContent(maengelListe);
-        root.addContent(zuVerkaufendeWare);
-    }
 }
