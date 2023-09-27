@@ -70,12 +70,17 @@ public class ServiceXml {
         root.addContent(person);
     }
 
-    public Document loadXmlDocument(String filePath) throws JDOMException, IOException {
+    public Document loadXmlDocument(String filePath) throws JDOMException, IOException, DaoException {
+        try {
         SAXBuilder saxBuilder = new SAXBuilder();
         return saxBuilder.build(filePath);
+        } catch (JDOMException | IOException e) {
+            throw new DaoException("Fehler beim Laden des XML-Dokuments.");
+        }
     }
 
-    public void saveXmlDocument(Document document) throws IOException {
+    public void saveXmlDocument(Document document) throws DaoException {
+        try {
         FileOutputStream fileOutputStream = new FileOutputStream(DATEIPFAD);
 
         Format format = Format.getPrettyFormat();
@@ -83,6 +88,8 @@ public class ServiceXml {
 
         XMLOutputter xmlOutputter = new XMLOutputter(format);
         xmlOutputter.output(document, fileOutputStream);
+        } catch (IOException e) {
+            throw new DaoException("Fehler beim Speichern des XML-Dokuments.");
+        }
     }
-
 }

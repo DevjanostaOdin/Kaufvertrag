@@ -4,6 +4,7 @@ import Kaufvertrag.businessObjects.IVertragspartner;
 import Kaufvertrag.dataLayer.businessObjects.Adresse;
 import Kaufvertrag.dataLayer.businessObjects.Vertragspartner;
 import Kaufvertrag.dataLayer.dataAccessObjects.IDao;
+import Kaufvertrag.exceptions.DaoException;
 import org.jdom2.Document;
 import org.jdom2.Element;
 import org.jdom2.JDOMException;
@@ -60,7 +61,7 @@ public class VertragspartnerDaoXml implements IDao<IVertragspartner, String> {
                     return vertragspartner;
                 }
             }
-        } catch (IOException | JDOMException e) {
+        } catch (IOException | JDOMException | DaoException e) {
             e.printStackTrace();
         }
         return null;
@@ -100,7 +101,7 @@ public class VertragspartnerDaoXml implements IDao<IVertragspartner, String> {
 
                 vertragspartnerList.add(vertragspartner);
             }
-        } catch (IOException | JDOMException e) {
+        } catch (IOException | JDOMException | DaoException e) {
             e.printStackTrace();
         }
         return vertragspartnerList;

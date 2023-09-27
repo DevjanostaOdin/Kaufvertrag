@@ -91,15 +91,18 @@ public class VertragspartnerService {
     private void displayVertragspartner() {
         System.out.println("Geben Sie die Ausweisnummer des Vertragpartners ein:");
         String id = scanner.next();
+        String errorMessage = "Vertragspartner mit der Ausweisnummer \"" + id + "\" wurde nicht gefunden.";
         scanner.nextLine();
 
         try {
             IVertragspartner vertragspartner = vertragspartnerDao.read(id);
             if (vertragspartner != null) {
                 System.out.println(vertragspartner);
+            } else {
+                System.out.println(errorMessage);
             }
         } catch (DaoException | NullPointerException e) {
-            System.out.println("Vertragspartner mit der Ausweisnummer \"" + id + "\" wurde nicht gefunden.");
+            System.out.println(errorMessage);
         }
     }
 
