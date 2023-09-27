@@ -1,6 +1,7 @@
 package Kaufvertrag.dataLayer.dataAccessObjects.XML;
 
 import Kaufvertrag.businessObjects.IVertragspartner;
+import Kaufvertrag.exceptions.DaoException;
 import org.jdom2.Document;
 import org.jdom2.Element;
 import org.jdom2.JDOMException;
@@ -14,19 +15,23 @@ import java.io.IOException;
 public class ServiceXml {
     public final String DATEIPFAD = ".\\XML_Persistierung.xml";
 
-    public void createXmlDocument() throws IOException {
-        Document document = new Document();
-        Element root = new Element("Kaufvertrag");
-        document.setRootElement(root);
+    public void createXmlDocument() throws DaoException, IOException {
+        try {
+            Document document = new Document();
+            Element root = new Element("Kaufvertrag");
+            document.setRootElement(root);
 
-        String datei = DATEIPFAD;
-        FileOutputStream fileOutputStream = new FileOutputStream(datei);
+            String datei = DATEIPFAD;
+            FileOutputStream fileOutputStream = new FileOutputStream(datei);
 
-        Format format = Format.getPrettyFormat();
-        format.setIndent("    ");
+            Format format = Format.getPrettyFormat();
+            format.setIndent("    ");
 
-        XMLOutputter xmlOutputter = new XMLOutputter(format);
-        xmlOutputter.output(document, fileOutputStream);
+            XMLOutputter xmlOutputter = new XMLOutputter(format);
+            xmlOutputter.output(document, fileOutputStream);
+        } catch (IOException e) {
+            throw new DaoException("Fehler beim Erstellen des XML-Dokuments.");
+        }
     }
 
     public void addVertragspartner(IVertragspartner vertragspartner, Document document) {

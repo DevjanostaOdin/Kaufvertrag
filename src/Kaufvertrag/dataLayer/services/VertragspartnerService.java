@@ -6,6 +6,7 @@ import Kaufvertrag.dataLayer.businessObjects.Adresse;
 import Kaufvertrag.dataLayer.businessObjects.Vertragspartner;
 import Kaufvertrag.dataLayer.dataAccessObjects.IDao;
 import Kaufvertrag.exceptions.DaoException;
+
 import java.util.List;
 import java.util.Scanner;
 
@@ -19,14 +20,15 @@ public class VertragspartnerService {
     }
 
     public void vertragspartnerOptionen() {
-        while (true) {
+        boolean weiterImUntermenue = true;
+        while (weiterImUntermenue) {
             System.out.println("Bitte wählen Sie eine Option:");
             System.out.println("1. Vertragspartner hinzufügen");
             System.out.println("2. Vertragspartner nach Ausweisnummer auslesen");
             System.out.println("3. Vertragspartner bearbeiten");
             System.out.println("4. Vertragspartner nach Ausweisnummer löschen");
             System.out.println("5. Alle Vertragspartner auslesen");
-            System.out.println("6. Programm beenden");
+            System.out.println("6. Ins Hauptmenü zurück ");
 
             int choice = scanner.nextInt();
             scanner.nextLine();
@@ -37,13 +39,13 @@ public class VertragspartnerService {
                 case 3 -> updateVertragspartner();
                 case 4 -> deleteVertragspartner();
                 case 5 -> displayAllVertragspartner();
-                case 6 -> {
-                    return;
-                }
+                case 6 -> weiterImUntermenue = false;
+
                 default -> System.out.println("Ungültige Auswahl. Bitte erneut versuchen.");
             }
         }
     }
+
 
     private void addVertragspartner() {
         IVertragspartner vertragspartner = new Vertragspartner();

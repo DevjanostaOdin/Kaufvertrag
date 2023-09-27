@@ -22,7 +22,7 @@ public interface IDao<T, K> {
     /**
      * Function name: create
      *
-     * @params objectToInsert (Das einzufügende Objekt vom Typ T.)
+     * @param objectToInsert (Das einzufügende Objekt vom Typ T.)
      * @throws DaoException Gibt eine Fehlermeldung aus, wenn ein Fehler beim Einfügen auftritt.
      *
      * Inside the function: Fügt ein spezifisches Objekt vom Typ T in die Datenquelle ein.
@@ -32,7 +32,7 @@ public interface IDao<T, K> {
     /**
      * Function name: read
      *
-     * @params id (Die ID vom Typ K des zu lesenden Objekts.)
+     * @param id (Die ID vom Typ K des zu lesenden Objekts.)
      * @return (T) Das gelesene Objekt vom Typ T.
      * @throws DaoException Gibt eine Fehlermeldung aus, wenn ein Fehler beim Lesen auftritt.
      *
@@ -53,7 +53,7 @@ public interface IDao<T, K> {
     /**
      * Function name: update
      *
-     * @params objectToUpdate (Das zu aktualisierende Objekt vom Typ T.)
+     * @param objectToUpdate (Das zu aktualisierende Objekt vom Typ T.)
      * @throws DaoException Gibt eine Fehlermeldung aus, wenn ein Fehler beim Aktualisieren auftritt.
      *
      * Inside the function: Aktualisiert ein spezifisches Objekt vom Typ T in der Datenquelle.
@@ -63,7 +63,7 @@ public interface IDao<T, K> {
     /**
      * Function name: delete
      *
-     * @params id (Die ID vom Typ K des zu löschenden Objekts.)
+     * @param id (Die ID vom Typ K des zu löschenden Objekts.)
      * @throws DaoException Gibt eine Fehlermeldung aus, wenn ein Fehler beim Löschen auftritt.
      *
      * Inside the function: Löscht ein Objekt vom Typ T basierend auf seiner ID vom Typ K aus der Datenquelle.

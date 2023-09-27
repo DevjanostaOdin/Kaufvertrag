@@ -3,6 +3,8 @@ package Kaufvertrag.dataLayer.dataAccessObjects;
 import Kaufvertrag.dataLayer.dataAccessObjects.XML.DataLayerXml;
 import Kaufvertrag.dataLayer.dataAccessObjects.XML.ServiceXml;
 import Kaufvertrag.dataLayer.dataAccessObjects.sqlite.DataLayerSqlite;
+import Kaufvertrag.exceptions.DaoException;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.Scanner;
@@ -10,7 +12,8 @@ import java.util.Scanner;
 public class DataLayerManager {
     private static DataLayerManager instance;
 
-    private DataLayerManager() {}
+    private DataLayerManager() {
+    }
 
     public static DataLayerManager getInstance() {
         if (instance == null) {
@@ -19,7 +22,7 @@ public class DataLayerManager {
         return instance;
     }
 
-    public IDataLayer getDataLayer() {
+    public IDataLayer getDataLayer() throws DaoException {
         String type;
         do {
             type = readPersistenceType();
@@ -40,8 +43,7 @@ public class DataLayerManager {
                 System.out.println("Ungültige Eingabe. Bitte geben Sie 'sqlite' oder 'xml' ein.");
             }
         } while (!type.equalsIgnoreCase("sqlite") && !type.equalsIgnoreCase("xml"));
-        // return null wird nie erreicht, aber return wird benötigt für den Compiler
-        return null;
+        throw new DaoException("Unbekannter Persistenztyp.");
     }
 
     private String readPersistenceType() {

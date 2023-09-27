@@ -21,14 +21,15 @@ public class WareService {
     }
 
     public void wareOptionen() {
-        while (true) {
+        boolean weiterImUntermenue = true;
+        while (weiterImUntermenue) {
             System.out.println("Bitte wählen Sie eine Option:");
             System.out.println("1. Ware hinzufügen");
             System.out.println("2. Ware anzeigen");
             System.out.println("3. Ware bearbeiten");
             System.out.println("4. Ware löschen");
             System.out.println("5. Alle Waren anzeigen");
-            System.out.println("6. Programm beenden");
+            System.out.println("6. Ins Hauptmenü zurück");
 
             int choice = scanner.nextInt();
             scanner.nextLine();
@@ -39,9 +40,7 @@ public class WareService {
                 case 3 -> updateWare();
                 case 4 -> deleteWare();
                 case 5 -> displayAllWaren();
-                case 6 -> {
-                    return;
-                }
+                case 6 -> weiterImUntermenue = false;
                 default -> System.out.println("Ungültige Auswahl. Bitte erneut versuchen.");
             }
         }

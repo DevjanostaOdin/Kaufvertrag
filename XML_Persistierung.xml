@@ -56,4 +56,16 @@
             <Mangel>zu wenig Kakao</Mangel>
         </Maengelliste>
     </Ware>
+    <Ware id="3">
+        <Bezeichnung>testware</Bezeichnung>
+        <Beschreibung>test ware2</Beschreibung>
+        <Preis>1234.0</Preis>
+        <Besonderheitenliste>
+            <Besonderheit>bla</Besonderheit>
+            <Besonderheit>bla</Besonderheit>
+        </Besonderheitenliste>
+        <Maengelliste>
+            <Mangel />
+        </Maengelliste>
+    </Ware>
 </Kaufvertrag>

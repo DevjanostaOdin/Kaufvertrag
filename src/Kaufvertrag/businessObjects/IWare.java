@@ -28,7 +28,7 @@ public interface IWare {
     /**
      * Function name: setBezeichnung
      *
-     * @params bezeichnung (Die neue Bezeichnung für die Ware.)
+     * @param bezeichnung (Die neue Bezeichnung für die Ware.)
      *
      * Inside the function: Setzt eine neue Bezeichnung für die Ware.
      */
@@ -46,7 +46,7 @@ public interface IWare {
     /**
      * Function name: setBeschreibung
      *
-     * @params beschreibung (Die neue Beschreibung für die Ware.)
+     * @param beschreibung (Die neue Beschreibung für die Ware.)
      *
      * Inside the function: Setzt eine neue Beschreibung für die Ware.
      */
@@ -64,7 +64,7 @@ public interface IWare {
     /**
      * Function name: setPreis
      *
-     * @params preis (Der neue Preis für die Ware.)
+     * @param preis (Der neue Preis für die Ware.)
      *
      * Inside the function: Setzt einen neuen Preis für die Ware.
      */
@@ -82,7 +82,7 @@ public interface IWare {
     /**
      * Function name: setBesonderheiten
      *
-     * @params besonderheiten (Eine Liste von neuen Besonderheiten für die Ware.)
+     * @param besonderheiten (Eine Liste von neuen Besonderheiten für die Ware.)
      *
      * Inside the function: Setzt eine neue Liste von Besonderheiten für die Ware.
      */
@@ -100,7 +100,7 @@ public interface IWare {
     /**
      * Function name: setMaengel
      *
-     * @params maengel (Eine Liste von neuen Mängeln für die Ware.)
+     * @param maengel (Eine Liste von neuen Mängeln für die Ware.)
      *
      * Inside the function: Setzt eine neue Liste von Mängeln für die Ware.
      */
