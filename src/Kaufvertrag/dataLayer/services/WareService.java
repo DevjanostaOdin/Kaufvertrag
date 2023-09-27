@@ -4,7 +4,9 @@ import Kaufvertrag.businessObjects.IWare;
 import Kaufvertrag.dataLayer.businessObjects.Ware;
 import Kaufvertrag.dataLayer.dataAccessObjects.IDao;
 import Kaufvertrag.exceptions.DaoException;
+
 import java.util.Arrays;
+import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
@@ -53,9 +55,18 @@ public class WareService {
         System.out.print("Geben Sie die Beschreibung der Ware ein:");
         String beschreibung = scanner.nextLine();
 
-        System.out.println("Geben Sie den Preis der Ware ein:");
-        double preis = scanner.nextDouble();
-        //wird benötigt, da ansonsten die nächste eingabe als /n gewertet wird
+        double preis = 0;
+        while (true) {
+            System.out.println("Geben Sie den Preis der Ware ein:");
+            try {
+                preis = scanner.nextDouble();
+                break;
+            } catch (InputMismatchException e) {
+                System.out.println("Ungültige Eingabe. Bitte geben Sie nur Zahlen und ein Komma zur Trennung ein.");
+                scanner.next();
+            }
+        }
+        // wird benötigt, damit bei der Abfrage nach Mängeln der Zeilenumbruch nicht als Eingabe gewertet wird
         scanner.nextLine();
 
         System.out.println("Geben Sie die Mängel der Ware ein (durch Komma getrennt):");
@@ -73,7 +84,7 @@ public class WareService {
 
         try {
             wareDao.create(ware);
-            System.out.println("Ware erfolgreich hinzugefügt.");
+            System.out.println("Ware erfolgreich hinzugefügt mit der ID:" + ware.getId() + ".");
         } catch (DaoException e) {
             System.out.println("Fehler beim Hinzufügen der Ware: " + e.getMessage());
         }

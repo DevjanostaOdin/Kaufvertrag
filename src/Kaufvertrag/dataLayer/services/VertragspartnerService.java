@@ -28,7 +28,7 @@ public class VertragspartnerService {
             System.out.println("3. Vertragspartner bearbeiten");
             System.out.println("4. Vertragspartner nach Ausweisnummer löschen");
             System.out.println("5. Alle Vertragspartner auslesen");
-            System.out.println("6. Programm beenden");
+            System.out.println("6. Kaufvertrag.presentatitionLayer.Programm beenden");
 
             int choice = scanner.nextInt();
             scanner.nextLine();

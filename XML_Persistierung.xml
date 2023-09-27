@@ -45,9 +45,9 @@
         </Adresse>
     </Vertragspartner>
     <Ware id="2">
-        <Bezeichnung>milka</Bezeichnung>
-        <Beschreibung>schoko</Beschreibung>
-        <Preis>10.0</Preis>
+        <Bezeichnung>Milka Vollmilch</Bezeichnung>
+        <Beschreibung>ganze Nuss</Beschreibung>
+        <Preis>2.99</Preis>
         <Besonderheitenliste>
             <Besonderheit>hell</Besonderheit>
             <Besonderheit>matt</Besonderheit>

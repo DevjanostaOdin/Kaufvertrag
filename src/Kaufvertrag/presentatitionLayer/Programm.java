@@ -1,3 +1,5 @@
+package Kaufvertrag.presentatitionLayer;
+
 import Kaufvertrag.businessObjects.IVertragspartner;
 import Kaufvertrag.businessObjects.IWare;
 import Kaufvertrag.dataLayer.dataAccessObjects.DataLayerManager;
