@@ -6,8 +6,6 @@ import Kaufvertrag.dataLayer.businessObjects.Adresse;
 import Kaufvertrag.dataLayer.businessObjects.Vertragspartner;
 import Kaufvertrag.dataLayer.dataAccessObjects.IDao;
 import Kaufvertrag.exceptions.DaoException;
-
-import java.sql.SQLException;
 import java.util.List;
 import java.util.Scanner;
 
@@ -53,24 +51,6 @@ public class VertragspartnerService {
 
         System.out.println("Geben Sie die Ausweisnummer ein:");
         String ausweisnummer = scanner.next();
-
-       /* boolean vertragspartnerExists = false;
-        while (!vertragspartnerExists) {
-            try {
-                vertragspartner = vertragspartnerDao.read(ausweisnummer);
-                String ausweisNrOfExistingVertragspartner = vertragspartner.getAusweisNr();
-                if (ausweisNrOfExistingVertragspartner != null) {
-                    System.out.println("Diese Ausweisnummer existiert schon! Bitte eine andere Ausweisnummer eingeben:");
-                    ausweisnummer = scanner.next();
-                    vertragspartner = null;
-                } else {
-                    vertragspartnerExists = true;
-                }
-            } catch (DaoException e) {
-                e.printStackTrace();
-            }
-        }*/
-
         scanner.nextLine();
         System.out.print("Geben Sie den Vornamen ein:");
         String vorname = scanner.nextLine();
@@ -125,16 +105,13 @@ public class VertragspartnerService {
     }
 
     private void updateVertragspartner() {
-        System.out.println("Geben Sie die Ausweisnummer des zu aktualisierenden Vertragpartners ein:");
-        String ausweisnummer = scanner.next();
-
-
-
-        scanner.nextLine();
-        IVertragspartner vertragspartner;
-        IAdresse adresse;
-
+        String ausweisnummer = "";
         try {
+            System.out.println("Geben Sie die Ausweisnummer des zu aktualisierenden Vertragpartners ein:");
+            ausweisnummer = scanner.next();
+            scanner.nextLine();
+            IVertragspartner vertragspartner;
+            IAdresse adresse;
             vertragspartner = vertragspartnerDao.read(ausweisnummer);
             adresse = vertragspartner.getAdresse();
             try {
@@ -175,8 +152,8 @@ public class VertragspartnerService {
             } catch (DaoException e) {
                 System.out.println("Fehler beim Bearbeiten des Vertragspartners " + e.getMessage());
             }
-        } catch (DaoException e) {
-            System.out.println("Vertragspartner mit Ausweisnummer " + ausweisnummer + " wurde nicht gefunden." + e.getMessage());
+        } catch (DaoException | NullPointerException e) {
+            System.out.println("Vertragspartner mit Ausweisnummer " + ausweisnummer + " wurde nicht gefunden. " + e.getMessage());
         }
     }
 
@@ -205,4 +182,3 @@ public class VertragspartnerService {
         }
     }
 }
-
