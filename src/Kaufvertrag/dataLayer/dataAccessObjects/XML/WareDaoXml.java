@@ -94,7 +94,7 @@ public class WareDaoXml implements IDao<IWare, Long> {
                 }
             }
         } catch (Exception e) {
-            throw new DaoException("Fehler beim Finden der Ware"+ e.getMessage());
+            throw new DaoException("Fehler beim Finden der Ware" + e.getMessage());
         }
         return null;
     }
@@ -129,33 +129,33 @@ public class WareDaoXml implements IDao<IWare, Long> {
                 warenList.add(ware);
             }
         } catch (Exception e) {
-            throw new DaoException("Fehler beim Abrufen der Warenliste"+ e.getMessage());
+            throw new DaoException("Fehler beim Abrufen der Warenliste" + e.getMessage());
         }
         return warenList;
     }
 
     @Override
-    public void update(IWare wareToUpdate) throws DaoException {
+    public void update(IWare objectToUpdate) throws DaoException {
         try {
             Document doc = loadXmlDocument(DATEIPFAD);
             Element root = doc.getRootElement();
 
             Element toUpdate = null;
             for (Element wareElement : root.getChildren("Ware")) {
-                if (Long.parseLong(wareElement.getAttributeValue("id")) == wareToUpdate.getId()) {
+                if (Long.parseLong(wareElement.getAttributeValue("id")) == objectToUpdate.getId()) {
                     toUpdate = wareElement;
                     break;
                 }
             }
 
             if (toUpdate != null) {
-                toUpdate.getChild("Bezeichnung").setText(wareToUpdate.getBezeichnung());
-                toUpdate.getChild("Beschreibung").setText(wareToUpdate.getBeschreibung());
-                toUpdate.getChild("Preis").setText(String.valueOf(wareToUpdate.getPreis()));
+                toUpdate.getChild("Bezeichnung").setText(objectToUpdate.getBezeichnung());
+                toUpdate.getChild("Beschreibung").setText(objectToUpdate.getBeschreibung());
+                toUpdate.getChild("Preis").setText(String.valueOf(objectToUpdate.getPreis()));
 
                 Element besonderheitenliste = toUpdate.getChild("Besonderheitenliste");
                 besonderheitenliste.removeContent();
-                for (String item : wareToUpdate.getBesonderheiten()) {
+                for (String item : objectToUpdate.getBesonderheiten()) {
                     Element besonderheit = new Element("Besonderheit");
                     besonderheit.addContent(item);
                     besonderheitenliste.addContent(besonderheit);
@@ -163,7 +163,7 @@ public class WareDaoXml implements IDao<IWare, Long> {
 
                 Element maengelListe = toUpdate.getChild("Maengelliste");
                 maengelListe.removeContent();
-                for (String item : wareToUpdate.getMaengel()) {
+                for (String item : objectToUpdate.getMaengel()) {
                     Element mangel = new Element("Mangel");
                     mangel.addContent(item);
                     maengelListe.addContent(mangel);
@@ -171,7 +171,7 @@ public class WareDaoXml implements IDao<IWare, Long> {
 
                 saveXmlDocument(doc);
             } else {
-                throw new DaoException("Ware mit der ID " + wareToUpdate.getId() + " nicht gefunden.");
+                throw new DaoException("Ware mit der ID " + objectToUpdate.getId() + " nicht gefunden.");
             }
         } catch (Exception e) {
             throw new DaoException("Fehler beim Aktualisieren der Ware" + e.getMessage());

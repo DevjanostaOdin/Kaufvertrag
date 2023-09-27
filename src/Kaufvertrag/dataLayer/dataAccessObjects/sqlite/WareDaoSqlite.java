@@ -91,18 +91,18 @@ public class WareDaoSqlite implements IDao<IWare, Long> {
     }
 
     @Override
-    public void update(IWare ware) throws DaoException {
+    public void update(IWare objectToUpdate) throws DaoException {
         String sql = "UPDATE WARE SET bezeichnung = ?, beschreibung = ?, preis = ?, maengel = ?, besonderheiten = ? WHERE id = ?";
 
         try (Connection connection = connectionManager.getNewConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
 
-            preparedStatement.setString(1, ware.getBezeichnung());
-            preparedStatement.setString(2, ware.getBeschreibung());
-            preparedStatement.setDouble(3, ware.getPreis());
-            preparedStatement.setString(4, String.join(",", ware.getMaengel()));
-            preparedStatement.setString(5, String.join(",", ware.getBesonderheiten()));
-            preparedStatement.setLong(6, ware.getId());
+            preparedStatement.setString(1, objectToUpdate.getBezeichnung());
+            preparedStatement.setString(2, objectToUpdate.getBeschreibung());
+            preparedStatement.setDouble(3, objectToUpdate.getPreis());
+            preparedStatement.setString(4, String.join(",", objectToUpdate.getMaengel()));
+            preparedStatement.setString(5, String.join(",", objectToUpdate.getBesonderheiten()));
+            preparedStatement.setLong(6, objectToUpdate.getId());
 
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
