@@ -4,8 +4,6 @@ import Kaufvertrag.businessObjects.IWare;
 import Kaufvertrag.dataLayer.businessObjects.Ware;
 import Kaufvertrag.dataLayer.dataAccessObjects.IDao;
 import Kaufvertrag.exceptions.DaoException;
-
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;

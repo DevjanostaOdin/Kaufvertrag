@@ -47,7 +47,7 @@ public class DataLayerManager {
     private String readPersistenceType() {
         String persistenceType;
         Scanner sc = new Scanner(System.in);
-        System.out.println("Give persistence type: (sqlite or xml)");
+        System.out.println("Wählen Sie den Persistenztyp: \"sqlite\" oder \"xml\"");
         persistenceType = String.valueOf(sc.nextLine());
         return persistenceType;
     }

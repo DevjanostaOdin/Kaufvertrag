@@ -10,16 +10,6 @@
             <Ort>Hamburg</Ort>
         </Adresse>
     </Vertragspartner>
-    <Vertragspartner Ausweisnummer="1234">
-        <Vorname>50</Vorname>
-        <Nachname>Cent</Nachname>
-        <Adresse>
-            <Strasse>Danzigerstr</Strasse>
-            <HausNr>10</HausNr>
-            <Plz>66666</Plz>
-            <Ort>Hamburg</Ort>
-        </Adresse>
-    </Vertragspartner>
     <Ware id="1">
         <Bezeichnung>Squishmellow</Bezeichnung>
         <Beschreibung>Pink und Weich</Beschreibung>
@@ -32,6 +22,38 @@
             <Mangel>nicht puschelig</Mangel>
             <Mangel>spitz</Mangel>
             <Mangel>stinkt</Mangel>
+        </Maengelliste>
+    </Ware>
+    <Vertragspartner Ausweisnummer="098">
+        <Vorname>adasfa</Vorname>
+        <Nachname>gasdasdas</Nachname>
+        <Adresse>
+            <Strasse>asdasdasd</Strasse>
+            <HausNr>124</HausNr>
+            <Plz>12345</Plz>
+            <Ort>asdasdasd</Ort>
+        </Adresse>
+    </Vertragspartner>
+    <Vertragspartner Ausweisnummer="1234">
+        <Vorname>asd</Vorname>
+        <Nachname>asd</Nachname>
+        <Adresse>
+            <Strasse>asdas</Strasse>
+            <HausNr>dasda</HausNr>
+            <Plz>12321</Plz>
+            <Ort>asdsad</Ort>
+        </Adresse>
+    </Vertragspartner>
+    <Ware id="2">
+        <Bezeichnung>milka</Bezeichnung>
+        <Beschreibung>schoko</Beschreibung>
+        <Preis>10.0</Preis>
+        <Besonderheitenliste>
+            <Besonderheit>hell</Besonderheit>
+            <Besonderheit>matt</Besonderheit>
+        </Besonderheitenliste>
+        <Maengelliste>
+            <Mangel>zu wenig Kakao</Mangel>
         </Maengelliste>
     </Ware>
 </Kaufvertrag>

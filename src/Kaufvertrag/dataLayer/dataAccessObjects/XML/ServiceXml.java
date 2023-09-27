@@ -13,7 +13,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 
 public class ServiceXml {
-    public final String DATEIPFAD = ".\\XML_Persistierung_Test.xml";
+    public final String DATEIPFAD = ".\\XML_Persistierung.xml";
 
     public void createXmlDocument() throws IOException {
         Document document = new Document();
@@ -79,35 +79,5 @@ public class ServiceXml {
 
         XMLOutputter xmlOutputter = new XMLOutputter(format);
         xmlOutputter.output(document, fileOutputStream);
-    }
-
-    public void addWare(IWare ware, Document document) {
-        Element root = document.getRootElement();
-
-        Element zuVerkaufendeWare = new Element("Ware");
-        zuVerkaufendeWare.setAttribute("Ausweisnummer", String.valueOf(ware.getId()));
-
-        zuVerkaufendeWare.setAttribute("Bezeichnung", ware.getBezeichnung());
-        Element beschreibung = new Element("Beschreibung");
-        beschreibung.addContent(ware.getBeschreibung());
-        zuVerkaufendeWare.addContent(beschreibung);
-        Element preis = new Element("Preis");
-        preis.addContent(String.valueOf(ware.getPreis()));
-        zuVerkaufendeWare.addContent(preis);
-        Element besonderheitenliste = new Element("Besonderheitenliste");
-        for (var item : ware.getBesonderheiten()) {
-            Element besonderheit = new Element("Besonderheit");
-            besonderheit.addContent(item);
-            besonderheitenliste.addContent(besonderheit);
-        }
-        zuVerkaufendeWare.addContent(besonderheitenliste);
-        Element maengelListe = new Element("Maengelliste");
-        for (var item : ware.getMaengel()) {
-            Element mangel = new Element("Mangel");
-            mangel.addContent(item);
-            maengelListe.addContent(mangel);
-        }
-        zuVerkaufendeWare.addContent(maengelListe);
-        root.addContent(zuVerkaufendeWare);
     }
 }

@@ -1,6 +1,5 @@
 package Kaufvertrag.dataLayer.dataAccessObjects.XML;
 
-import Kaufvertrag.businessObjects.IAdresse;
 import Kaufvertrag.businessObjects.IVertragspartner;
 import Kaufvertrag.dataLayer.businessObjects.Adresse;
 import Kaufvertrag.dataLayer.businessObjects.Vertragspartner;
@@ -11,7 +10,6 @@ import org.jdom2.JDOMException;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 public class VertragspartnerDaoXml implements IDao<IVertragspartner, String> {
     @Override
