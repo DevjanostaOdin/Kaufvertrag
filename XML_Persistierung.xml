@@ -34,16 +34,6 @@
             <Ort>asdasdasd</Ort>
         </Adresse>
     </Vertragspartner>
-    <Vertragspartner Ausweisnummer="1234">
-        <Vorname>asd</Vorname>
-        <Nachname>asd</Nachname>
-        <Adresse>
-            <Strasse>asdas</Strasse>
-            <HausNr>dasda</HausNr>
-            <Plz>12321</Plz>
-            <Ort>asdsad</Ort>
-        </Adresse>
-    </Vertragspartner>
     <Ware id="2">
         <Bezeichnung>Milka Vollmilch</Bezeichnung>
         <Beschreibung>ganze Nuss</Beschreibung>
@@ -68,4 +58,14 @@
             <Mangel />
         </Maengelliste>
     </Ware>
+    <Vertragspartner Ausweisnummer="22">
+        <Vorname>tom</Vorname>
+        <Nachname>jerry</Nachname>
+        <Adresse>
+            <Strasse>sesamstr</Strasse>
+            <HausNr>67</HausNr>
+            <Plz>98765</Plz>
+            <Ort>stuttgart</Ort>
+        </Adresse>
+    </Vertragspartner>
 </Kaufvertrag>

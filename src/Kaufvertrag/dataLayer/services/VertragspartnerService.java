@@ -6,7 +6,6 @@ import Kaufvertrag.dataLayer.businessObjects.Adresse;
 import Kaufvertrag.dataLayer.businessObjects.Vertragspartner;
 import Kaufvertrag.dataLayer.dataAccessObjects.IDao;
 import Kaufvertrag.exceptions.DaoException;
-
 import java.util.List;
 import java.util.Scanner;
 
@@ -98,11 +97,9 @@ public class VertragspartnerService {
             IVertragspartner vertragspartner = vertragspartnerDao.read(id);
             if (vertragspartner != null) {
                 System.out.println(vertragspartner);
-            } else {
-                System.out.println("Vertragspartner mit dem Ausweisnummer " + id + " wurde nicht gefunden.");
             }
         } catch (DaoException | NullPointerException e) {
-            System.out.println("Fehler beim Abrufen des Vertragspartners: " + e.getMessage());
+            System.out.println("Vertragspartner mit der Ausweisnummer \"" + id + "\" wurde nicht gefunden.");
         }
     }
 
@@ -152,10 +149,10 @@ public class VertragspartnerService {
 
 
             } catch (DaoException e) {
-                System.out.println("Fehler beim Bearbeiten des Vertragspartners " + e.getMessage());
+                System.out.println("Fehler beim Bearbeiten des Vertragspartners ");
             }
         } catch (DaoException | NullPointerException e) {
-            System.out.println("Vertragspartner mit Ausweisnummer " + ausweisnummer + " wurde nicht gefunden. " + e.getMessage());
+            System.out.println("Vertragspartner mit Ausweisnummer " + ausweisnummer + " wurde nicht gefunden. ");
         }
     }
 
@@ -167,7 +164,7 @@ public class VertragspartnerService {
         try {
             vertragspartnerDao.delete(id);
         } catch (DaoException e) {
-            System.out.println("Fehler beim Löschen des Vertragspartners" + e.getMessage());
+            System.out.println("Fehler beim Löschen des Vertragspartners");
         }
     }
 
@@ -180,7 +177,7 @@ public class VertragspartnerService {
                 }
             }
         } catch (DaoException e) {
-            System.out.println("Fehler beim Abrufen des Vertragspartners: " + e.getMessage());
+            System.out.println("Fehler beim Abrufen des Vertragspartners: ");
         }
     }
 }
