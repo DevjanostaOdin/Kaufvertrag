@@ -1,7 +1,6 @@
 package Kaufvertrag.dataLayer.dataAccessObjects.XML;
 
 import Kaufvertrag.businessObjects.IVertragspartner;
-import Kaufvertrag.businessObjects.IWare;
 import org.jdom2.Document;
 import org.jdom2.Element;
 import org.jdom2.JDOMException;
@@ -80,4 +79,5 @@ public class ServiceXml {
         XMLOutputter xmlOutputter = new XMLOutputter(format);
         xmlOutputter.output(document, fileOutputStream);
     }
+
 }
